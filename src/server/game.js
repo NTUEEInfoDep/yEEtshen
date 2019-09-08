@@ -36,20 +36,14 @@ class Game {
     // Calculate time elapsed
     const now = Date.now();
     const dt = (now - this.lastUpdateTime) / 1000;
+    const playerIDs = Object.keys(this.sockets);
     this.lastUpdateTime = now;
 
     // Update each bullet
-    const bulletsToRemove = [];
-    this.bullets.forEach(bullet => {
-      if (bullet.update(dt)) {
-        // Destroy this bullet
-        bulletsToRemove.push(bullet);
-      }
-    });
-    this.bullets = this.bullets.filter(bullet => !bulletsToRemove.includes(bullet));
+    this.bullets = this.bullets.filter(bullet => !bullet.update(dt));
 
     // Update each player
-    Object.keys(this.sockets).forEach(playerID => {
+    playerIDs.forEach(playerID => {
       const player = this.players[playerID];
       const newBullet = player.update(dt);
       if (newBullet) {
@@ -67,7 +61,7 @@ class Game {
     this.bullets = this.bullets.filter(bullet => !destroyedBullets.includes(bullet));
 
     // Check if any players are dead
-    Object.keys(this.sockets).forEach(playerID => {
+    playerIDs.forEach(playerID => {
       const socket = this.sockets[playerID];
       const player = this.players[playerID];
       if (player.hp <= 0) {
