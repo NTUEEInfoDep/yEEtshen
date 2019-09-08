@@ -65,7 +65,6 @@ function renderBackground(x, y) {
 function renderPlayerOnMonitor(x, y) {
   const mapToMonitorScale =  MONITOR_SIZE / MAP_SIZE;
   const [ monitorX, monitorY ] =  Object.freeze([mapToMonitorScale * x, mapToMonitorScale * y]);
-  console.log(x, y, monitorX, monitorY);
   const canvasX = MONITOR_MARGIN + monitorX;
   const canvasY = canvas.height - MONITOR_SIZE - MONITOR_MARGIN + monitorY;
   context.fillStyle = "yellow";
