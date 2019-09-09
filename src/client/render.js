@@ -23,16 +23,17 @@ let app = new PIXI.Application({
   width: scaleRatio * window.innerWidth,
   height: scaleRatio * window.innerHeight
 });
-// app.renderer.backgroundColor = 0xffffff;
+
+app.renderer.backgroundColor = 0xffff00;
 const canvas = app.view;
 document.body.appendChild(canvas);
-app.renderer.clearBeforeRender = true;
 
 window.addEventListener(
   'resize',
   debounce(40, () => {
     app.view.width = scaleRatio * window.innerWidth;
     app.view.height = scaleRatio * window.innerHeight;
+    updateBackgroundGraphics();
   })
 );
 
@@ -43,40 +44,42 @@ let textures = {
 
 let shipSprites = {};
 let bulletSprites = {};
+let shipUpdateFlag = true;
+let bulletUpdateFlag = true;
+let background = new PIXI.Graphics();
+let boundaries = new PIXI.Graphics();
+updateBoundariesGraphics();
+updateBackgroundGraphics();
+app.stage.addChild(background);
+app.stage.addChild(boundaries);
 
 function render() {
-  const { me, others, bullets, ...rest } = getCurrentState();
+  const { me, others, bullets } = getCurrentState();
   if (!me) {
     return;
   }
-  prepareSprite(shipSprites, [me], textures.ship);
-  prepareSprite(shipSprites, others, textures.ship);
-  prepareSprite(bulletSprites, bullets, textures.bullet);
-  console.log(Object.keys(bulletSprites).length);
+  prepareSprite(shipSprites, [me], textures.ship, shipUpdateFlag);
+  prepareSprite(shipSprites, others, textures.ship, shipUpdateFlag);
+  recycleSprite(shipSprites, shipUpdateFlag);
+  shipUpdateFlag = !shipUpdateFlag;
 
-  // // Draw background
-  // renderBackground(me.x, me.y);
+  prepareSprite(bulletSprites, bullets, textures.bullet, bulletUpdateFlag);
+  recycleSprite(bulletSprites, bulletUpdateFlag);
+  bulletUpdateFlag = !bulletUpdateFlag;
 
-  // // Draw boundaries
-  // app.renderer.context.strokeStyle = 'black';
-  // app.renderer.context.lineWidth = 1;
-  // app.renderer.context.strokeRect(
-  //   canvas.width / 2 - me.x,
-  //   canvas.height / 2 - me.y,
-  //   MAP_SIZE,
-  //   MAP_SIZE
-  // );
+  // Draw boundaries
+  boundaries.x = canvas.width / 2 - me.x;
+  boundaries.y = canvas.height / 2 - me.y;
 
-  // // Draw all bullets
+  // Draw all bullets
   bullets.forEach(renderBullet.bind(null, me));
 
-  // // Draw all players
+  // Draw all players
   renderPlayer(me, me);
   others.forEach(renderPlayer.bind(null, me));
 }
 
-let latestUpdateFlag = true;
-function prepareSprite(spriteHash, objectArray, texture) {
+function prepareSprite(spriteHash, objectArray, texture, latestUpdateFlag) {
   const len = objectArray.length;
   if (!objectArray || !len) return;
   for (let i = 0; i < len; ++i) {
@@ -84,42 +87,56 @@ function prepareSprite(spriteHash, objectArray, texture) {
       spriteHash[objectArray[i].id] = new PIXI.Sprite(texture);
       app.stage.addChild(spriteHash[objectArray[i].id]);
     }
-    spriteHash[objectArray[i].id].inUse = latestUpdateFlag;
+    spriteHash[objectArray[i].id].updateFlag = latestUpdateFlag;
   }
+}
 
+function recycleSprite(spriteHash, latestUpdateFlag) {
   Object.keys(spriteHash).forEach(playerID => {
-    if (spriteHash[playerID].inUse !== latestUpdateFlag) {
+    if (spriteHash[playerID].updateFlag !== latestUpdateFlag) {
       app.stage.removeChild(spriteHash[playerID]);
       delete spriteHash[playerID];
     }
   });
-
-  latestUpdateFlag = !latestUpdateFlag;
 }
 
-function renderBackground(x, y) {
-  const backgroundX = MAP_SIZE / 2 - x + canvas.width / 2;
-  const backgroundY = MAP_SIZE / 2 - y + canvas.height / 2;
-  const backgroundGradient = context.createRadialGradient(
-    backgroundX,
-    backgroundY,
+function updateBackgroundGraphics() {
+  background.beginFill(0x000000);
+  background.drawRect(0, 0, canvas.width, canvas.height);
+  background.endFill();
+}
+
+function updateBoundariesGraphics() {
+  boundaries.beginTextureFill(createRadialGradientTexture());
+  boundaries.lineStyle(1, 0xffffff);
+  boundaries.drawRect(0, 0, MAP_SIZE, MAP_SIZE);
+  boundaries.endFill();
+}
+
+function createRadialGradientTexture() {
+  const canvas = document.createElement('canvas');
+  canvas.width = MAP_SIZE;
+  canvas.height = MAP_SIZE;
+  const context = canvas.getContext('2d');
+  const HALF_MAP_SIZE = MAP_SIZE / 2;
+  const gradient = context.createRadialGradient(
+    HALF_MAP_SIZE,
+    HALF_MAP_SIZE,
     MAP_SIZE / 10,
-    backgroundX,
-    backgroundY,
+    HALF_MAP_SIZE,
+    HALF_MAP_SIZE,
     MAP_SIZE / 2
   );
-  backgroundGradient.addColorStop(0, 'black');
-  backgroundGradient.addColorStop(1, 'gray');
-  context.fillStyle = backgroundGradient;
-  context.fillRect(0, 0, canvas.width, canvas.height);
+  gradient.addColorStop(0, 'black');
+  gradient.addColorStop(1, 'gray');
+  context.fillStyle = gradient;
+  context.fillRect(0, 0, MAP_SIZE, MAP_SIZE);
+  return new PIXI.Texture.from(canvas);
 }
 
 function renderPlayerOnMonitor(x, y) {
   const mapToMonitorScale = MONITOR_SIZE / MAP_SIZE;
-  const [monitorX, monitorY] = Object.freeze([
-    mapToMonitorScale * x,
-    mapToMonitorScale * y
-  ]);
+  const [monitorX, monitorY] = [mapToMonitorScale * x, mapToMonitorScale * y];
   const canvasX = MONITOR_MARGIN + monitorX;
   const canvasY = canvas.height - MONITOR_SIZE - MONITOR_MARGIN + monitorY;
   context.fillStyle = 'yellow';
@@ -143,20 +160,6 @@ function renderPlayer(me, player) {
   ship.anchor.x = 0.5;
   ship.anchor.y = 0.5;
   ship.rotation = direction;
-
-  // Draw ship
-  // context.save();
-  // context.translate(canvasX, canvasY);
-  // context.rotate(direction);
-  // context.drawImage(
-  //   getAsset('ship.svg'),
-  //   -PLAYER_RADIUS,
-  //   -PLAYER_RADIUS,
-  //   PLAYER_RADIUS * 2,
-  //   PLAYER_RADIUS * 2
-  // );
-  // context.restore();
-
   // Draw health bar
   // context.fillStyle = 'white';
   // context.fillRect(
@@ -180,20 +183,11 @@ function renderBullet(me, bullet) {
   const { x, y, id } = bullet;
   bulletSprites[id].x = canvas.width / 2 + x - me.x - BULLET_RADIUS;
   bulletSprites[id].y = canvas.height / 2 + y - me.y - BULLET_RADIUS;
-  // context.drawImage(
-  //   getAsset('bullet.svg'),
-  //   canvas.width / 2 + x - me.x - BULLET_RADIUS,
-  //   canvas.height / 2 + y - me.y - BULLET_RADIUS,
-  //   BULLET_RADIUS * 2,
-  //   BULLET_RADIUS * 2
-  // );
 }
 
 function renderMainMenu() {
-  const t = Date.now() / 7500;
-  const x = MAP_SIZE / 2 + 800 * Math.cos(t);
-  const y = MAP_SIZE / 2 + 800 * Math.sin(t);
-  // renderBackground(x, y);
+  boundaries.x = -(MAP_SIZE - canvas.width) / 2;
+  boundaries.y = -(MAP_SIZE - canvas.height) / 2;
 }
 
 let renderInterval = setInterval(renderMainMenu, 1000 / 60);
