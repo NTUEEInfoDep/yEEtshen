@@ -21,9 +21,9 @@ class Obj {
     return Math.sqrt(dx * dx + dy * dy);
   }
 
-  // setDirection(dir) {
-  //   this.direction = dir;
-  // }
+  setDirection(dir) {
+    this.direction = dir;
+  }
 
   setRotateSpeed(rotateSpeed) {
     this.rotateSpeed = rotateSpeed;

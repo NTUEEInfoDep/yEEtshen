@@ -69,11 +69,13 @@ function render() {
   boundaries.y = canvas.height / 2 - me.y;
 
   // Draw all bullets
-  bullets.forEach(renderBullet.bind(null, me));
+  // bullets.forEach(renderBullet.bind(null, me));
+  bullets.forEach(bullet => renderBullet(me, bullet));
 
   // Draw all players
   renderPlayer(me, me);
-  others.forEach(renderPlayer.bind(null, me));
+  // others.forEach(renderPlayer.bind(null, me));
+  others.forEach(other => renderPlayer(me, other));
 }
 
 function prepareSprite(spriteHash, objectArray, texture, latestUpdateFlag) {
