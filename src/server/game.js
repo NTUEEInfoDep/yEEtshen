@@ -26,9 +26,10 @@ class Game {
     delete this.players[socket.id];
   }
 
-  handleInput(socket, dir) {
+  handleInput(socket, rotateSpeed) {
     if (this.players[socket.id]) {
-      this.players[socket.id].setDirection(dir);
+      // this.players[socket.id].setDirection(dir);
+      this.players[socket.id].setRotateSpeed(rotateSpeed);
     }
   }
 

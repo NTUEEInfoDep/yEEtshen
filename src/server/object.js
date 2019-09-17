@@ -1,13 +1,16 @@
 class Obj {
-  constructor(id, x, y, dir, speed) {
+  constructor(id, x, y, dir, speed, rotateSpeed = 0) {
     this.id = id;
     this.x = x;
     this.y = y;
     this.direction = dir;
+    this.rotateSpeed = rotateSpeed;
     this.speed = speed;
   }
 
   update(dt) {
+    // Todo: Add rotateSpeed to direction
+    this.direction += this.rotateSpeed;
     this.x += dt * this.speed * Math.sin(this.direction);
     this.y -= dt * this.speed * Math.cos(this.direction);
   }
@@ -18,8 +21,12 @@ class Obj {
     return Math.sqrt(dx * dx + dy * dy);
   }
 
-  setDirection(dir) {
-    this.direction = dir;
+  // setDirection(dir) {
+  //   this.direction = dir;
+  // }
+
+  setRotateSpeed(rotateSpeed) {
+    this.rotateSpeed = rotateSpeed;
   }
 
   serializeForUpdate() {

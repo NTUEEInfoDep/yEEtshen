@@ -1,29 +1,109 @@
-import { updateDirection } from './networking';
+import { updateDirection, updateRotateSpeed } from './networking';
 
-function onMouseInput(e) {
-  handleInput(e.clientX, e.clientY);
+function keyboard(val) {
+  const key = {};
+  key.val = val;
+  key.isDown = false;
+  key.isUp = true;
+  key.press = undefined;
+  key.release = undefined;
+
+  key.downHandler = e => {
+    if (e.key === key.val) {
+      if (key.isUp && key.press) key.press();
+      key.isDown = true;
+      key.isUp = false;
+      e.preventDefault();
+    }
+  };
+
+  key.upHandler = e => {
+    if (e.key === key.val) {
+      if (key.isDown && key.release) key.release();
+      key.isDown = false;
+      key.isUp = true;
+      e.preventDefault();
+    }
+  };
+
+  const downListener = key.downHandler.bind(key);
+  const upListener = key.upHandler.bind(key);
+
+  key.subscribe = () => {
+    window.addEventListener('keydown', downListener, false);
+    window.addEventListener('keyup', upListener, false);
+  };
+
+  key.unsubscribe = () => {
+    window.removeEventListener('keydown', downListener);
+    window.removeEventListener('keyup', upListener);
+  };
+
+  return key;
 }
 
-function onTouchInput(e) {
-  const touch = e.touches[0];
-  handleInput(touch.clientX, touch.clientY);
-}
+const left = keyboard('ArrowLeft');
+const right = keyboard('ArrowRight');
+const space = keyboard(' ');
 
-function handleInput(x, y) {
-  const dir = Math.atan2(x - window.innerWidth / 2, window.innerHeight / 2 - y);
-  updateDirection(dir);
-}
+left.press = () => {
+  updateRotateSpeed(-5 / 180 * Math.PI);
+  console.log('Left Key is Pressed');
+};
+
+right.press = () => {
+  updateRotateSpeed(5 / 180 * Math.PI);
+  console.log('Right Key is Pressed');
+};
+
+space.press = () => {
+  console.log('Space key is pressed');
+};
+
+left.release = () => {
+  updateRotateSpeed(0);
+  console.log('Left Key is Released');
+};
+
+right.release = () => {
+  updateRotateSpeed(0);
+  console.log('Right Key is Released');
+};
+
+space.release = () => {
+  console.log('Space key is Released');
+};
+
+// function onMouseInput(e) {
+//   handleInput(e.clientX, e.clientY);
+// }
+
+// function onTouchInput(e) {
+//   const touch = e.touches[0];
+//   handleInput(touch.clientX, touch.clientY);
+// }
+
+// function handleInput(x, y) {
+//   const dir = Math.atan2(x - window.innerWidth / 2, window.innerHeight / 2 - y);
+//   updateDirection(dir);
+// }
 
 export function startCapturingInput() {
-  window.addEventListener('mousemove', onMouseInput);
-  window.addEventListener('click', onMouseInput);
-  window.addEventListener('touchstart', onTouchInput);
-  window.addEventListener('touchmove', onTouchInput);
+  // window.addEventListener('mousemove', onMouseInput);
+  // window.addEventListener('click', onMouseInput);
+  // window.addEventListener('touchstart', onTouchInput);
+  // window.addEventListener('touchmove', onTouchInput);
+  left.subscribe();
+  right.subscribe();
+  space.subscribe();
 }
 
 export function stopCapturingInput() {
-  window.removeEventListener('mousemove', onMouseInput);
-  window.removeEventListener('click', onMouseInput);
-  window.removeEventListener('touchstart', onTouchInput);
-  window.removeEventListener('touchmove', onTouchInput);
+  // window.removeEventListener('mousemove', onMouseInput);
+  // window.removeEventListener('click', onMouseInput);
+  // window.removeEventListener('touchstart', onTouchInput);
+  // window.removeEventListener('touchmove', onTouchInput);
+  left.unsubscribe();
+  right.unsubscribe();
+  space.unsubscribe();
 }
