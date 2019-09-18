@@ -22,13 +22,13 @@ class Player extends ObjectClass {
     this.x = Math.max(0, Math.min(Constants.MAP_SIZE, this.x));
     this.y = Math.max(0, Math.min(Constants.MAP_SIZE, this.y));
     // Fire a bullet, if needed
-    this.fireCooldown -= dt;
-    if (this.fireCooldown <= 0) {
-      this.fireCooldown += Constants.PLAYER_FIRE_COOLDOWN;
-      return new Bullet(this.id, this.x, this.y, this.direction);
-    }
+    // this.fireCooldown -= dt;
+    // if (this.fireCooldown <= 0) {
+    //   this.fireCooldown += Constants.PLAYER_FIRE_COOLDOWN;
+    //   return new Bullet(this.id, this.x, this.y, this.direction);
+    // }
 
-    return null;
+    // return null;
   }
 
   takeBulletDamage() {
@@ -37,6 +37,11 @@ class Player extends ObjectClass {
 
   onDealtDamage() {
     this.score += Constants.SCORE_BULLET_HIT;
+  }
+
+  // Fire Bullet or Item(Todo)
+  handleFire() {
+    return new Bullet(this.id, this.x, this.y, this.direction);
   }
 
   serializeForUpdate() {

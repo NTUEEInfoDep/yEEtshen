@@ -11,14 +11,14 @@ const {
   MAP_SIZE,
   MONITOR_PIXEL_OFFSET,
   MONITOR_SIZE,
-  MONITOR_MARGIN
+  MONITOR_MARGIN,
 } = Constants;
 
 const scaleRatio = Math.max(1, 800 / window.innerWidth);
 // Get the canvas graphics context
 let app = new PIXI.Application({
   width: scaleRatio * window.innerWidth,
-  height: scaleRatio * window.innerHeight
+  height: scaleRatio * window.innerHeight,
 });
 
 app.renderer.backgroundColor = 0xffff00;
@@ -31,12 +31,12 @@ window.addEventListener(
     app.view.width = scaleRatio * window.innerWidth;
     app.view.height = scaleRatio * window.innerHeight;
     updateBackgroundGraphics();
-  })
+  }),
 );
 
-let textures = {
+const textures = {
   bullet: PIXI.Texture.from('assets/bullet.svg'),
-  ship: PIXI.Texture.from('assets/ship.svg')
+  ship: PIXI.Texture.from('assets/ship.svg'),
 };
 
 let shipSprites = {};
@@ -133,19 +133,19 @@ function createRadialGradientTexture() {
   return new PIXI.Texture.from(canvas);
 }
 
-function renderPlayerOnMonitor(x, y) {
-  const mapToMonitorScale = MONITOR_SIZE / MAP_SIZE;
-  const [monitorX, monitorY] = [mapToMonitorScale * x, mapToMonitorScale * y];
-  const canvasX = MONITOR_MARGIN + monitorX;
-  const canvasY = canvas.height - MONITOR_SIZE - MONITOR_MARGIN + monitorY;
-  context.fillStyle = 'yellow';
-  context.fillRect(
-    canvasX,
-    canvasY,
-    MONITOR_PIXEL_OFFSET,
-    MONITOR_PIXEL_OFFSET
-  );
-}
+// function renderPlayerOnMonitor(x, y) {
+//   const mapToMonitorScale = MONITOR_SIZE / MAP_SIZE;
+//   const [monitorX, monitorY] = [mapToMonitorScale * x, mapToMonitorScale * y];
+//   const canvasX = MONITOR_MARGIN + monitorX;
+//   const canvasY = canvas.height - MONITOR_SIZE - MONITOR_MARGIN + monitorY;
+//   context.fillStyle = 'yellow';
+//   context.fillRect(
+//     canvasX,
+//     canvasY,
+//     MONITOR_PIXEL_OFFSET,
+//     MONITOR_PIXEL_OFFSET,
+//   );
+// }
 
 // Renders a ship at the given coordinates
 function renderPlayer(me, player) {

@@ -31,10 +31,14 @@ export const play = username => {
   socket.emit(Constants.MSG_TYPES.JOIN_GAME, username);
 };
 
-export const updateDirection = throttle(20, dir => {
-  socket.emit(Constants.MSG_TYPES.INPUT, dir);
-});
+// export const updateDirection = throttle(20, dir => {
+//   socket.emit(Constants.MSG_TYPES.INPUT, dir);
+// });
 
 export const updateRotateSpeed = rotateSpeed => {
   socket.emit(Constants.MSG_TYPES.INPUT, rotateSpeed);
+};
+
+export const playerFire = () => {
+  socket.emit(Constants.MSG_TYPES.PLAYER_FIRE);
 };

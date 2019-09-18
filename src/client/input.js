@@ -1,4 +1,5 @@
-import { updateDirection, updateRotateSpeed } from './networking';
+import { updateRotateSpeed, playerFire } from './networking';
+import { PLAYER_ROTATION_SPEED } from '../shared/constants';
 
 function keyboard(val) {
   const key = {};
@@ -46,20 +47,24 @@ const left = keyboard('ArrowLeft');
 const right = keyboard('ArrowRight');
 const space = keyboard(' ');
 
+// Add Keyboard Press Function
 left.press = () => {
-  updateRotateSpeed(-5 / 180 * Math.PI);
+  updateRotateSpeed(-PLAYER_ROTATION_SPEED);
   console.log('Left Key is Pressed');
 };
 
 right.press = () => {
-  updateRotateSpeed(5 / 180 * Math.PI);
+  updateRotateSpeed(PLAYER_ROTATION_SPEED);
   console.log('Right Key is Pressed');
 };
 
+// fire a bullet or item
 space.press = () => {
+  playerFire();
   console.log('Space key is pressed');
 };
 
+// Keyboard Release Function
 left.release = () => {
   updateRotateSpeed(0);
   console.log('Left Key is Released');

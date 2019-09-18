@@ -33,6 +33,15 @@ class Game {
     }
   }
 
+  handleFire(socket) {
+    if (this.players[socket.id]) {
+      const newBullet = this.players[socket.id].handleFire();
+      if (newBullet) {
+        this.bullets.push(newBullet);
+      }
+    }
+  }
+
   update() {
     // Calculate time elapsed
     const now = Date.now();
@@ -45,11 +54,11 @@ class Game {
 
     // Update each player
     playerIDs.forEach(playerID => {
-      const player = this.players[playerID];
-      const newBullet = player.update(dt);
-      if (newBullet) {
-        this.bullets.push(newBullet);
-      }
+    const player = this.players[playerID];
+    player.update(dt);
+    //   if (newBullet) {
+    //     this.bullets.push(newBullet);
+    //   }
     });
 
     // Apply collisions, give players score for hitting bullets
