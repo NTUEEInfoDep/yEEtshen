@@ -26,4 +26,17 @@ function applyCollisions(players, bullets) {
   return destroyedBullets;
 }
 
-module.exports = applyCollisions;
+// check if a player collide with other player
+// if collide:  speed decline
+function playerCollisions(player, others) {
+  others.forEach(other => {
+    if (player.id !== other.id && player.distanceTo(other) <= Constants.PLAYER_RADIUS * 1.5) {
+      player.collideWith(other);
+    }
+  });
+}
+
+module.exports = {
+  applyCollisions,
+  playerCollisions,
+};

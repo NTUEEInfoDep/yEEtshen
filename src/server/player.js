@@ -10,12 +10,16 @@ class Player extends ObjectClass {
     this.fireCooldown = 0;
     this.score = 0;
     this.item = null; // the item that the player owns
+    this.dt = 0;
     // Special states affected by items
   }
 
   // Returns a newly created bullet, or null.
   update(dt) {
     super.update(dt);
+
+    // store dt
+    this.dt = dt;
 
     // Update score
     this.score += dt * Constants.SCORE_PER_SECOND;
@@ -28,6 +32,7 @@ class Player extends ObjectClass {
     // Make sure the player stays in bounds
     this.x = Math.max(0, Math.min(Constants.MAP_SIZE, this.x));
     this.y = Math.max(0, Math.min(Constants.MAP_SIZE, this.y));
+
     // Fire a bullet, if needed
     // this.fireCooldown -= dt;
     // if (this.fireCooldown <= 0) {
@@ -56,6 +61,12 @@ class Player extends ObjectClass {
 
   useItem() {
     this.item.use();
+  }
+
+  // called when collide with another player
+  collideWith(other) {
+    this.x -= this.dt * this.speed * Math.sin(this.direction);
+    this.y += this.dt * this.speed * Math.cos(this.direction);
   }
 
   serializeForUpdate() {

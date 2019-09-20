@@ -1,7 +1,7 @@
 
 const Constants = require('../shared/constants');
 const Player = require('./player');
-const applyCollisions = require('./collisions');
+const { applyCollisions, playerCollisions } = require('./collisions');
 const Items = require('./Items/');
 
 class Game {
@@ -78,8 +78,8 @@ class Game {
 
     // Update each player
     playerIDs.forEach(playerID => {
-    const player = this.players[playerID];
-    player.update(dt);
+      const player = this.players[playerID];
+      player.update(dt);
     //   if (newBullet) {
     //     this.bullets.push(newBullet);
     //   }
@@ -93,6 +93,12 @@ class Game {
       }
     });
     this.bullets = this.bullets.filter(bullet => !destroyedBullets.includes(bullet));
+
+    // Apply player collision with other
+    // Todo
+    Object.values(this.players).forEach(player => {
+      playerCollisions(player, Object.values(this.players));
+    });
 
     // Check if any players are dead
     playerIDs.forEach(playerID => {

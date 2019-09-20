@@ -9,8 +9,7 @@ class Obj {
   }
 
   update(dt) {
-    // Todo: Add rotateSpeed to direction
-    this.direction += this.rotateSpeed;
+    this.direction += this.rotateSpeed; // Add rotationSpeed
     this.x += dt * this.speed * Math.sin(this.direction);
     this.y -= dt * this.speed * Math.cos(this.direction);
   }
