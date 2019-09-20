@@ -8,6 +8,8 @@ class ItemClass extends ObjectClass {
     super(shortid(), x, y, 0, 0);
     this.ownedPlayer = null;
     this.name = name; // For retreive ITEM_IMAGES
+    this.radius = Constants.ITEM_RADIUS;
+
     this.used = false; // Whether this item has been used
     this.destroy = false; // Whether this item should be destroyed
 
@@ -46,6 +48,7 @@ class ItemClass extends ObjectClass {
       ...(super.serializeForUpdate()),
       direction: this.direction,
       name: this.name,
+      radius: this.radius,
       special: this.special
     };
   }

@@ -60,7 +60,7 @@ class Player extends ObjectClass {
   }
 
   useItem() {
-    this.item.use();
+    return this.item.use();
   }
 
   // called when collide with another player

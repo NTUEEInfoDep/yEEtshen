@@ -1,5 +1,6 @@
 module.exports = {
   // item: require("./item"),
   healbag: require("./healbag"),
-  shield: require("./shield")
+  shield: require("./shield"),
+  bomb: require("./bomb")
 }

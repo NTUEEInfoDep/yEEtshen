@@ -10,9 +10,10 @@ class Game {
     this.players = {};
     this.bullets = [];
     this.items = {};
+    this.itemEvents = {};
 
     // add an item for test
-    const test_item = new Items.shield(Constants.MAP_SIZE / 3 * 2, Constants.MAP_SIZE / 3)
+    const test_item = new Items.bomb(Constants.MAP_SIZE / 3 * 2, Constants.MAP_SIZE / 3)
     this.addItem(test_item);
 
     this.lastUpdateTime = Date.now();
@@ -54,7 +55,10 @@ class Game {
       const newBullet = player.handleFire();
       if (newBullet) {
         if (player.item) {
-          player.useItem();
+          const itemEvent = player.useItem();
+          if (itemEvent) {
+            this.itemEvents[itemEvent.id] = itemEvent;
+          }
         } else {
           this.bullets.push(newBullet);
         }
@@ -64,6 +68,25 @@ class Game {
 
   addItem(item) {
     this.items[item.id] = item;
+  }
+
+  handleItemEvents() {
+    for (let itemEvent of Object.values(this.itemEvents)) {
+      switch (itemEvent.event) {
+        case 'bomb_explode':
+          for (let player of Object.values(this.players)) {
+            if ((itemEvent.parentID != player.id) &&
+                (itemEvent.distanceTo(player) < Constants.ITEMS_PARAMETERS.BOMB_EXPLODE_RADIUS)) {
+              player.hp -= Constants.ITEMS_PARAMETERS.BOMB_DAMAGE;
+            }
+          }
+          delete this.itemEvents[itemEvent.id];
+          break;
+
+        default:
+          throw 'Item events does not match any cases.'
+      }
+    }
   }
 
   update() {
@@ -126,6 +149,9 @@ class Game {
         }
       }
     }
+
+    // Handle the item events
+    this.handleItemEvents();
 
     // Update items
     for (let item of Object.values(this.items)) {
