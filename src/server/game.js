@@ -13,8 +13,12 @@ class Game {
     this.itemEvents = {};
 
     // add an item for test
-    const test_item = new Items.bomb(Constants.MAP_SIZE / 3 * 2, Constants.MAP_SIZE / 3)
+    const test_item = new Items.Shield(Constants.MAP_SIZE / 3 * 2, Constants.MAP_SIZE / 3);
     this.addItem(test_item);
+
+    // add test sword
+    const testSword = new Items.LightSword(Constants.MAP_SIZE / 3, Constants.MAP_SIZE / 3);
+    this.addItem(testSword);
 
     this.lastUpdateTime = Date.now();
     this.shouldSendUpdate = false;
@@ -134,6 +138,7 @@ class Game {
     });
 
     // Check if any players get items
+    // Todo: should add this to collision.js
     for (let item of Object.values(this.items)) {
       for (let player of Object.values(this.players)) {
         if (!item.ownedPlayer // The item is not owned by any players.
@@ -142,7 +147,8 @@ class Game {
             ) {
           // If the player has item, destroy it first
           if (player.item) {
-            player.item.destroy(this.items);
+            // player.item.destroy(this.items); // BUG: The code won't run properly
+            player.item.destroy = true;
           }
           item.beGotBy(player);
           break;
@@ -154,11 +160,13 @@ class Game {
     this.handleItemEvents();
 
     // Update items
+    // Todo: should change to Object.values(this.items).forEach(item => .....)
     for (let item of Object.values(this.items)) {
       item.update(dt);
     }
 
     // Destory items
+    // Todo: can be merged with the upper function
     for (let item of Object.values(this.items)) {
       if (item.destroy) {
         this.items[item.id].ownedPlayer.item = null;

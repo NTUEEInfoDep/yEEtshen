@@ -4,7 +4,7 @@ const Constants = require('../../shared/constants');
 
 // The base class to be inherited by other item classes.
 class ItemClass extends ObjectClass {
-  constructor(x, y, name = "ITEM") {
+  constructor(x, y, name = 'ITEM') {
     super(shortid(), x, y, 0, 0);
     this.ownedPlayer = null;
     this.name = name; // For retreive ITEM_IMAGES

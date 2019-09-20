@@ -11,8 +11,8 @@ class HealBag extends ItemClass {
 
     this.ownedPlayer.hp = Math.min(
       this.ownedPlayer.hp + Constants.ITEMS_PARAMETERS.HEALBAG_HEAL_HP,
-      Constants.PLAYER_MAX_HP
-      );
+      Constants.PLAYER_MAX_HP,
+    );
   }
 }
 

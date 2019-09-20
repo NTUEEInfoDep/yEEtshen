@@ -15,6 +15,7 @@ module.exports = Object.freeze({
     HEALBAG: 'heart.svg',
     SHIELD: 'shield.svg',
     BOMB: 'malware.svg',
+    LIGHTSWORD: 'lightSword.png',
 
     // When shield used and taking effect, render this image
     SHIELD_USED: 'shield_used.svg',

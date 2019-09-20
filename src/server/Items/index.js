@@ -1,6 +1,11 @@
+const Healbag = require('./healbag');
+const Shield = require('./shield');
+const LightSword = require('./lightSword');
+const Bomb = require("./bomb");
+
 module.exports = {
-  // item: require("./item"),
-  healbag: require("./healbag"),
-  shield: require("./shield"),
-  bomb: require("./bomb")
-}
+  Healbag,
+  Shield,
+  Bomb,
+  LightSword,
+};
