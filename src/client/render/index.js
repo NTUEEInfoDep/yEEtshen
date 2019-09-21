@@ -1,27 +1,30 @@
 import { debounce } from 'throttle-debounce';
 import { getCurrentState } from '../state';
 import * as PIXI from 'pixi.js';
+import  BulletPool  from './bulletpool';
+import PlayerPool from './playerpool';
 
 const Constants = require('../../shared/constants');
 
 const {
   PLAYER_RADIUS,
   PLAYER_MAX_HP,
-  BULLET_RADIUS,
   MAP_SIZE,
   MONITOR_PIXEL_OFFSET,
   MONITOR_SIZE,
-  MONITOR_MARGIN,
+  MONITOR_MARGIN
 } = Constants;
 
 const scaleRatio = Math.max(1, 800 / window.innerWidth);
+
 // Get the canvas graphics context
-let app = new PIXI.Application({
+const app = new PIXI.Application({
   width: scaleRatio * window.innerWidth,
   height: scaleRatio * window.innerHeight,
 });
 
 app.renderer.backgroundColor = 0xffff00;
+
 const canvas = app.view;
 document.body.appendChild(canvas);
 
@@ -32,71 +35,40 @@ window.addEventListener(
     app.view.height = scaleRatio * window.innerHeight;
     updateBackgroundGraphics();
   }),
-);
+  );
 
-const textures = {
-  bullet: PIXI.Texture.from('assets/bullet.svg'),
-  ship: PIXI.Texture.from('assets/ship.svg'),
-};
 
-let shipSprites = {};
-let bulletSprites = {};
-let shipUpdateFlag = true;
-let bulletUpdateFlag = true;
-let background = new PIXI.Graphics();
-let boundaries = new PIXI.Graphics();
+const background = new PIXI.Graphics();
+const boundaries = new PIXI.Graphics();
 updateBoundariesGraphics();
 updateBackgroundGraphics();
 app.stage.addChild(background);
 app.stage.addChild(boundaries);
 
+
+const textures = {
+  bullet: PIXI.Texture.from('assets/bullet.svg'),
+  ship: PIXI.Texture.from('assets/ship.svg')
+};
+
+// create SpritePool
+const bulletPool = new BulletPool(app, textures.bullet);
+const playerPool = new PlayerPool(app, textures.ship);
+
 function render() {
   const { me, others, bullets } = getCurrentState();
-  if (!me) {
-    return;
-  }
-  prepareSprite(shipSprites, [me], textures.ship, shipUpdateFlag);
-  prepareSprite(shipSprites, others, textures.ship, shipUpdateFlag);
-  recycleSprite(shipSprites, shipUpdateFlag);
-  shipUpdateFlag = !shipUpdateFlag;
-
-  prepareSprite(bulletSprites, bullets, textures.bullet, bulletUpdateFlag);
-  recycleSprite(bulletSprites, bulletUpdateFlag);
-  bulletUpdateFlag = !bulletUpdateFlag;
+  if (!me) { return; }
 
   // Draw boundaries
   boundaries.x = canvas.width / 2 - me.x;
   boundaries.y = canvas.height / 2 - me.y;
 
-  // Draw all bullets
-  // bullets.forEach(renderBullet.bind(null, me));
-  bullets.forEach(bullet => renderBullet(me, bullet));
-
-  // Draw all players
-  renderPlayer(me, me);
-  // others.forEach(renderPlayer.bind(null, me));
-  others.forEach(other => renderPlayer(me, other));
-}
-
-function prepareSprite(spriteHash, objectArray, texture, latestUpdateFlag) {
-  const len = objectArray.length;
-  if (!objectArray || !len) return;
-  for (let i = 0; i < len; ++i) {
-    if (!spriteHash[objectArray[i].id]) {
-      spriteHash[objectArray[i].id] = new PIXI.Sprite(texture);
-      app.stage.addChild(spriteHash[objectArray[i].id]);
-    }
-    spriteHash[objectArray[i].id].updateFlag = latestUpdateFlag;
-  }
-}
-
-function recycleSprite(spriteHash, latestUpdateFlag) {
-  Object.keys(spriteHash).forEach(playerID => {
-    if (spriteHash[playerID].updateFlag !== latestUpdateFlag) {
-      app.stage.removeChild(spriteHash[playerID]);
-      delete spriteHash[playerID];
-    }
-  });
+  // render bullet
+  bulletPool.render(me, bullets, canvas);
+  // add me to others
+  others.unshift(me);
+  // render all players
+  playerPool.render(me, others, canvas);
 }
 
 function updateBackgroundGraphics() {
@@ -131,57 +103,6 @@ function createRadialGradientTexture() {
   context.fillStyle = gradient;
   context.fillRect(0, 0, MAP_SIZE, MAP_SIZE);
   return new PIXI.Texture.from(canvas);
-}
-
-// function renderPlayerOnMonitor(x, y) {
-//   const mapToMonitorScale = MONITOR_SIZE / MAP_SIZE;
-//   const [monitorX, monitorY] = [mapToMonitorScale * x, mapToMonitorScale * y];
-//   const canvasX = MONITOR_MARGIN + monitorX;
-//   const canvasY = canvas.height - MONITOR_SIZE - MONITOR_MARGIN + monitorY;
-//   context.fillStyle = 'yellow';
-//   context.fillRect(
-//     canvasX,
-//     canvasY,
-//     MONITOR_PIXEL_OFFSET,
-//     MONITOR_PIXEL_OFFSET,
-//   );
-// }
-
-// Renders a ship at the given coordinates
-function renderPlayer(me, player) {
-  const { x, y, direction, id } = player;
-  const canvasX = canvas.width / 2 + x - me.x;
-  const canvasY = canvas.height / 2 + y - me.y;
-  const ship = shipSprites[id];
-
-  ship.x = canvasX;
-  ship.y = canvasY;
-  ship.anchor.x = 0.5;
-  ship.anchor.y = 0.5;
-  ship.rotation = direction;
-  // Draw health bar
-  // context.fillStyle = 'white';
-  // context.fillRect(
-  //   canvasX - PLAYER_RADIUS,
-  //   canvasY + PLAYER_RADIUS + 8,
-  //   PLAYER_RADIUS * 2,
-  //   2
-  // );
-  // context.fillStyle = 'red';
-  // context.fillRect(
-  //   canvasX - PLAYER_RADIUS + (PLAYER_RADIUS * 2 * player.hp) / PLAYER_MAX_HP,
-  //   canvasY + PLAYER_RADIUS + 8,
-  //   PLAYER_RADIUS * 2 * (1 - player.hp / PLAYER_MAX_HP),
-  //   2
-  // );
-
-  // renderPlayerOnMonitor(x, y);
-}
-
-function renderBullet(me, bullet) {
-  const { x, y, id } = bullet;
-  bulletSprites[id].x = canvas.width / 2 + x - me.x - BULLET_RADIUS;
-  bulletSprites[id].y = canvas.height / 2 + y - me.y - BULLET_RADIUS;
 }
 
 function renderMainMenu() {
