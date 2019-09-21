@@ -13,7 +13,7 @@ Built with [Node.js](https://nodejs.org/), [socket.io](https://socket.io/), and 
 
 ## Credit
 
-1. **How to Build a Multiplayer (.io) Web Game -- Victor Zhou**
+1. **How to Build a Multiplayer (.io) Web Game -- [Victor Zhou](https://victorzhou.com)**
     1. [part1](https://victorzhou.com/blog/build-an-io-game-part-1/)
     2. [part2](https://victorzhou.com/blog/build-an-io-game-part-2/)
     3. [github](https://github.com/vzhou842/example-.io-game)
