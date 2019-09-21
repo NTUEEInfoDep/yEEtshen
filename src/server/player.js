@@ -38,17 +38,24 @@ class Player extends ObjectClass {
     // return null;
   }
 
+  // TODO: use takeDamage instead
   takeBulletDamage() {
     // If the player has shield and has use it, take zero damage
     if ((!this.item) || (this.item.name !== 'SHIELD') || (!this.item.used)) {
       this.hp -= Constants.BULLET_DAMAGE;
     }
   }
+  
+  //take damage and return true if success
+  takeDamage( damage ) {
+    //TODO: if hp > 0 and no shield
+    this.hp -= damage;
+    return true;
+  }
 
   onDealtDamage() {
     this.score += Constants.SCORE_BULLET_HIT;
   }
-
 
   // Fire Bullet or Item
   handleFire() {

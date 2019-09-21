@@ -2,9 +2,8 @@ const ItemEventClass = require('./itemEvent');
 const Constants = require('./../../shared/constants')
 
 class FreezingArea extends ItemEventClass {
-    constructor( x, y, owner ) {
-        super( x, y, Constants.ITEM_EVENTS_PARAMETERS.FREEZING_AREA_RADIUS, owner );
-        console.log( 'FreezingArea Generated' );
+    constructor( { x, y, id } ) {
+        super( x, y, Constants.ITEM_EVENTS_PARAMETERS.FREEZING_AREA_RADIUS, id );
     }
     update( dt ) {
         super.update( dt );
@@ -13,8 +12,8 @@ class FreezingArea extends ItemEventClass {
             console.log( 'FreezingArea Dissapeared' );
         }
     }
-    collide( player ) {
-        //TODO: stop the player's movement
+    collide( players ) {
+        // Freeze players
     }
 }
 

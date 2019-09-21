@@ -170,9 +170,13 @@ class Game {
     const nearbyBullets = this.bullets.filter(
       b => b.distanceTo(player) <= Constants.MAP_SIZE / 2,
     );
-    const nearbyItems = Object.values(this.items).filter(
+    const nearbyItems = this.items.filter(
       i => i.distanceTo(player) <= Constants.MAP_SIZE / 2,
     );
+    const nearbyItemEvents = this.itemEvents.filter(
+      e => e.distanceTo(player) <= Constants.MAP_SIZE / 2,
+    );
+
 
     return {
       t: Date.now(),
@@ -180,6 +184,7 @@ class Game {
       others: nearbyPlayers.map(p => p.serializeForUpdate()),
       bullets: nearbyBullets.map(b => b.serializeForUpdate()),
       items: nearbyItems.map(i => i.serializeForUpdate()),
+      itemEvents: nearbyItemEvents.map(e => e.serializeForUpdate()),
       leaderboard,
     };
   }

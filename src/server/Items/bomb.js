@@ -10,7 +10,7 @@ class Bomb extends ItemClass {
     player.item = this.constructor;
   }
   static use( player ) {
-    const newItemEvent = new BombExplosion( player.x, player.y, player );
+    const newItemEvent = new BombExplosion( player );
     return { itemEvents: [ newItemEvent ] };
   }
 

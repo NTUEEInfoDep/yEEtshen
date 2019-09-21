@@ -15,7 +15,7 @@ class FreezeBomb extends ItemClass {
   // create a freezing area
   static use( player ) {
     player.item = null;
-    const newItemEvents = new FreezingArea( player.x, player.y, player );
+    const newItemEvents = new FreezingArea( player );
     return { itemEvents: [newItemEvents] };
   }
 
