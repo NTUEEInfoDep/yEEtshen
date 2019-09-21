@@ -1,5 +1,4 @@
 import { debounce } from 'throttle-debounce';
-import { getAsset } from './assets';
 import { getCurrentState } from './state';
 import * as PIXI from 'pixi.js';
 
