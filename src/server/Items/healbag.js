@@ -1,19 +1,20 @@
 const ItemClass = require('./item.js');
 const Constants = require('../../shared/constants');
 
-class HealBag extends ItemClass {
+class Healbag extends ItemClass {
   constructor(x, y) {
-    super(x, y, 'HEALBAG');
+    super(x, y);
   }
 
-  use() {
-    super.use();
+  beCollected(player) { 
+    super.beCollected(player);
 
-    this.ownedPlayer.hp = Math.min(
-      this.ownedPlayer.hp + Constants.ITEMS_PARAMETERS.HEALBAG_HEAL_HP,
-      Constants.PLAYER_MAX_HP,
-    );
+    // regain hp
+    player.hp = Math.min(
+      player.hp + Constants.ITEMS_PARAMETERS.HEALBAG_HEAL_HP,
+      Constants.PLAYER_MAX_HP
+    )
   }
 }
 
-module.exports = HealBag;
+module.exports = Healbag;

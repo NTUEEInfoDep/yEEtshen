@@ -1,6 +1,7 @@
 const ObjectClass = require('./object');
 const Bullet = require('./bullet');
 const Constants = require('../shared/constants');
+const Item = require('./Items/');
 
 class Player extends ObjectClass {
   constructor(id, username, x, y) {
@@ -9,9 +10,8 @@ class Player extends ObjectClass {
     this.hp = Constants.PLAYER_MAX_HP;
     this.fireCooldown = 0;
     this.score = 0;
-    this.item = null; // the item that the player owns
     this.dt = 0;
-    // Special states affected by items
+    this.item = null; // the item that the player owns
   }
 
   // Returns a newly created bullet, or null.
@@ -23,11 +23,6 @@ class Player extends ObjectClass {
 
     // Update score
     this.score += dt * Constants.SCORE_PER_SECOND;
-
-    // If the player has item, make the item synce.
-    if (this.item) {
-      this.item.synceWith(this);
-    }
 
     // Make sure the player stays in bounds
     this.x = Math.max(0, Math.min(Constants.MAP_SIZE, this.x));
@@ -54,13 +49,16 @@ class Player extends ObjectClass {
     this.score += Constants.SCORE_BULLET_HIT;
   }
 
-  // Fire Bullet or Item(Todo)
-  handleFire() {
-    return new Bullet(this.id, this.x, this.y, this.direction);
-  }
 
-  useItem() {
-    return this.item.use();
+  // Fire Bullet or Item
+  handleFire() {
+    if( this.item ) {
+      return this.item.use( this );
+    }
+    else {
+      const newBullet = new Bullet(this.id, this.x, this.y, this.direction);
+      return { bullets: [newBullet] }
+    }
   }
 
   // called when collide with another player
@@ -69,11 +67,17 @@ class Player extends ObjectClass {
     this.y += this.dt * this.speed * Math.cos(this.direction);
   }
 
+  getItemName() {
+    if( this.item ) return this.item.name;
+    else return null;
+  }
+
   serializeForUpdate() {
     return {
       ...(super.serializeForUpdate()),
       direction: this.direction,
       hp: this.hp,
+      item: this.getItemName()
     };
   }
 }

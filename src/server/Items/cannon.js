@@ -1,13 +1,14 @@
 const ItemClass = require('./item.js');
 
-class LightSword extends ItemClass {
+class Cannon extends ItemClass {
   constructor(x, y) {
-    super(x, y);
+    super(x, y, 'CANNON');
   }
   beCollected(player) {
     super.beCollected(player);
-    // generate lightSword itemEvent
+    player.item = this.constructor;
   }
+
 }
 
-module.exports = LightSword;
+module.exports = Cannon;

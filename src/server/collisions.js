@@ -26,6 +26,27 @@ function applyCollisions(players, bullets) {
   return destroyedBullets;
 }
 
+function itemCollisions(players, items) {
+  const destroyedItems = [];
+  for ( let item of items ) {
+    for ( let player of Object.values(players) ) {
+      if ( player.distanceTo( item ) <= Constants.PLAYER_RADIUS + Constants.ITEM_RADIUS ) {
+        console.log( `item ${item.constructor.name} collected!` );
+        item.beCollected( player );
+        destroyedItems.push( item );
+        break;
+      }
+    }
+  }
+  return destroyedItems;
+}
+
+function itemEventCollisions(players, itemEvents) {
+  for ( let itemEvent of itemEvents.filter( itemEvent => itemEvent.needCollision ) ) {
+        itemEvent.collide( players );
+  }
+}
+
 // check if a player collide with other player
 // if collide:  speed decline
 function playerCollisions(player, others) {
@@ -36,7 +57,10 @@ function playerCollisions(player, others) {
   });
 }
 
+
 module.exports = {
   applyCollisions,
+  itemCollisions,
+  itemEventCollisions,
   playerCollisions,
 };

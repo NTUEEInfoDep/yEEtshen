@@ -1,7 +1,7 @@
 
 const Constants = require('../shared/constants');
 const Player = require('./player');
-const { applyCollisions, playerCollisions } = require('./collisions');
+const { applyCollisions, itemCollisions, itemEventCollisions, playerCollisions } = require('./collisions');
 const Items = require('./Items/');
 
 class Game {
@@ -9,16 +9,12 @@ class Game {
     this.sockets = {};
     this.players = {};
     this.bullets = [];
-    this.items = {};
-    this.itemEvents = {};
-
-    // add an item for test
-    const test_item = new Items.Shield(Constants.MAP_SIZE / 3 * 2, Constants.MAP_SIZE / 3);
-    this.addItem(test_item);
+    this.items = [];
+    this.itemEvents = [];
 
     // add test sword
-    const testSword = new Items.LightSword(Constants.MAP_SIZE / 3, Constants.MAP_SIZE / 3);
-    this.addItem(testSword);
+    const testItem = new Items.Bomb(Constants.MAP_SIZE / 3, Constants.MAP_SIZE / 3);
+    this.addItem(testItem);
 
     this.lastUpdateTime = Date.now();
     this.shouldSendUpdate = false;
@@ -56,24 +52,21 @@ class Game {
   handleFire(socket) {
     if (this.players[socket.id]) {
       const player = this.players[socket.id];
-      const newBullet = player.handleFire();
-      if (newBullet) {
-        if (player.item) {
-          const itemEvent = player.useItem();
-          if (itemEvent) {
-            this.itemEvents[itemEvent.id] = itemEvent;
-          }
-        } else {
-          this.bullets.push(newBullet);
-        }
+      const newBulletsAndItemEvents = player.handleFire();
+      if ( newBulletsAndItemEvents.bullets ) {
+        newBulletsAndItemEvents.bullets.forEach( bullet => this.bullets.push( bullet )  );
+      }
+      if ( newBulletsAndItemEvents.itemEvents ) {
+        newBulletsAndItemEvents.itemEvents.forEach( itemEvent => this.itemEvents.push( itemEvent ) );
       }
     }
   }
 
   addItem(item) {
-    this.items[item.id] = item;
+    this.items.push(item);
   }
 
+  /*
   handleItemEvents() {
     for (let itemEvent of Object.values(this.itemEvents)) {
       switch (itemEvent.event) {
@@ -92,6 +85,7 @@ class Game {
       }
     }
   }
+  */
 
   update() {
     // Calculate time elapsed
@@ -137,42 +131,16 @@ class Game {
       }
     });
 
-    // Check if any players get items
-    // Todo: should add this to collision.js
-    for (let item of Object.values(this.items)) {
-      for (let player of Object.values(this.players)) {
-        if (!item.ownedPlayer // The item is not owned by any players.
-            && (item.distanceTo(player) <=
-                Constants.ITEM_RADIUS + Constants.PLAYER_RADIUS)
-            ) {
-          // If the player has item, destroy it first
-          if (player.item) {
-            // player.item.destroy(this.items); // BUG: The code won't run properly
-            player.item.destroy = true;
-          }
-          item.beGotBy(player);
-          break;
-        }
-      }
-    }
+    // update item events and check collision
+    this.itemEvents.forEach( itemEvent => {
+      itemEvent.update( dt );
+    })
+    itemEventCollisions( this.players, this.itemEvents );
+    this.itemEvents = this.itemEvents.filter( itemEvent => !itemEvent.destroy )
 
-    // Handle the item events
-    this.handleItemEvents();
-
-    // Update items
-    // Todo: should change to Object.values(this.items).forEach(item => .....)
-    for (let item of Object.values(this.items)) {
-      item.update(dt);
-    }
-
-    // Destory items
-    // Todo: can be merged with the upper function
-    for (let item of Object.values(this.items)) {
-      if (item.destroy) {
-        this.items[item.id].ownedPlayer.item = null;
-        delete this.items[item.id];
-      }
-    }
+    // Check the collisions of items and destroy collected items
+    const destroyedItems = itemCollisions(Object.values(this.players), this.items);
+    this.items = this.items.filter(item => !destroyedItems.includes(item));
 
     // Send a game update to each player every other time
     if (this.shouldSendUpdate) {
