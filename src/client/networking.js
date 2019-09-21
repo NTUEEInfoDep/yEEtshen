@@ -1,5 +1,4 @@
 import io from 'socket.io-client';
-import { throttle } from 'throttle-debounce';
 import { processGameUpdate } from './state';
 
 const Constants = require('../shared/constants');
@@ -30,10 +29,6 @@ export const connect = onGameOver => (
 export const play = username => {
   socket.emit(Constants.MSG_TYPES.JOIN_GAME, username);
 };
-
-// export const updateDirection = throttle(20, dir => {
-//   socket.emit(Constants.MSG_TYPES.INPUT, dir);
-// });
 
 export const updateRotateSpeed = rotateSpeed => {
   socket.emit(Constants.MSG_TYPES.INPUT, rotateSpeed);
