@@ -7,6 +7,7 @@ class Game {
     this.sockets = {};
     this.players = {};
     this.bullets = [];
+    this.items = {};
     this.lastUpdateTime = Date.now();
     this.shouldSendUpdate = false;
     setInterval(this.update.bind(this), 1000 / 60);
@@ -109,11 +110,17 @@ class Game {
       b => b.distanceTo(player) <= Constants.MAP_SIZE / 2,
     );
 
+    const nearbyItems = Object.values(this.items).filter(
+      i => i.distanceTo(player) <= Constants.MAP_SIZE / 2,
+    );
+
     return {
       t: Date.now(),
       me: player.serializeForUpdate(),
       others: nearbyPlayers.map(p => p.serializeForUpdate()),
       bullets: nearbyBullets.map(b => b.serializeForUpdate()),
+      // The items that have not been picked
+      items: nearbyItems.map(i => i.serializeForUpdate()),
       leaderboard,
     };
   }

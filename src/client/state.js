@@ -45,7 +45,7 @@ function getBaseUpdate() {
   return -1;
 }
 
-// Returns { me, others, bullets }
+// Returns { me, others, bullets, items }
 export function getCurrentState() {
   if (!firstServerTimestamp) {
     return {};
@@ -66,6 +66,8 @@ export function getCurrentState() {
       me: interpolateObject(baseUpdate.me, next.me, ratio),
       others: interpolateObjectArray(baseUpdate.others, next.others, ratio),
       bullets: interpolateObjectArray(baseUpdate.bullets, next.bullets, ratio),
+      // The items that have not been picked
+      items: interpolateObjectArray(baseUpdate.items, next.items, ratio),
     };
   }
 }
