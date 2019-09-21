@@ -1,8 +1,8 @@
 import { debounce } from 'throttle-debounce';
-import { getCurrentState } from './state';
+import { getCurrentState } from '../state';
 import * as PIXI from 'pixi.js';
 
-const Constants = require('../shared/constants');
+const Constants = require('../../shared/constants');
 
 const {
   PLAYER_RADIUS,
