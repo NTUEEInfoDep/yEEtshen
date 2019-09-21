@@ -15,14 +15,11 @@ connect(onGameOver)
 .then(() => {
   playMenu.classList.remove('hidden');
   usernameInput.focus();
-  playButton.onclick = () => {
-    // Play!
-    play(usernameInput.value);
-    playMenu.classList.add('hidden');
-    initState();
-    startCapturingInput();
-    startRendering();
-    setLeaderboardHidden(false);
+  // click the playButton or press Enter to start playing
+  playButton.onclick = playSetup;
+  usernameInput.onkeypress = (e) => {
+    // Enter key event code == 13
+    if (e.which == 13) { playSetup(); }
   };
 }).catch(console.error);
 
@@ -31,4 +28,14 @@ function onGameOver() {
   stopRendering();
   playMenu.classList.remove('hidden');
   setLeaderboardHidden(true);
+}
+
+// set up for playing
+function playSetup() {
+  play(usernameInput.value);
+  playMenu.classList.add('hidden');
+  initState();
+  startCapturingInput();
+  startRendering();
+  setLeaderboardHidden(false);
 }
