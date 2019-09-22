@@ -26,13 +26,17 @@ export default class PlayerPool extends SpritePool {
   }
 
   render(me, others) {
-    // hide origin players and push new players if needed
-    this.hideMany(Math.max(others.length + 1, this.sprites.length));
+    const playerCount = others.length + 1;
+    // hide origin players
+    this.hideMany(this.lastShowNum);
+    // add new player sprites if needed
+    this.addMany(playerCount - this.sprites.length);
     // render me
     this.renderPlayer(me, me, 0);
     // render others
     others.forEach((player, index) => this.renderPlayer(me, player, index + 1));
-    // show the sprite
-    this.showMany(others.length + 1);
+    // show the sprite and update lastShowNum
+    this.showMany(playerCount);
+    this.lastShowNum = playerCount;
   }
 }

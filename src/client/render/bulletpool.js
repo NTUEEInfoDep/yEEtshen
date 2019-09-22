@@ -18,11 +18,15 @@ export default class BulletPool extends SpritePool {
   }
 
   render(me, bullets) {
-    // hide origin bullets and push new bullets if needed
-    this.hideMany(Math.max(bullets.length, this.sprites.length));
+    const bulletCount = bullets.length;
+    // hide original bullets
+    this.hideMany(this.lastShowNum);
+    // add new bullet sprites if needed
+    this.addMany(bulletCount - this.sprites.length);
     // set sprite position
     bullets.forEach((bullet, index) => this.renderBullet(me, bullet, index));
-    // show the sprite
-    this.showMany(bullets.length);
+    // show the sprite and update lastShowNum
+    this.showMany(bulletCount);
+    this.lastShowNum = bulletCount;
   }
 }
