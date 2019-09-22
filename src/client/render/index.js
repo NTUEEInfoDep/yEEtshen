@@ -7,44 +7,47 @@ import PlayerPool from './playerpool';
 const Constants = require('../../shared/constants');
 
 const {
-  PLAYER_RADIUS,
-  PLAYER_MAX_HP,
   MAP_SIZE,
-  MONITOR_PIXEL_OFFSET,
-  MONITOR_SIZE,
-  MONITOR_MARGIN
 } = Constants;
 
-const scaleRatio = Math.max(1, 800 / window.innerWidth);
 
 // Get the canvas graphics context
 const app = new PIXI.Application({
-  width: scaleRatio * window.innerWidth,
-  height: scaleRatio * window.innerHeight,
+  backgroundColor: 0xff0000,
+  forceCanvas: true,
 });
 
-app.renderer.backgroundColor = 0xffff00;
-
 const canvas = app.view;
+setCanvasDimensions();
 document.body.appendChild(canvas);
 
-window.addEventListener(
-  'resize',
-  debounce(40, () => {
-    app.view.width = scaleRatio * window.innerWidth;
-    app.view.height = scaleRatio * window.innerHeight;
-    updateBackgroundGraphics();
-  }),
-  );
+function setCanvasDimensions() {
+  // On small screens (e.g. phones), we want to "zoom out" so players can still see at least
+  // 800 in-game units of width.
+  const scaleRatio = Math.max(1, 800 / window.innerWidth);
+  canvas.width = scaleRatio * window.innerWidth;
+  canvas.height = scaleRatio * window.innerHeight;
+}
+
+window.addEventListener('resize', debounce(40, setCanvasDimensions));
 
 
-const background = new PIXI.Graphics();
+// window.addEventListener(
+//   'resize',
+//   debounce(40, () => {
+//     const scaleRatio = Math.max(1, 800 / window.innerWidth);
+//     canvas.width = scaleRatio * window.innerWidth;
+//     canvas.height = scaleRatio * window.innerHeight;
+//     // updateBackgroundGraphics();
+//   }),
+// );
+
+// const background = new PIXI.Graphics();
 const boundaries = new PIXI.Graphics();
 updateBoundariesGraphics();
-updateBackgroundGraphics();
-app.stage.addChild(background);
+// updateBackgroundGraphics();
+// app.stage.addChild(background);
 app.stage.addChild(boundaries);
-
 
 const textures = {
   bullet: PIXI.Texture.from('assets/bullet.svg'),
@@ -71,14 +74,15 @@ function render() {
   playerPool.render(me, others, canvas);
 }
 
-function updateBackgroundGraphics() {
-  background.beginFill(0x000000);
-  background.drawRect(0, 0, canvas.width, canvas.height);
-  background.endFill();
-}
+// function updateBackgroundGraphics() {
+//   background.beginFill(0xff0000);
+//   background.drawRect(0, 0, canvas.width, canvas.height);
+//   background.endFill();
+// }
 
 function updateBoundariesGraphics() {
-  boundaries.beginTextureFill(createRadialGradientTexture());
+  boundaries.beginFill(0x00ff00);
+  // boundaries.beginTextureFill(createRadialGradientTexture());
   boundaries.lineStyle(1, 0xffffff);
   boundaries.drawRect(0, 0, MAP_SIZE, MAP_SIZE);
   boundaries.endFill();
