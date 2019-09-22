@@ -30,30 +30,24 @@ window.addEventListener('resize', debounce(40, setCanvasDimensions));
 
 // ===============================================
 
-const textures = {
-  bullet: PIXI.Texture.from('assets/bullet.svg'),
-  ship: PIXI.Texture.from('assets/ship.svg')
-};
-
 Background.initialize(app);
 
 // create SpritePool
-const bulletPool = new BulletPool(app, textures.bullet);
-const playerPool = new PlayerPool(app, textures.ship);
+const playerPool = new PlayerPool(app);
+const bulletPool = new BulletPool(app);
 
 function render() {
-  const { me, others, bullets } = getCurrentState();
+  const { me, others, bullets, items } = getCurrentState();
   if (!me) { return; }
 
-  // Draw background
+  // render background
   Background.renderWhenPlay(me);
 
-  // render bullet
-  bulletPool.render(me, bullets, canvas);
-  // add me to others
-  others.unshift(me);
   // render all players
-  playerPool.render(me, others, canvas);
+  playerPool.render(me, others);
+
+  // render bullets
+  bulletPool.render(me, bullets);
 }
 
 // ==============================================

@@ -1,8 +1,8 @@
 import * as PIXI from 'pixi.js';
 
 export default class SpritePool {
-  constructor(app, texture) {
-    this.texture = texture;
+  constructor(app, imagePath) {
+    this.texture = PIXI.Texture.from(imagePath);
     this.sprites = [];
     this.app = app;
   }
@@ -33,7 +33,7 @@ export default class SpritePool {
   }
 
   showMany(count) {
-    // show first `count` sprits in this.sprites
+    // show first `count` sprites in this.sprites
     for (let i = 0; i < count; ++i) {
       this.sprites[i].visible = true;
     }

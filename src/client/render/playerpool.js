@@ -3,17 +3,20 @@ import SpritePool from './spritepool';
 const { PLAYER_RADIUS } = require('../../shared/constants');
 
 export default class PlayerPool extends SpritePool {
-  constructor(app, texture) {
-    super(app, texture);
+  constructor(app) {
+    super(app, 'assets/ship.svg');
   }
 
-  renderPlayer(me, player, canvas, index) {
+  renderPlayer(me, player, index) {
     const { x, y, direction } = player;
+    const canvas = this.app.view;
     const canvasX = canvas.width / 2 + x - me.x;
     const canvasY = canvas.height / 2 + y - me.y;
 
     this.sprites[index].x = canvasX;
     this.sprites[index].y = canvasY;
+    this.sprites[index].width = 2 * PLAYER_RADIUS;
+    this.sprites[index].height = 2 * PLAYER_RADIUS;
     this.sprites[index].anchor.x = 0.5;
     this.sprites[index].anchor.y = 0.5;
     this.sprites[index].rotation = direction;
@@ -22,36 +25,14 @@ export default class PlayerPool extends SpritePool {
     // Todo: renderPlayerOnMonitor
   }
 
-  render(me, players, canvas) {
-    // hide origin bullet and push new bullet
-    this.hideMany(players.length);
-    // set sprite position
-    players.forEach((player, index) => this.renderPlayer(me, player, canvas, index));
+  render(me, others) {
+    // hide origin players and push new players if needed
+    this.hideMany(Math.max(others.length + 1, this.sprites.length));
+    // render me
+    this.renderPlayer(me, me, 0);
+    // render others
+    others.forEach((player, index) => this.renderPlayer(me, player, index + 1));
     // show the sprite
-    this.showMany(players.length);
+    this.showMany(others.length + 1);
   }
 }
-
-
-// function addHealthBar(bar, canvasX, canvasY, playerHP) {
-//   bar.drawRect(
-//     0,
-//     0,
-//     // canvasX - PLAYER_RADIUS,
-//     // canvasY + PLAYER_RADIUS + 8,
-//     PLAYER_RADIUS * 2,
-//     2
-//   );
-//   bar.endFill();
-
-//   bar.beginFill(0xff0000);
-//   bar.drawRect(
-//     0,
-//     0,
-//     // canvasX - PLAYER_RADIUS + (PLAYER_RADIUS * 2 * playerHP) / PLAYER_MAX_HP,
-//     // canvasY + PLAYER_RADIUS + 8,
-//     PLAYER_RADIUS * 2 * (1 - playerHP / PLAYER_MAX_HP),
-//     2
-//   );
-//   bar.endFill();
-// }
