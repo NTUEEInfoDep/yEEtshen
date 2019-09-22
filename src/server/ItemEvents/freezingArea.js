@@ -2,18 +2,20 @@ const ItemEventClass = require('./itemEvent');
 const Constants = require('./../../shared/constants')
 
 class FreezingArea extends ItemEventClass {
-    constructor( { x, y, id } ) {
-        super( x, y, Constants.ITEM_EVENTS_PARAMETERS.FREEZING_AREA_RADIUS, id );
+    constructor( player  ) {
+        super( player.x, player.y, Constants.ITEM_EVENTS_PARAMETERS.FREEZING_AREA_RADIUS, player );
     }
-    update( dt ) {
-        super.update( dt );
+    update( dt, itemEvents ) {
         if ( Date.now() - this.timestamp > Constants.ITEM_EVENTS_PARAMETERS.FREEZING_AREA_DURATION ) {
             this.destroy = true;
-            console.log( 'FreezingArea Dissapeared' );
         }
     }
     collide( players ) {
-        // Freeze players
+        Object.values(players).filter( player => player.distanceTo( this ) < this.radius + Constants.PLAYER_RADIUS ).forEach( player => {
+            if ( player != this.parent ) {
+                player.state.freeze = Date.now();
+            }
+        } );
     }
 }
 

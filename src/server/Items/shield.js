@@ -6,7 +6,7 @@ class Shield extends ItemClass {
   }
   beCollected(player) {
     super.beColected(player);
-    //TODO: generate Shield itemEvent
+    player.state.shield = Date.now();
   }
 }
 

@@ -3,18 +3,17 @@ const ObjectClass = require('../object');
 
 // The base class to be inherited by other item classes.
 class ItemEventClass extends ObjectClass {
-  constructor(x, y, radius, parentID ) {
-    super(shortid(), x, y, 0, 0);
+  constructor(x, y, radius, parent, dir = 0 ) {
+    super(shortid(), x, y, dir, 0);
     this.radius = radius;
     this.timestamp = Date.now();
-    this.needCollision = true;
     this.destroy = false;
-    this.parentID = parentID;
+    this.parent = parent;
     console.log( `${this.constructor.name} generated`)
   }
 
   // TODO:
-  // update( dt )
+  // update( dt, itemEvents )
   // collide( players ) 
 
   serializeForUpdate() {

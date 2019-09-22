@@ -8,7 +8,7 @@ class Weed extends ItemClass {
 
   beCollected(player) { 
     super.beCollected(player);
-    //TODO: change player's state
+    player.state.weed = Date.now();
   }
 }
 

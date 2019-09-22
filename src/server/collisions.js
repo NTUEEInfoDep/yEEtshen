@@ -41,12 +41,6 @@ function itemCollisions(players, items) {
   return destroyedItems;
 }
 
-function itemEventCollisions(players, itemEvents) {
-  for ( let itemEvent of itemEvents.filter( itemEvent => itemEvent.needCollision ) ) {
-        itemEvent.collide( players );
-  }
-}
-
 // check if a player collide with other player
 // if collide:  speed decline
 function playerCollisions(player, others) {
@@ -61,6 +55,5 @@ function playerCollisions(player, others) {
 module.exports = {
   applyCollisions,
   itemCollisions,
-  itemEventCollisions,
   playerCollisions,
 };

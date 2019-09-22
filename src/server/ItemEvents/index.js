@@ -1,11 +1,9 @@
 const FreezingArea = require('./freezingArea');
 const BombExplosion = require('./bombExplosion');
-//const CannonExplosion = require('./cannonExplosion');
-//const LightSwordEffect = require('./LightSwordEffect');
+const CannonExplosion = require('./cannonExplosion');
 
 module.exports = {
     FreezingArea,
     BombExplosion,
-    //CannonExplosion,
-    //LightSwordEffect
+    CannonExplosion,
 }

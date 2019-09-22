@@ -1,4 +1,5 @@
 const ItemClass = require('./item.js');
+const Constants = require('../../shared/constants');
 
 class LightSword extends ItemClass {
   constructor(x, y) {
@@ -6,7 +7,9 @@ class LightSword extends ItemClass {
   }
   beCollected(player) {
     super.beCollected(player);
-    // generate lightSword itemEvent
+    player.state.lightSword = Date.now();
+    player.speed = Constants.PLAYER_STATE_PARAMETERS.LIGHTSWORD_SPEED;
+    player.radius = Constants.PLAYER_STATE_PARAMETERS.LIGHTSWORD_RADIUS;
   }
 }
 

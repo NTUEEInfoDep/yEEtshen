@@ -13,7 +13,7 @@ class Game {
     this.itemEvents = [];
 
     // add test sword
-    const testItem = new Items.Bomb(Constants.MAP_SIZE / 3, Constants.MAP_SIZE / 3);
+    const testItem = new Items.FreezeBomb(Constants.MAP_SIZE / 3, Constants.MAP_SIZE / 3);
     this.addItem(testItem);
 
     this.lastUpdateTime = Date.now();
@@ -133,9 +133,9 @@ class Game {
 
     // update item events and check collision
     this.itemEvents.forEach( itemEvent => {
-      itemEvent.update( dt );
+      itemEvent.update( dt, this.itemEvents );
+      itemEvent.collide( this.players );
     })
-    itemEventCollisions( this.players, this.itemEvents );
     this.itemEvents = this.itemEvents.filter( itemEvent => !itemEvent.destroy )
 
     // Check the collisions of items and destroy collected items

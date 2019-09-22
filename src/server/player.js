@@ -12,11 +12,15 @@ class Player extends ObjectClass {
     this.score = 0;
     this.dt = 0;
     this.item = null; // the item that the player owns
+    this.state = {}; // freeze, shield, lightSword, weed
   }
 
   // Returns a newly created bullet, or null.
   update(dt) {
-    super.update(dt);
+    
+    if( !this.state.freeze ) {
+      super.update(dt);
+    }
 
     // store dt
     this.dt = dt;
@@ -28,6 +32,9 @@ class Player extends ObjectClass {
     this.x = Math.max(0, Math.min(Constants.MAP_SIZE, this.x));
     this.y = Math.max(0, Math.min(Constants.MAP_SIZE, this.y));
 
+    // update state 
+    this.updateState();
+
     // Fire a bullet, if needed
     // this.fireCooldown -= dt;
     // if (this.fireCooldown <= 0) {
@@ -38,6 +45,24 @@ class Player extends ObjectClass {
     // return null;
   }
 
+  updateState() {
+    if ( this.state.freeze ) {
+      if ( Date.now() - this.state.freeze > Constants.PLAYER_STATE_PARAMETERS.FREEZE_DURATION ) {
+        delete this.state.freeze;
+      }
+    }
+    if ( this.state.shield ) {
+      if ( Date.now() - this.state.shield > Constants.PLAYER_STATE_PARAMETERS.SHIELD_DURATION ) {
+        delete this.state.shield;
+      }
+    }
+    if ( this.state.weed ) {
+      if ( Date.now() - this.state.weed > Constants.PLAYER_STATE_PARAMETERS.WEED_DURATION ) {
+        delete this.state.weed;
+      }
+    }
+  }
+
   // TODO: use takeDamage instead
   takeBulletDamage() {
     // If the player has shield and has use it, take zero damage
@@ -46,11 +71,12 @@ class Player extends ObjectClass {
     }
   }
   
-  //take damage and return true if success
+  //take damage and give score
   takeDamage( damage ) {
-    //TODO: if hp > 0 and no shield
-    this.hp -= damage;
-    return true;
+    if ( this.state.shield ) {
+      this.hp -= damage;
+      return true;
+    }
   }
 
   onDealtDamage() {
@@ -59,12 +85,14 @@ class Player extends ObjectClass {
 
   // Fire Bullet or Item
   handleFire() {
-    if( this.item ) {
-      return this.item.use( this );
-    }
-    else {
-      const newBullet = new Bullet(this.id, this.x, this.y, this.direction);
-      return { bullets: [newBullet] }
+    if( !this.state.freeze ) {
+      if( this.item ) {
+        return this.item.use( this );
+      }
+      else {
+        const newBullet = new Bullet(this.id, this.x, this.y, this.direction);
+        return { bullets: [newBullet] }
+      }
     }
   }
 
@@ -72,6 +100,14 @@ class Player extends ObjectClass {
   collideWith(other) {
     this.x -= this.dt * this.speed * Math.sin(this.direction);
     this.y += this.dt * this.speed * Math.cos(this.direction);
+    if ( this.state.lightSword ) {
+      if ( other.takeDamage( Constants.PLAYER_STATE_PARAMETERS.LIGHTSWORD_DAMAGE ) ) {
+        this.onDealtDamage()
+      }
+      delete this.state.lightSword;
+      this.radius = Constants.PLAYER_RADIUS;
+      this.speed = Constants.PLAYER_SPEED;
+    }
   }
 
   getItemName() {
@@ -84,7 +120,8 @@ class Player extends ObjectClass {
       ...(super.serializeForUpdate()),
       direction: this.direction,
       hp: this.hp,
-      item: this.getItemName()
+      item: this.getItemName(),
+      state: Object.keys( this.state )
     };
   }
 }

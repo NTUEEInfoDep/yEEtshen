@@ -1,4 +1,5 @@
 const ItemClass = require('./item.js');
+const { CannonExplosion } = require('../ItemEvents/')
 
 class Cannon extends ItemClass {
   constructor(x, y) {
@@ -8,7 +9,11 @@ class Cannon extends ItemClass {
     super.beCollected(player);
     player.item = this.constructor;
   }
-
+  static use( player ) {
+    player.item = null;
+    const newCannonExplosion = new CannonExplosion(player.x, player.y, player)
+    return { itemEvents: [newCannonExplosion] }
+  }
 }
 
 module.exports = Cannon;
