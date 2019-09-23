@@ -1,51 +1,10 @@
 import { updateRotateSpeed, playerFire } from './networking';
 import { PLAYER_ROTATION_SPEED } from '../shared/constants';
+import Keyboard from './keyboard';
 
-function keyboard(val) {
-  const key = {};
-  key.val = val;
-  key.isDown = false;
-  key.isUp = true;
-  key.press = undefined;
-  key.release = undefined;
-
-  key.downHandler = e => {
-    if (e.key === key.val) {
-      if (key.isUp && key.press) key.press();
-      key.isDown = true;
-      key.isUp = false;
-      e.preventDefault();
-    }
-  };
-
-  key.upHandler = e => {
-    if (e.key === key.val) {
-      if (key.isDown && key.release) key.release();
-      key.isDown = false;
-      key.isUp = true;
-      e.preventDefault();
-    }
-  };
-
-  const downListener = key.downHandler.bind(key);
-  const upListener = key.upHandler.bind(key);
-
-  key.subscribe = () => {
-    window.addEventListener('keydown', downListener, false);
-    window.addEventListener('keyup', upListener, false);
-  };
-
-  key.unsubscribe = () => {
-    window.removeEventListener('keydown', downListener);
-    window.removeEventListener('keyup', upListener);
-  };
-
-  return key;
-}
-
-const left = keyboard('ArrowLeft');
-const right = keyboard('ArrowRight');
-const space = keyboard(' ');
+const left = new Keyboard('ArrowLeft');
+const right = new Keyboard('ArrowRight');
+const space = new Keyboard(' ');
 
 // Add Keyboard Press Function
 left.press = () => {
