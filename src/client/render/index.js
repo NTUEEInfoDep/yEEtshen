@@ -1,10 +1,13 @@
+import * as PIXI from 'pixi.js';
+
 import { debounce } from 'throttle-debounce';
 import { getCurrentState } from '../state';
-import * as PIXI from 'pixi.js';
+
 import Background from './background';
-import  BulletPool  from './bulletpool';
+import BulletPool from './bulletpool';
 import PlayerPool from './playerpool';
 import ItemPool from './itempool';
+import { rightBtn, leftBtn } from '../button';
 
 const Constants = require('../../shared/constants');
 
@@ -39,6 +42,12 @@ const background = new Background(app);
 const playerPool = new PlayerPool(app);
 const bulletPool = new BulletPool(app);
 const itemPool = new ItemPool(app);
+
+// render button if mobile: todo: check mobile
+rightBtn.setpos(window.innerWidth - 100, window.innerHeight - 100);
+leftBtn.setpos(window.innerWidth - 170, window.innerHeight - 100);
+app.stage.addChild(rightBtn.btnSprite);
+app.stage.addChild(leftBtn.btnSprite);
 
 // When playing.
 function render() {

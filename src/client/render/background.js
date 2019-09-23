@@ -15,7 +15,7 @@ export default class Background {
     app.stage.addChild(background);
 
     // Draw the background
-    background.beginFill(0x00ff00);
+    background.beginFill(0x00cc00);
     background.lineStyle(1, 0xffffff);
     background.drawRect(0, 0, MAP_SIZE, MAP_SIZE);
     background.endFill();

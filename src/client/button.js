@@ -1,15 +1,17 @@
 import * as PIXI from 'pixi.js';
 
-export default class Button {
-  constructor(app, imagePath) {
-    this.app = app;
+class Button {
+  constructor(imagePath) {
     this.texture = PIXI.Texture.from(imagePath);
-    this.btnSprite = null;
+    this.btnSprite = new PIXI.Sprite(this.texture);
+    this.btnSprite.visible = false;
+    this.press = undefined;
+    this.release = undefined;
   }
 
-  destroy() {
-    this.app.stage.removeChild(this.btnSprite);
-    this.btnSprite.destroy(true);
+  setpos(x, y) {
+    this.btnSprite.x = x;
+    this.btnSprite.y = y;
   }
 
   unsubscribe() {
@@ -18,14 +20,20 @@ export default class Button {
     this.btnSprite.interactive = false;
   }
 
-  render() {
-    if (!this.btnSprite) {
-      this.btnSprite = new PIXI.Sprite(this.texture);
-      this.app.stage.addChild(this.btnSprite);
-      return;
+  subscribe() {
+    if (this.press && this.release) {
+      this.btnSprite.visible = true;
+      this.btnSprite.buttonMode = true;
+      this.btnSprite.interactive = true;
+      this.btnSprite
+        .on('pointerdown', this.press)
+        .on('pointerup', this.release)
+        .on('pointerupoutside', this.release);
     }
-    this.btnSprite.visible = true;
-    this.btnSprite.buttonMode = true;
-    this.btnSprite.interactive = true;
   }
 }
+
+const leftBtn = new Button('assets/leftBtn.png');
+const rightBtn = new Button('assets/rightBtn.png');
+
+export { leftBtn, rightBtn };
