@@ -9,7 +9,8 @@ class Player extends ObjectClass {
     this.hp = Constants.PLAYER_MAX_HP;
     this.fireCooldown = 0;
     this.score = 0;
-    this.itemName = null;
+    this.item = null; // the item that the player owns
+    // Special states affected by items
   }
 
   // Returns a newly created bullet, or null.
@@ -18,6 +19,11 @@ class Player extends ObjectClass {
 
     // Update score
     this.score += dt * Constants.SCORE_PER_SECOND;
+
+    // If the player has item, make the item synce.
+    if (this.item) {
+      this.item.synceWith(this);
+    }
 
     // Make sure the player stays in bounds
     this.x = Math.max(0, Math.min(Constants.MAP_SIZE, this.x));
@@ -33,7 +39,10 @@ class Player extends ObjectClass {
   }
 
   takeBulletDamage() {
-    this.hp -= Constants.BULLET_DAMAGE;
+    // If the player has shield and has use it, take zero damage
+    if ((!this.item) || (this.item.name !== 'SHIELD') || (!this.item.used)) {
+      this.hp -= Constants.BULLET_DAMAGE;
+    }
   }
 
   onDealtDamage() {
@@ -45,12 +54,15 @@ class Player extends ObjectClass {
     return new Bullet(this.id, this.x, this.y, this.direction);
   }
 
+  useItem() {
+    this.item.use();
+  }
+
   serializeForUpdate() {
     return {
       ...(super.serializeForUpdate()),
       direction: this.direction,
       hp: this.hp,
-      item: this.itemName,
     };
   }
 }

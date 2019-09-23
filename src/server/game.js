@@ -1,6 +1,8 @@
+
 const Constants = require('../shared/constants');
 const Player = require('./player');
 const applyCollisions = require('./collisions');
+const Items = require('./Items/');
 
 class Game {
   constructor() {
@@ -8,6 +10,11 @@ class Game {
     this.players = {};
     this.bullets = [];
     this.items = {};
+
+    // add an item for test
+    const test_item = new Items.shield(Constants.MAP_SIZE / 3 * 2, Constants.MAP_SIZE / 3)
+    this.addItem(test_item);
+
     this.lastUpdateTime = Date.now();
     this.shouldSendUpdate = false;
     setInterval(this.update.bind(this), 1000 / 60);
@@ -23,6 +30,13 @@ class Game {
   }
 
   removePlayer(socket) {
+    let player = this.players[socket.id];
+    // If the player exists and owns item, destroy it first.
+    if (player && player.item) {
+      delete this.items[player.item.id];
+      player.item = null;
+    }
+    // delete the player
     delete this.sockets[socket.id];
     delete this.players[socket.id];
   }
@@ -36,17 +50,26 @@ class Game {
 
   handleFire(socket) {
     if (this.players[socket.id]) {
-      const newBullet = this.players[socket.id].handleFire();
+      const player = this.players[socket.id];
+      const newBullet = player.handleFire();
       if (newBullet) {
-        this.bullets.push(newBullet);
+        if (player.item) {
+          player.useItem();
+        } else {
+          this.bullets.push(newBullet);
+        }
       }
     }
+  }
+
+  addItem(item) {
+    this.items[item.id] = item;
   }
 
   update() {
     // Calculate time elapsed
     const now = Date.now();
-    const dt = (now - this.lastUpdateTime) / 1000;
+    const dt = (now - this.lastUpdateTime) / 1000; // seconds
     const playerIDs = Object.keys(this.sockets);
     this.lastUpdateTime = now;
 
@@ -81,6 +104,36 @@ class Game {
       }
     });
 
+    // Check if any players get items
+    for (let item of Object.values(this.items)) {
+      for (let player of Object.values(this.players)) {
+        if (!item.ownedPlayer // The item is not owned by any players.
+            && (item.distanceTo(player) <=
+                Constants.ITEM_RADIUS + Constants.PLAYER_RADIUS)
+            ) {
+          // If the player has item, destroy it first
+          if (player.item) {
+            player.item.destroy(this.items);
+          }
+          item.beGotBy(player);
+          break;
+        }
+      }
+    }
+
+    // Update items
+    for (let item of Object.values(this.items)) {
+      item.update(dt);
+    }
+
+    // Destory items
+    for (let item of Object.values(this.items)) {
+      if (item.destroy) {
+        this.items[item.id].ownedPlayer.item = null;
+        delete this.items[item.id];
+      }
+    }
+
     // Send a game update to each player every other time
     if (this.shouldSendUpdate) {
       const leaderboard = this.getLeaderboard();
@@ -109,7 +162,6 @@ class Game {
     const nearbyBullets = this.bullets.filter(
       b => b.distanceTo(player) <= Constants.MAP_SIZE / 2,
     );
-
     const nearbyItems = Object.values(this.items).filter(
       i => i.distanceTo(player) <= Constants.MAP_SIZE / 2,
     );
@@ -119,7 +171,6 @@ class Game {
       me: player.serializeForUpdate(),
       others: nearbyPlayers.map(p => p.serializeForUpdate()),
       bullets: nearbyBullets.map(b => b.serializeForUpdate()),
-      // The items that have not been picked
       items: nearbyItems.map(i => i.serializeForUpdate()),
       leaderboard,
     };
