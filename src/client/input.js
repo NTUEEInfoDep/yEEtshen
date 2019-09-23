@@ -27,8 +27,8 @@ function keyboard(val) {
     }
   };
 
-  const downListener = key.downHandler.bind(key);
-  const upListener = key.upHandler.bind(key);
+  const downListener = key.downHandler;
+  const upListener = key.upHandler;
 
   key.subscribe = () => {
     window.addEventListener('keydown', downListener, false);
@@ -46,15 +46,18 @@ function keyboard(val) {
 const left = keyboard('ArrowLeft');
 const right = keyboard('ArrowRight');
 const space = keyboard(' ');
+let activeRotationKey = null;
 
 // Add Keyboard Press Function
 left.press = () => {
   updateRotateSpeed(-PLAYER_ROTATION_SPEED);
+  activeRotationKey = left;
   console.log('Left Key is Pressed');
 };
 
 right.press = () => {
   updateRotateSpeed(PLAYER_ROTATION_SPEED);
+  activeRotationKey = right;
   console.log('Right Key is Pressed');
 };
 
@@ -66,12 +69,18 @@ space.press = () => {
 
 // Keyboard Release Function
 left.release = () => {
-  updateRotateSpeed(0);
+  if (activeRotationKey === left) {
+    updateRotateSpeed(0);
+    activeRotationKey = null;
+  }
   console.log('Left Key is Released');
 };
 
 right.release = () => {
-  updateRotateSpeed(0);
+  if (activeRotationKey === right) {
+    updateRotateSpeed(0);
+    activeRotationKey = null;
+  }
   console.log('Right Key is Released');
 };
 
