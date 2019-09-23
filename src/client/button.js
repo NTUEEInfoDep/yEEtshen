@@ -5,6 +5,7 @@ class Button {
     this.texture = PIXI.Texture.from(imagePath);
     this.btnSprite = new PIXI.Sprite(this.texture);
     this.btnSprite.visible = false;
+    this.btnSprite.anchor.set(0.5, 0.5);
     this.press = undefined;
     this.release = undefined;
   }
@@ -35,5 +36,6 @@ class Button {
 
 const leftBtn = new Button('assets/leftBtn.png');
 const rightBtn = new Button('assets/rightBtn.png');
+const fireBtn = new Button('assets/gun.png');
 
-export { leftBtn, rightBtn };
+export { leftBtn, rightBtn, fireBtn };

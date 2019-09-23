@@ -7,7 +7,7 @@ import Background from './background';
 import BulletPool from './bulletpool';
 import PlayerPool from './playerpool';
 import ItemPool from './itempool';
-import { rightBtn, leftBtn } from '../button';
+import { rightBtn, leftBtn, fireBtn } from '../button';
 
 const Constants = require('../../shared/constants');
 
@@ -44,10 +44,12 @@ const bulletPool = new BulletPool(app);
 const itemPool = new ItemPool(app);
 
 // render button if mobile: todo: check mobile
-rightBtn.setpos(window.innerWidth - 100, window.innerHeight - 100);
-leftBtn.setpos(window.innerWidth - 170, window.innerHeight - 100);
+rightBtn.setpos(200, 100);
+leftBtn.setpos(100, 100);
+fireBtn.setpos(0, 100);
 app.stage.addChild(rightBtn.btnSprite);
 app.stage.addChild(leftBtn.btnSprite);
+app.stage.addChild(fireBtn.btnSprite);
 
 // When playing.
 function render() {

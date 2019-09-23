@@ -1,12 +1,12 @@
 import { updateRotateSpeed, playerFire } from './networking';
 import { PLAYER_ROTATION_SPEED } from '../shared/constants';
 import Keyboard from './keyboard';
-import { leftBtn, rightBtn } from './button';
+import { leftBtn, rightBtn, fireBtn } from './button';
 
 // check if mobile
 const left = leftBtn; // = new Keyboard('ArrowLeft')
 const right = rightBtn; // = new Keyboard('ArrowRight')
-const space = new Keyboard(' ');
+const space = fireBtn; // = new Keyboard(' ');
 
 // Add Keyboard Press Function
 left.press = () => { updateRotateSpeed(-PLAYER_ROTATION_SPEED); };
