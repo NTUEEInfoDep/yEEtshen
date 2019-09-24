@@ -4,39 +4,66 @@ const { PLAYER_RADIUS } = require('../../shared/constants');
 
 export default class PlayerPool extends SpritePool {
   constructor(app) {
-    super(app, 'assets/ship.svg');
+    const imagePathHash = {
+      player: 'assets/ship.svg',
+    }
+    super(app, imagePathHash);
   }
 
-  renderPlayer(me, player, index) {
+  addSingle(me, player) {
     const { x, y, direction } = player;
     const canvas = this.app.view;
-    const canvasX = canvas.width / 2 + x - me.x;
-    const canvasY = canvas.height / 2 + y - me.y;
+    const sprite = this.addSprite(this.textures['player']);
 
-    this.sprites[index].x = canvasX;
-    this.sprites[index].y = canvasY;
-    this.sprites[index].width = 2 * PLAYER_RADIUS;
-    this.sprites[index].height = 2 * PLAYER_RADIUS;
-    this.sprites[index].anchor.x = 0.5;
-    this.sprites[index].anchor.y = 0.5;
-    this.sprites[index].rotation = direction;
+    sprite.x = canvas.width / 2 + x - me.x;
+    sprite.y = canvas.height / 2 + y - me.y;
+    sprite.width = 2 * PLAYER_RADIUS;
+    sprite.height = 2 * PLAYER_RADIUS;
+    sprite.anchor.x = 0.5;
+    sprite.anchor.y = 0.5;
+    sprite.rotation = direction;
 
-    // Todo: add HealthBar
-    // Todo: renderPlayerOnMonitor
+    this.app.stage.addChild(sprite);
+  }
+
+  setSingle(me, player, index) {
+    const { x, y, direction } = player;
+    const canvas = this.app.view;
+    const sprite = this.sprites[index];
+
+    // set position and direction
+    sprite.x = canvas.width / 2 + x - me.x;
+    sprite.y = canvas.height / 2 + y - me.y;
+    sprite.rotation = direction;
+
+    // make it visible
+    sprite.visible = true;
   }
 
   render(me, others) {
-    const playerCount = others.length + 1;
-    // hide origin players
+    const otherCount = others.length;
+    const poolLength = this.sprites.length;
+
+    // hide original objects
     this.hideMany(this.lastShowNum);
-    // add new player sprites if needed
-    this.addMany(playerCount - this.sprites.length);
-    // render me
-    this.renderPlayer(me, me, 0);
-    // render others
-    others.forEach((player, index) => this.renderPlayer(me, player, index + 1));
-    // show the sprite and update lastShowNum
-    this.showMany(playerCount);
-    this.lastShowNum = playerCount;
+
+    // set or add me and show
+    if (poolLength) {
+      this.setSingle(me, me, 0);
+    } else {
+      this.addSingle(me, me);
+    }
+
+    // set or add others and show them
+    for (let i = 0; i < otherCount; i++) {
+      if ((i + 1) < poolLength) {
+        this.setSingle(me, others[i], i + 1);
+      } else {
+        this.addSingle(me, others[i]);
+      }
+    }
+
+    // update lastShowNum
+    this.lastShowNum = otherCount + 1;
   }
 }

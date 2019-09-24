@@ -4,29 +4,35 @@ const { BULLET_RADIUS } = require('../../shared/constants');
 
 export default class BulletPool extends SpritePool {
   constructor(app) {
-    super(app, 'assets/bullet.svg');
+    const imagePathHash = {
+      bullet: 'assets/bullet.svg',
+    }
+    super(app, imagePathHash);
   }
 
-  renderBullet(me, bullet, index) {
+  addSingle(me, bullet) {
     const { x, y } = bullet;
     const canvas = this.app.view;
+    const sprite = this.addSprite(this.textures['bullet']);
 
-    this.sprites[index].x = canvas.width / 2 + x - me.x - BULLET_RADIUS;
-    this.sprites[index].y = canvas.height / 2 + y - me.y - BULLET_RADIUS;
-    this.sprites[index].width = 2 * BULLET_RADIUS;
-    this.sprites[index].height = 2 * BULLET_RADIUS;
+    sprite.x = canvas.width / 2 + x - me.x - BULLET_RADIUS;
+    sprite.y = canvas.height / 2 + y - me.y - BULLET_RADIUS;
+    sprite.width = 2 * BULLET_RADIUS;
+    sprite.height = 2 * BULLET_RADIUS;
+
+    this.app.stage.addChild(sprite);
   }
 
-  render(me, bullets) {
-    const bulletCount = bullets.length;
-    // hide original bullets
-    this.hideMany(this.lastShowNum);
-    // add new bullet sprites if needed
-    this.addMany(bulletCount - this.sprites.length);
-    // set sprite position
-    bullets.forEach((bullet, index) => this.renderBullet(me, bullet, index));
-    // show the sprite and update lastShowNum
-    this.showMany(bulletCount);
-    this.lastShowNum = bulletCount;
+  setSingle(me, bullet, index) {
+    const { x, y } = bullet;
+    const canvas = this.app.view;
+    const sprite = this.sprites[index];
+
+    // set position
+    sprite.x = canvas.width / 2 + x - me.x - BULLET_RADIUS;
+    sprite.y = canvas.height / 2 + y - me.y - BULLET_RADIUS;
+
+    // make it visible
+    sprite.visible = true;
   }
 }
