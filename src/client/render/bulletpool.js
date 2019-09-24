@@ -19,8 +19,6 @@ export default class BulletPool extends SpritePool {
     sprite.y = canvas.height / 2 + y - me.y - BULLET_RADIUS;
     sprite.width = 2 * BULLET_RADIUS;
     sprite.height = 2 * BULLET_RADIUS;
-
-    this.app.stage.addChild(sprite);
   }
 
   setSingle(me, bullet, index) {

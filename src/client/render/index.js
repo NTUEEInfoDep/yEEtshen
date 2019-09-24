@@ -4,6 +4,7 @@ import * as PIXI from 'pixi.js';
 import * as Background from './background';
 import  BulletPool  from './bulletpool';
 import PlayerPool from './playerpool';
+import ItemPool from './itempool';
 
 const Constants = require('../../shared/constants');
 
@@ -35,6 +36,7 @@ Background.initialize(app);
 // create SpritePool
 const playerPool = new PlayerPool(app);
 const bulletPool = new BulletPool(app);
+const itemPool = new ItemPool(app);
 
 function render() {
   const { me, others, bullets, items } = getCurrentState();
@@ -48,6 +50,11 @@ function render() {
 
   // render bullets
   bulletPool.render(me, bullets);
+
+  // render items
+  itemPool.render(me, items);
+
+  console.log(itemPool.sprites.length);
 }
 
 // ==============================================

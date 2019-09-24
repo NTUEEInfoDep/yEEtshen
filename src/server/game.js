@@ -1,4 +1,3 @@
-
 const Constants = require('../shared/constants');
 const Player = require('./player');
 const { applyCollisions, itemCollisions, itemEventCollisions, playerCollisions } = require('./collisions');
@@ -13,7 +12,7 @@ class Game {
     this.itemEvents = [];
 
     // add test sword
-    const testItem = new Items.FreezeBomb(Constants.MAP_SIZE / 3, Constants.MAP_SIZE / 3);
+    const testItem = new Items.Healbag(Constants.MAP_SIZE / 3, Constants.MAP_SIZE / 3);
     this.addItem(testItem);
 
     this.lastUpdateTime = Date.now();

@@ -3,7 +3,7 @@ module.exports = Object.freeze({
   PLAYER_MAX_HP: 100,
   PLAYER_SPEED: 400,
   PLAYER_FIRE_COOLDOWN: 0.25,
-  PLAYER_ROTATION_SPEED: 5 * Math.PI / 180, 
+  PLAYER_ROTATION_SPEED: 5 * Math.PI / 180,
 
   PLAYER_STATE_PARAMETERS: {
     FREEZE_DURATION: 3000,
@@ -20,18 +20,7 @@ module.exports = Object.freeze({
   BULLET_DAMAGE: 10,
 
   ITEM_RADIUS: 20,
-  ITEM_IMAGES: {
-    ITEM: 'happy.svg',
-    HEALBAG: 'heart.svg',
-    SHIELD: 'shield.svg',
-    BOMB: 'malware.svg',
-    LIGHTSWORD: 'lightSword.png',
 
-    // When shield used and taking effect, render this image
-    SHIELD_USED: 'shield_used.svg',
-    // when bomb used, render this image
-    BOMB_USED: 'flammable.svg',
-  },
   ITEMS_PARAMETERS: {
     HEALBAG_HEAL_HP: 20,
     SHIELD_LAST_TIME: 5, // seconds

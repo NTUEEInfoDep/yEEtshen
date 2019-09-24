@@ -22,8 +22,6 @@ export default class PlayerPool extends SpritePool {
     sprite.anchor.x = 0.5;
     sprite.anchor.y = 0.5;
     sprite.rotation = direction;
-
-    this.app.stage.addChild(sprite);
   }
 
   setSingle(me, player, index) {

@@ -40,6 +40,7 @@ export default class SpritePool {
   addSprite(texture) {
     const sprite = new PIXI.Sprite(texture);
     this.sprites.push(sprite);
+    this.app.stage.addChild(sprite);
     return sprite;
   }
 
