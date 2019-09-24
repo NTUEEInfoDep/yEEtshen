@@ -1,4 +1,5 @@
 import SpritePool from './spritepool';
+import HealthBar from './healthbar';
 
 const { PLAYER_RADIUS } = require('../../shared/constants');
 
@@ -22,10 +23,14 @@ export default class PlayerPool extends SpritePool {
     sprite.anchor.x = 0.5;
     sprite.anchor.y = 0.5;
     sprite.rotation = direction;
+
+    // health bar
+    const healthbar = HealthBar.newHealthBar();
+    sprite.addChild(healthbar);
   }
 
   setSingle(me, player, index) {
-    const { x, y, direction } = player;
+    const { x, y, direction, hp } = player;
     const canvas = this.app.view;
     const sprite = this.sprites[index];
 
@@ -33,6 +38,10 @@ export default class PlayerPool extends SpritePool {
     sprite.x = canvas.width / 2 + x - me.x;
     sprite.y = canvas.height / 2 + y - me.y;
     sprite.rotation = direction;
+
+    // health bar
+    const healthbar = sprite.children[0];
+    HealthBar.setHealth(healthbar, hp);
 
     // make it visible
     sprite.visible = true;

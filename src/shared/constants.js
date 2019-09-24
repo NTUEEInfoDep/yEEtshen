@@ -1,5 +1,5 @@
 module.exports = Object.freeze({
-  PLAYER_RADIUS: 20,
+  PLAYER_RADIUS: 25,
   PLAYER_MAX_HP: 10,
   PLAYER_SPEED: 400,
   PLAYER_FIRE_COOLDOWN: 0.25,
@@ -22,7 +22,7 @@ module.exports = Object.freeze({
   ITEM_RADIUS: 20,
 
   ITEMS_PARAMETERS: {
-    HEALBAG_HEAL_HP: 20,
+    HEALBAG_HEAL_HP: 2,
     SHIELD_LAST_TIME: 5, // seconds
     SHOTGUN_BULLET_NUMBER: 30
   },

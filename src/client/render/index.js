@@ -11,8 +11,9 @@ const Constants = require('../../shared/constants');
 // ==============================================
 
 const app = new PIXI.Application({
-  backgroundColor: 0xff0000,
+  backgroundColor: 0x000000,
   forceCanvas: true,
+  antialias: true,
 });
 
 const canvas = app.view;
@@ -53,8 +54,6 @@ function render() {
 
   // render items
   itemPool.render(me, items);
-
-  console.log(itemPool.sprites.length);
 }
 
 // ==============================================
