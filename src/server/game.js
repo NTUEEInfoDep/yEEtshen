@@ -14,6 +14,8 @@ class Game {
     // add test sword
     const testItem = new Items.Healbag(Constants.MAP_SIZE / 3, Constants.MAP_SIZE / 3);
     this.addItem(testItem);
+    const testItem1 = new Items.Shield(Constants.MAP_SIZE / 6, Constants.MAP_SIZE / 3);
+    this.addItem(testItem1);
 
     this.lastUpdateTime = Date.now();
     this.shouldSendUpdate = false;
