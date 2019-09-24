@@ -1,5 +1,6 @@
 import * as PIXI from 'pixi.js';
 
+import device from 'current-device';
 import { debounce } from 'throttle-debounce';
 import { getCurrentState } from '../state';
 
@@ -44,12 +45,14 @@ const bulletPool = new BulletPool(app);
 const itemPool = new ItemPool(app);
 
 // render button if mobile: todo: check mobile
-rightBtn.setpos(200, 100);
-leftBtn.setpos(100, 100);
-fireBtn.setpos(0, 100);
-app.stage.addChild(rightBtn.btnSprite);
-app.stage.addChild(leftBtn.btnSprite);
-app.stage.addChild(fireBtn.btnSprite);
+if (device.mobile()) {
+  rightBtn.setpos(200, 100);
+  leftBtn.setpos(100, 100);
+  fireBtn.setpos(0, 100);
+  app.stage.addChild(rightBtn.btnSprite);
+  app.stage.addChild(leftBtn.btnSprite);
+  app.stage.addChild(fireBtn.btnSprite);
+}
 
 // When playing.
 function render() {
