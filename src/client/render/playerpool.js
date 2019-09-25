@@ -1,7 +1,67 @@
+import * as PIXI from 'pixi.js';
 import SpritePool from './spritepool';
-import HealthBar from './healthbar';
 
-const { PLAYER_RADIUS } = require('../../shared/constants');
+const { PLAYER_RADIUS, PLAYER_MAX_HP } = require('../../shared/constants');
+
+// ============================================
+
+class HealthBar {
+  // initialize hyperparameters
+  static initialize() {
+    this.width = 4 * PLAYER_RADIUS;
+    this.height = 8;
+    this.interval = this.width / PLAYER_MAX_HP;
+    this.offsetX = -(this.width/2);
+    this.offsetY = 1.5 * PLAYER_RADIUS;
+  }
+
+  // Use PIXI.Graphics draw a health bar and return it.
+  static newHealthBar() {
+    // Initialize
+    this.initialize();
+
+    // health bar
+    const healthbar = new PIXI.Container();
+
+    // health
+    const health = new PIXI.Graphics();
+    health.beginFill(0xff0000);
+    health.lineStyle(1, 0, 0);
+    health.drawRect(0, 0, this.width, this.height);
+    health.endFill();
+    healthbar.addChild(health);
+
+    // border
+    const border = new PIXI.Graphics();
+    border.beginFill(0, 0);
+    border.lineStyle(1, 0x000000);
+    border.drawRect(0, 0, this.width, this.height);
+    border.endFill();
+    healthbar.addChild(border);
+
+    // dividing line
+    for (let i = 1; i < PLAYER_MAX_HP; i++) {
+      const divLine = new PIXI.Graphics();
+      divLine.lineStyle(1, 0x000000);
+      divLine.moveTo(i * this.interval, 0);
+      divLine.lineTo(i * this.interval, this.height);
+      healthbar.addChild(divLine);
+    }
+
+    // adjust the position
+    healthbar.x = this.offsetX;
+    healthbar.y = this.offsetY;
+
+    return healthbar;
+  }
+
+  // Set the health of a health bar
+  static setHealth(healthbar, num) {
+    healthbar.children[0].width = num * this.interval;
+  }
+}
+
+// ============================================
 
 export default class PlayerPool extends SpritePool {
   constructor(app) {
@@ -12,10 +72,11 @@ export default class PlayerPool extends SpritePool {
   }
 
   addSingle(me, player) {
-    const { x, y, direction } = player;
+    const { x, y, direction, username } = player;
     const canvas = this.app.view;
     const sprite = this.addSprite(this.textures['player']);
 
+    // set position and direction
     sprite.x = canvas.width / 2 + x - me.x;
     sprite.y = canvas.height / 2 + y - me.y;
     sprite.width = 2 * PLAYER_RADIUS;
@@ -27,6 +88,11 @@ export default class PlayerPool extends SpritePool {
     // health bar
     const healthbar = HealthBar.newHealthBar();
     sprite.addChild(healthbar);
+
+    // username
+    // const usernameText = new PIXI.Text(username);
+    // const usernameOffsetX =
+    // sprite.addChild(usernameText);
   }
 
   setSingle(me, player, index) {
