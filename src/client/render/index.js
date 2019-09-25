@@ -82,6 +82,15 @@ function render() {
 
   // render items
   itemPool.render(me, items);
+
+  // if(filter) {
+  //   const filter = new PIXI.Graphics();
+  //   app.stage.addChild(filter);
+  //   filter.beginFill(0x000000);
+  //   filter.drawRect(0, 0, MAP_SIZE, MAP_SIZE);
+  //   filter.endFill();
+  //   filter.alpha = 0.5;
+  // }
 }
 
 // When not playing.

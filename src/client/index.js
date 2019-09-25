@@ -5,6 +5,7 @@ import { initState } from './state';
 import { setLeaderboardHidden } from './leaderboard';
 import { setBroadcastBoardHidden } from './broadcast';
 
+import * as PIXI from 'pixi.js';
 import './css/main.css';
 
 const playMenu = document.getElementById('play-menu');
@@ -23,6 +24,10 @@ let username = "";
 connect(onGameOver)
 .then(() => {
   playMenu.classList.remove('hidden');
+  // render virtual player
+  showVirtualPlayer();
+  // =================================
+  // keyin username
   usernameInput.focus();
   // click the playButton or press Enter to start playing
   playButton.onclick = playSetup;
@@ -31,6 +36,7 @@ connect(onGameOver)
     // Enter key event code == 13
     if (e.which == 13) { playSetup(); }
   };
+  
 }).catch(console.error);
 
 function onGameOver(message) {
@@ -53,6 +59,7 @@ function playSetup() {
     return;
   }
   username = usernameInput.value;
+  hideVirtualPalyer();
   play(usernameInput.value);
   playMenu.classList.add('hidden');
   initState();
@@ -71,4 +78,24 @@ function replaySetup() {
   startRendering();
   setLeaderboardHidden(false);
   setBroadcastBoardHidden(false);
+}
+
+
+const showVirtualPlayer = () => {
+
+  play('virtual', true);
+  initState();
+  startRendering();
+
+  
+  // setBroadcastHidden(false);
+
+  // when entering the start menu, render the virtual player as backbround
+}
+
+const hideVirtualPalyer = () => {
+  stopCapturingInput();
+  stopRendering();
+  // when leaving the start menu, hide the virtual player
+
 }

@@ -41,9 +41,9 @@ io.on('connection', socket => {
 // Setup the Game
 const game = new Game();
 
-function joinGame(username) {
+function joinGame(username, virtual) {
   let spriteIdx = Math.floor(13 * Math.random()) + 1;
-  game.addPlayer(this, username, spriteIdx);
+  game.addPlayer(this, username, spriteIdx, virtual);
 }
 
 function handleInput(dir) {

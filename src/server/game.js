@@ -24,12 +24,23 @@ class Game {
     setInterval(this.update.bind(this), 1000 / 60);
   }
 
-  addPlayer(socket, username, spriteIdx) {
+  addPlayer(socket, username, spriteIdx, virtual = false) {
     this.sockets[socket.id] = socket;
     // Generate a position to start this player at.
     const x = Constants.MAP_SIZE * (0.25 + Math.random() * 0.5);
     const y = Constants.MAP_SIZE * (0.25 + Math.random() * 0.5);
     this.players[socket.id] = new Player(socket.id, username, x, y, spriteIdx);
+
+    if(virtual) {
+      const x = Constants.MAP_SIZE * 0.25;
+      const y = Constants.MAP_SIZE * 0.25;
+      this.players[socket.id] = new Player(socket.id, username, x, y);
+      this.players[socket.id].speed = 0;
+    } else {
+      const x = Constants.MAP_SIZE * (0.25 + Math.random() * 0.5);
+      const y = Constants.MAP_SIZE * (0.25 + Math.random() * 0.5);  
+      this.players[socket.id] = new Player(socket.id, username, x, y);  
+    }
   }
 
   removePlayer(socket) {
