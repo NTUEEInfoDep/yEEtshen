@@ -1,7 +1,8 @@
 import { debounce } from 'throttle-debounce';
 import { getCurrentState } from '../state';
 import * as PIXI from 'pixi.js';
-import * as Background from './background';
+import Background from './background';
+import Minimap from './minimap';
 import  BulletPool  from './bulletpool';
 import PlayerPool from './playerpool';
 import ItemPool from './itempool';
@@ -32,19 +33,25 @@ window.addEventListener('resize', debounce(40, setCanvasDimensions));
 
 // ===============================================
 
-Background.initialize(app);
+// background and minimap
+const background = new Background(app);
+const minimap = new Minimap(app);
 
-// create SpritePool
+// sprite pools
 const playerPool = new PlayerPool(app);
 const bulletPool = new BulletPool(app);
 const itemPool = new ItemPool(app);
 
+// When playing.
 function render() {
   const { me, others, bullets, items } = getCurrentState();
   if (!me) { return; }
 
   // render background
-  Background.renderWhenPlay(me);
+  background.render(me);
+
+  // render minimap
+  minimap.render(me, others);
 
   // render all players
   playerPool.render(me, others);
@@ -56,9 +63,15 @@ function render() {
   itemPool.render(me, items);
 }
 
-// ==============================================
+// When not playing.
+function renderWhenNotPlaying() {
+  background.renderWhenNotPlaying();
+  minimap.renderWhenNotPlaying();
+}
 
-let renderInterval = setInterval(Background.renderWhenMainMenu, 1000 / 60);
+// ===============================================
+
+let renderInterval = setInterval(renderWhenNotPlaying, 1000 / 60);
 
 // Replaces main menu rendering with game rendering.
 export function startRendering() {
@@ -69,5 +82,5 @@ export function startRendering() {
 // Replaces game rendering with main menu rendering.
 export function stopRendering() {
   clearInterval(renderInterval);
-  renderInterval = setInterval(Background.renderWhenMainMenu, 1000 / 60);
+  renderInterval = setInterval(renderWhenNotPlaying, 1000 / 60);
 }

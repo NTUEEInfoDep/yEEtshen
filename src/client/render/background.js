@@ -5,7 +5,7 @@ const MAP_SIZE = Constants.MAP_SIZE;
 
 // ===========================================
 
-class BackgroundRenderer {
+export default class Background {
   constructor(app) {
     this.canvas = app.view;
 
@@ -21,33 +21,15 @@ class BackgroundRenderer {
     background.endFill();
   }
 
-  // When the main menu show up.
-  renderWhenMainMenu() {
+  // When not playing.
+  renderWhenNotPlaying() {
     this.background.x = -(MAP_SIZE - this.canvas.width) / 2;
     this.background.y = -(MAP_SIZE - this.canvas.height) / 2;
   }
 
-  // When a player is playing the game.
-  renderWhenPlay(player) {
+  // When playing.
+  render(player) {
     this.background.x = this.canvas.width / 2 - player.x;
     this.background.y = this.canvas.height / 2 - player.y;
   }
-}
-
-// ===========================================
-
-let backgroundRenderer = null;
-
-// Create a new BackgroundRenderer instance.
-//   app: PIXI.Application instance
-export function initialize(app) {
-  backgroundRenderer = new BackgroundRenderer(app);
-}
-
-export function renderWhenMainMenu() {
-  backgroundRenderer.renderWhenMainMenu();
-}
-
-export function renderWhenPlay(player) {
-  backgroundRenderer.renderWhenPlay(player);
 }
