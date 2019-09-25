@@ -7,6 +7,7 @@ class Player extends ObjectClass {
   constructor(id, username, x, y, spriteIdx) {
     super(id, x, y, Math.random() * 2 * Math.PI, Constants.PLAYER_SPEED);
     this.username = username;
+    this.visible = true;
     this.hp = Constants.PLAYER_MAX_HP;
     this.fireCooldown = 0;
     this.score = 0;

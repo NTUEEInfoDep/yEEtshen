@@ -26,8 +26,8 @@ export const connect = onGameOver => (
   })
 );
 
-export const play = (username, virtual = false) => {
-  socket.emit(Constants.MSG_TYPES.JOIN_GAME, username, virtual);
+export const play = (username) => {
+  socket.emit(Constants.MSG_TYPES.JOIN_GAME, username);
 };
 
 export const updateRotateSpeed = rotateSpeed => {
@@ -37,3 +37,7 @@ export const updateRotateSpeed = rotateSpeed => {
 export const playerFire = () => {
   socket.emit(Constants.MSG_TYPES.PLAYER_FIRE);
 };
+
+export const virtual = () => {
+  socket.emit(Constants.MSG_TYPES.VIRTUAL);
+}

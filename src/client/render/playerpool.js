@@ -158,8 +158,6 @@ export default class PlayerPool extends SpritePool {
     // username
     const usernameText = this.usernameText.create(username);
     playerContainer.addChild(usernameText);
-
-
   }
 
   setSingle(me, player, index) {
@@ -207,7 +205,6 @@ export default class PlayerPool extends SpritePool {
 
     // make it visible
     playerContainer.visible = true;
-
   }
 
   render(me, others) {

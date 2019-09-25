@@ -23,24 +23,22 @@ class Game {
     this.shouldSendUpdate = false;
     setInterval(this.update.bind(this), 1000 / 60);
   }
+  
+  // add a virtual player for menu background
+  addVirtualPlayer(socket) {
+    const x = Constants.MAP_SIZE * 0.25;
+    const y = Constants.MAP_SIZE * 0.25;
+    this.players[socket.id] = new Player(socket.id, x, y);
+    this.players[socket.id].speed = 0;
+    // this.players[socket.id].visible = false;
+  }
 
-  addPlayer(socket, username, spriteIdx, virtual = false) {
+  addPlayer(socket, username, spriteIdx) {
     this.sockets[socket.id] = socket;
     // Generate a position to start this player at.
     const x = Constants.MAP_SIZE * (0.25 + Math.random() * 0.5);
     const y = Constants.MAP_SIZE * (0.25 + Math.random() * 0.5);
     this.players[socket.id] = new Player(socket.id, username, x, y, spriteIdx);
-
-    if(virtual) {
-      const x = Constants.MAP_SIZE * 0.25;
-      const y = Constants.MAP_SIZE * 0.25;
-      this.players[socket.id] = new Player(socket.id, username, x, y);
-      this.players[socket.id].speed = 0;
-    } else {
-      const x = Constants.MAP_SIZE * (0.25 + Math.random() * 0.5);
-      const y = Constants.MAP_SIZE * (0.25 + Math.random() * 0.5);  
-      this.players[socket.id] = new Player(socket.id, username, x, y);  
-    }
   }
 
   removePlayer(socket) {

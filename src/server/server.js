@@ -32,6 +32,7 @@ const io = socketio(server);
 io.on('connection', socket => {
   console.log('Player connected!', socket.id);
 
+  socket.on(Constants.MSG_TYPES.VIRTUAL, virtual) // listen a signal form virtual()
   socket.on(Constants.MSG_TYPES.JOIN_GAME, joinGame);
   socket.on(Constants.MSG_TYPES.INPUT, handleInput);
   socket.on(Constants.MSG_TYPES.PLAYER_FIRE, handleFire);
@@ -41,9 +42,14 @@ io.on('connection', socket => {
 // Setup the Game
 const game = new Game();
 
-function joinGame(username, virtual) {
+function virtual() {
+  console.log('create virtual user');
+  game.addVirtualPlayer(this);
+}
+
+function joinGame(username) {
   let spriteIdx = Math.floor(13 * Math.random()) + 1;
-  game.addPlayer(this, username, spriteIdx, virtual);
+  game.addPlayer(this, username, spriteIdx);
 }
 
 function handleInput(dir) {

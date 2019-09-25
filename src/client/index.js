@@ -1,4 +1,4 @@
-import { connect, play } from './networking';
+import { connect, play, virtual } from './networking';
 import { startRendering, stopRendering } from './render';
 import { startCapturingInput, stopCapturingInput } from './input';
 import { initState } from './state';
@@ -25,9 +25,8 @@ connect(onGameOver)
 .then(() => {
   playMenu.classList.remove('hidden');
   // render virtual player
-  showVirtualPlayer();
+  createVirtualPlayer();
   // =================================
-  // keyin username
   usernameInput.focus();
   // click the playButton or press Enter to start playing
   playButton.onclick = playSetup;
@@ -59,10 +58,12 @@ function playSetup() {
     return;
   }
   username = usernameInput.value;
-  hideVirtualPalyer();
+  // remove virtual player
+  removeVirtualPlayer();
+  // add a player
+  initState();
   play(usernameInput.value);
   playMenu.classList.add('hidden');
-  initState();
   startCapturingInput();
   startRendering();
   setLeaderboardHidden(false);
@@ -80,22 +81,17 @@ function replaySetup() {
   setBroadcastBoardHidden(false);
 }
 
-
-const showVirtualPlayer = () => {
-
-  play('virtual', true);
+// create a virtual player for menu background
+const createVirtualPlayer = () => {
+  console.log('virtual user');
+  virtual();
   initState();
   startRendering();
-
-  
-  // setBroadcastHidden(false);
-
-  // when entering the start menu, render the virtual player as backbround
 }
 
-const hideVirtualPalyer = () => {
+// remove virtual player when entering the game
+const removeVirtualPlayer = () => {
   stopCapturingInput();
   stopRendering();
-  // when leaving the start menu, hide the virtual player
 
 }

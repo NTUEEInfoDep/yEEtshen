@@ -45,6 +45,7 @@ module.exports = Object.freeze({
 
   MAP_SIZE: 1000,
   MSG_TYPES: {
+    VIRTUAL: 'virtual',
     JOIN_GAME: 'join_game',
     GAME_UPDATE: 'update',
     INPUT: 'input',
