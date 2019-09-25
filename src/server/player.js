@@ -17,7 +17,7 @@ class Player extends ObjectClass {
 
   // Returns a newly created bullet, or null.
   update(dt) {
-    
+
     if( !this.state.freeze ) {
       super.update(dt);
     }
@@ -32,7 +32,7 @@ class Player extends ObjectClass {
     this.x = Math.max(0, Math.min(Constants.MAP_SIZE, this.x));
     this.y = Math.max(0, Math.min(Constants.MAP_SIZE, this.y));
 
-    // update state 
+    // update state
     this.updateState();
 
     // Fire a bullet, if needed
@@ -70,7 +70,7 @@ class Player extends ObjectClass {
       this.hp -= Constants.BULLET_DAMAGE;
     }
   }
-  
+
   //take damage and give score
   takeDamage( damage ) {
     if ( this.state.shield ) {
@@ -120,6 +120,7 @@ class Player extends ObjectClass {
       ...(super.serializeForUpdate()),
       direction: this.direction,
       hp: this.hp,
+      username: this.username,
       item: this.getItemName(),
       state: Object.keys( this.state )
     };

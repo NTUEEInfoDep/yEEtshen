@@ -6,20 +6,18 @@ const { PLAYER_RADIUS, PLAYER_MAX_HP } = require('../../shared/constants');
 // ============================================
 
 class HealthBar {
-  // initialize hyperparameters
-  static initialize() {
+  constructor() {
     this.width = 4 * PLAYER_RADIUS;
     this.height = 8;
     this.interval = this.width / PLAYER_MAX_HP;
+
+    // The offset with respect to the center of the player.
     this.offsetX = -(this.width/2);
     this.offsetY = 1.5 * PLAYER_RADIUS;
   }
 
   // Use PIXI.Graphics draw a health bar and return it.
-  static newHealthBar() {
-    // Initialize
-    this.initialize();
-
+  create() {
     // health bar
     const healthbar = new PIXI.Container();
 
@@ -56,8 +54,28 @@ class HealthBar {
   }
 
   // Set the health of a health bar
-  static setHealth(healthbar, num) {
+  setHealth(healthbar, num) {
     healthbar.children[0].width = num * this.interval;
+  }
+}
+
+// ============================================
+
+class UsernameText {
+  constructor() {
+    // The offset with respect to the center of the player.
+    this.offsetY = 2 * PLAYER_RADIUS;
+  }
+
+  // Return a PIXI.Text instance.
+  create(username) {
+    const usernameText = new PIXI.Text(username);
+
+    // adjust the position
+    usernameText.x = -(usernameText.width)/2;
+    usernameText.y = this.offsetY;
+
+    return usernameText;
   }
 }
 
@@ -69,6 +87,9 @@ export default class PlayerPool extends SpritePool {
       player: 'assets/ship.svg',
     }
     super(app, imagePathHash);
+
+    this.healthbar = new HealthBar();
+    this.usernameText = new UsernameText();
   }
 
   addSingle(me, player) {
@@ -86,13 +107,12 @@ export default class PlayerPool extends SpritePool {
     sprite.rotation = direction;
 
     // health bar
-    const healthbar = HealthBar.newHealthBar();
+    const healthbar = this.healthbar.create();
     sprite.addChild(healthbar);
 
     // username
-    // const usernameText = new PIXI.Text(username);
-    // const usernameOffsetX =
-    // sprite.addChild(usernameText);
+    const usernameText = this.usernameText.create(username);
+    sprite.addChild(usernameText);
   }
 
   setSingle(me, player, index) {
@@ -107,7 +127,7 @@ export default class PlayerPool extends SpritePool {
 
     // health bar
     const healthbar = sprite.children[0];
-    HealthBar.setHealth(healthbar, hp);
+    this.healthbar.setHealth(healthbar, hp);
 
     // make it visible
     sprite.visible = true;
