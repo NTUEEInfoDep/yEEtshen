@@ -65,11 +65,16 @@ class UsernameText {
   constructor() {
     // The offset with respect to the center of the player.
     this.offsetY = 2 * PLAYER_RADIUS;
+
+    this.style = new PIXI.TextStyle({
+      fontSize: 20,
+    });
+
   }
 
   // Return a PIXI.Text instance.
   create(username) {
-    const usernameText = new PIXI.Text(username);
+    const usernameText = new PIXI.Text(username, this.style);
 
     // adjust the position
     usernameText.x = -(usernameText.width)/2;
