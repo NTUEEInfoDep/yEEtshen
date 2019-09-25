@@ -98,13 +98,21 @@ export default class PlayerPool extends SpritePool {
   }
 
   addSingle(me, player) {
+    // The container that holds all stuffs related to player.
+    const playerContainer = new PIXI.Container();
+    this.sprites.push(playerContainer);
+    this.app.stage.addChild(playerContainer);
+
+    // The player sprite
     const { x, y, direction, username } = player;
     const canvas = this.app.view;
-    const sprite = this.addSprite(this.textures['player']);
+    const texture = this.textures['player'];
+    const sprite = new PIXI.Sprite(texture);
+    playerContainer.addChild(sprite);
 
     // set position and direction
-    sprite.x = canvas.width / 2 + x - me.x;
-    sprite.y = canvas.height / 2 + y - me.y;
+    playerContainer.x = canvas.width / 2 + x - me.x;
+    playerContainer.y = canvas.height / 2 + y - me.y;
     sprite.width = 2 * PLAYER_RADIUS;
     sprite.height = 2 * PLAYER_RADIUS;
     sprite.anchor.x = 0.5;
@@ -113,29 +121,30 @@ export default class PlayerPool extends SpritePool {
 
     // health bar
     const healthbar = this.healthbar.create();
-    sprite.addChild(healthbar);
+    playerContainer.addChild(healthbar);
 
     // username
     const usernameText = this.usernameText.create(username);
-    sprite.addChild(usernameText);
+    playerContainer.addChild(usernameText);
   }
 
   setSingle(me, player, index) {
     const { x, y, direction, hp } = player;
     const canvas = this.app.view;
-    const sprite = this.sprites[index];
+    const playerContainer = this.sprites[index];
+    const sprite = playerContainer.children[0];
+    const healthbar = playerContainer.children[1];
 
     // set position and direction
-    sprite.x = canvas.width / 2 + x - me.x;
-    sprite.y = canvas.height / 2 + y - me.y;
+    playerContainer.x = canvas.width / 2 + x - me.x;
+    playerContainer.y = canvas.height / 2 + y - me.y;
     sprite.rotation = direction;
 
     // health bar
-    const healthbar = sprite.children[0];
     this.healthbar.setHealth(healthbar, hp);
 
     // make it visible
-    sprite.visible = true;
+    playerContainer.visible = true;
   }
 
   render(me, others) {
