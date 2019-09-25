@@ -7,13 +7,13 @@ const { PLAYER_RADIUS, PLAYER_MAX_HP } = require('../../shared/constants');
 
 class HealthBar {
   constructor() {
-    this.width = 4 * PLAYER_RADIUS;
-    this.height = 8;
+    this.width = 3 * PLAYER_RADIUS;
+    this.height = 6;
     this.interval = this.width / PLAYER_MAX_HP;
 
     // The offset with respect to the center of the player.
     this.offsetX = -(this.width/2);
-    this.offsetY = 1.5 * PLAYER_RADIUS;
+    this.offsetY = 1.3 * PLAYER_RADIUS;
   }
 
   // Use PIXI.Graphics draw a health bar and return it.
@@ -64,10 +64,10 @@ class HealthBar {
 class UsernameText {
   constructor() {
     // The offset with respect to the center of the player.
-    this.offsetY = 2 * PLAYER_RADIUS;
+    this.offsetY = 1.7 * PLAYER_RADIUS;
 
     this.style = new PIXI.TextStyle({
-      fontSize: 20,
+      fontSize: 16,
     });
 
   }

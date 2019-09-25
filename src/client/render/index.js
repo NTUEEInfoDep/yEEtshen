@@ -11,7 +11,7 @@ const Constants = require('../../shared/constants');
 // ==============================================
 
 const app = new PIXI.Application({
-  backgroundColor: 0x000000,
+  backgroundColor: 0x666666,
   forceCanvas: true,
   antialias: true,
 });
