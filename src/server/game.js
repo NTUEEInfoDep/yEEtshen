@@ -26,9 +26,11 @@ class Game {
   
   // add a virtual player for menu background
   addVirtualPlayer(socket) {
+    this.sockets[socket.id] = socket;
+    
     const x = Constants.MAP_SIZE * 0.25;
     const y = Constants.MAP_SIZE * 0.25;
-    this.players[socket.id] = new Player(socket.id, x, y);
+    this.players[socket.id] = new Player(socket.id, 'VIRTUAL_PLAYER', x, y);
     this.players[socket.id].speed = 0;
     // this.players[socket.id].visible = false;
   }
