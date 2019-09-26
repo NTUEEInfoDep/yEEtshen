@@ -7,7 +7,7 @@ class Player extends ObjectClass {
   constructor(id, username, x, y, spriteIdx) {
     super(id, x, y, Math.random() * 2 * Math.PI, Constants.PLAYER_SPEED);
     this.username = username;
-    this.visible = true;
+    this.virtual = false;
     this.hp = Constants.PLAYER_MAX_HP;
     this.fireCooldown = 0;
     this.score = 0;
@@ -74,7 +74,7 @@ class Player extends ObjectClass {
   // TODO: use takeDamage instead
   takeBulletDamage() {
     // If the player has shield and has use it, take zero damage
-    if ((!this.item) || (this.item.name !== 'SHIELD') || (!this.item.used)) {
+    if ((!this.item) || (this.item.name !== 'SHIELD') || (!this.item.used) || (!this.virtual)) {
       this.hp -= Constants.BULLET_DAMAGE;
     }
   }

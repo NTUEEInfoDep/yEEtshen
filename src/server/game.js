@@ -32,6 +32,7 @@ class Game {
     const y = Constants.MAP_SIZE * 0.25;
     this.players[socket.id] = new Player(socket.id, 'VIRTUAL_PLAYER', x, y);
     this.players[socket.id].speed = 0;
+    this.players[socket.id].virtual = true;
     // this.players[socket.id].visible = false;
   }
 
