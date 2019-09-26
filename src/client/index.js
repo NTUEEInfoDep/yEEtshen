@@ -3,6 +3,7 @@ import { startRendering, stopRendering } from './render';
 import { startCapturingInput, stopCapturingInput } from './input';
 import { initState } from './state';
 import { setLeaderboardHidden } from './leaderboard';
+import { setBroadcastBoardHidden } from './broadcast';
 
 import './css/main.css';
 
@@ -28,6 +29,7 @@ function onGameOver() {
   stopRendering();
   playMenu.classList.remove('hidden');
   setLeaderboardHidden(true);
+  setBroadcastBoardHidden(true);
 }
 
 // set up for playing
@@ -38,4 +40,5 @@ function playSetup() {
   startCapturingInput();
   startRendering();
   setLeaderboardHidden(false);
+  setBroadcastBoardHidden(false);
 }

@@ -11,6 +11,8 @@ class Game {
     this.items = [];
     this.itemEvents = [];
 
+    this.testNum = 0;
+
     // add test sword
     const testItem = new Items.Healbag(Constants.MAP_SIZE / 3, Constants.MAP_SIZE / 3);
     this.addItem(testItem);
@@ -95,6 +97,8 @@ class Game {
     const playerIDs = Object.keys(this.sockets);
     this.lastUpdateTime = now;
 
+    this.testNum += 1;
+
     // Update each bullet
     this.bullets = this.bullets.filter(bullet => !bullet.update(dt));
 
@@ -178,6 +182,10 @@ class Game {
       e => e.distanceTo(player) <= Constants.MAP_SIZE / 2,
     );
 
+    let broadcasts = [];
+    if (this.testNum % 23 === 0) {
+      broadcasts = ['test' + this.testNum.toString()];
+    }
 
     return {
       t: Date.now(),
@@ -187,6 +195,7 @@ class Game {
       items: nearbyItems.map(i => i.serializeForUpdate()),
       itemEvents: nearbyItemEvents.map(e => e.serializeForUpdate()),
       leaderboard,
+      broadcasts,
     };
   }
 }
