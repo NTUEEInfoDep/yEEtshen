@@ -10,10 +10,31 @@ export function setBroadcastBoardHidden(hidden) {
 }
 
 export function addBroadcast(broadcasts) {
+  // Note: `liInterval` MUST be the multiple of `dx`
+  const liInterval = 35; // The distance between two <li> elements
+  const dx = 1; // The distance to move down in every interval
+
   for (let broadcast of broadcasts) {
     let li = document.createElement("li");
     li.innerHTML = broadcast;
+    li.topNum = 0; // The variable that store "style.top" in type of Number
     ul.insertBefore(li, ul.firstChild);
+
+    for (let i = 1; i < ul.children.length; i++) {
+      const child = ul.children[i];
+      child.style.top = child.topNum.toString() + "px";
+
+      // move down
+      setTimeout(moveDown, 10);
+
+      function moveDown() {
+        child.topNum += dx;
+        child.style.top = child.topNum.toString() + "px";
+        if (child.topNum % liInterval !== 0) {
+          setTimeout(moveDown, 10);
+        }
+      }
+    }
   }
 
   // After 10 seconds, delete the <li> element

@@ -65,6 +65,14 @@ button:focus {
   outline: none;
 }
 
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
 @keyframes fadeOut {
   0% {
     opacity: 1;
@@ -84,15 +92,17 @@ button:focus {
   padding: 0;
 }
 #broadcast-board ul li {
+  position: absolute;
   display: table;
-  background-color: rgba(255, 255, 255, 0.5);
-  margin: 8px;
+  color: #ffffff;
+  background-color: rgba(0, 0, 0, 0.5);
+  margin: 4px;
   border-radius: 5px;
   padding: 4px 10px;
-  animation-name: fadeOut;
-  animation-delay: 5s;
-  animation-duration: 2s;
-  animation-fill-mode: forwards;
+  animation-name: fadeIn, fadeOut;
+  animation-delay: 0s, 5s;
+  animation-duration: 1s, 2s;
+  animation-fill-mode: forwards, forwards;
 }
 
 #leaderboard {

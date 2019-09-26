@@ -183,8 +183,14 @@ class Game {
     );
 
     let broadcasts = [];
-    if (this.testNum % 23 === 0) {
-      broadcasts = ['test' + this.testNum.toString()];
+    if (this.testNum % 40 === 0) {
+      if (this.testNum % 80 === 0) {
+        broadcasts = ['testtesfdsf&nbsp;tetestfdsfsd&nbsp;ffdsfasdfsaf&nbsp;dsdfafdsafasd' + this.testNum.toString()];
+      } else if (this.testNum % 120 === 0) {
+        broadcasts = ['tetestfdsfsd&nbsp;ffdsfasdfsaf&nbsp;dsdfafdsafasd' + this.testNum.toString()];
+      } else {
+        broadcasts = ['tedsfsd&nbsp;ffdsfasdfsaf&nbsp;dsdfafdsafasd' + this.testNum.toString()];
+      }
     }
 
     return {
