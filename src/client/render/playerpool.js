@@ -210,17 +210,15 @@ export default class PlayerPool extends SpritePool {
   render(me, others) {
     const otherCount = others.length;
     const poolLength = this.sprites.length;
-
+    console.log(me)
     // hide original objects
     this.hideMany(this.lastShowNum);
-
     // set or add me and show
     if (poolLength) {
       this.setSingle(me, me, 0);
     } else {
       this.addSingle(me, me);
     }
-
     // set or add others and show them
     for (let i = 0; i < otherCount; i++) {
       if ((i + 1) < poolLength) {

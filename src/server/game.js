@@ -16,8 +16,8 @@ class Game {
 
     this.broadcasts = [];
 
-    this.virtualPlayers = {};
-    this.virtualPlayer = new Obj('virtual', Constants.MAP_SIZE * 0.25, Constants.MAP_SIZE * 0.25, 0);
+    // this.virtualPlayers = {}; 
+    this.virtualPlayer = new Player('virtual', 'virtual', Constants.MAP_SIZE * 0.25, Constants.MAP_SIZE * 0.25, 0);
     this.virtualSockets = {};
 
     // add test sword
