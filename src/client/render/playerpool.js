@@ -82,6 +82,14 @@ class UsernameText {
 
     return usernameText;
   }
+
+  // Update the text of the username
+  update(usernameText, username) {
+    usernameText.text = username;
+
+    // adjust the position
+    usernameText.x = -(usernameText.width)/2;
+  }
 }
 
 // ============================================
@@ -129,11 +137,12 @@ export default class PlayerPool extends SpritePool {
   }
 
   setSingle(me, player, index) {
-    const { x, y, direction, hp } = player;
+    const { x, y, direction, username, hp } = player;
     const canvas = this.app.view;
     const playerContainer = this.sprites[index];
     const sprite = playerContainer.children[0];
     const healthbar = playerContainer.children[1];
+    const usernameText = playerContainer.children[2];
 
     // set position and direction
     playerContainer.x = canvas.width / 2 + x - me.x;
@@ -142,6 +151,9 @@ export default class PlayerPool extends SpritePool {
 
     // health bar
     this.healthbar.setHealth(healthbar, hp);
+
+    // username
+    this.usernameText.update(usernameText, username);
 
     // make it visible
     playerContainer.visible = true;
