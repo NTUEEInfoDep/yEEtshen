@@ -2,6 +2,7 @@ const Constants = require('../shared/constants');
 const Utils = require('../shared/utils');
 
 const Player = require('./player');
+const Obj = require('./object');
 const { applyCollisions, itemCollisions, itemEventCollisions, playerCollisions } = require('./collisions');
 const Items = require('./Items/');
 
@@ -9,6 +10,8 @@ class Game {
   constructor() {
     this.sockets = {};
     this.players = {};
+    this.virtualPlayers = {};
+    this.virtualSockets = {};
     this.bullets = [];
     this.items = [];
     this.itemEvents = [];
@@ -26,14 +29,18 @@ class Game {
   
   // add a virtual player for menu background
   addVirtualPlayer(socket) {
-    this.sockets[socket.id] = socket;
+    this.virtualSockets[socket.id] = socket;
+    // this.sockets[socket.id] = socket;
     
     const x = Constants.MAP_SIZE * 0.25;
     const y = Constants.MAP_SIZE * 0.25;
-    this.players[socket.id] = new Player(socket.id, 'VIRTUAL_PLAYER', x, y);
-    this.players[socket.id].speed = 0;
-    this.players[socket.id].virtual = true;
-    // this.players[socket.id].visible = false;
+    this.virtualPlayers[socket.id] = new Obj(socket.id, x, y, 0, 0);
+  }
+
+  // remove virtual player when entering the game
+  removeVirtualPlayer(socket) {
+    delete this.virtualSockets[socket.id];
+    delete this.virtualPlayers[socket.id];
   }
 
   addPlayer(socket, username, spriteIdx) {
@@ -106,7 +113,14 @@ class Game {
     const now = Date.now();
     const dt = (now - this.lastUpdateTime) / 1000; // seconds
     const playerIDs = Object.keys(this.sockets);
+    const virtualPlayerIDs = Object.keys(this.virtualSockets)
     this.lastUpdateTime = now;
+
+    // update virtual players
+    virtualPlayerIDs.forEach(virtualPlayerID => {
+      const virtualPlayer = this.virtualPlayers[virtualPlayerID];
+      virtualPlayer.update(dt);
+    })
 
     // Update each bullet
     this.bullets = this.bullets.filter(bullet => !bullet.update(dt));
@@ -183,6 +197,13 @@ class Game {
         const player = this.players[playerID];
         socket.emit(Constants.MSG_TYPES.GAME_UPDATE, this.createUpdate(player, leaderboard));
       });
+      // bug !!!!!!!!!!!!!!!!!!!!!!!!
+      Object.keys(this.virtualSockets).forEach(virtualPlayerID => {
+        const socket = this.virtualSockets[virtualPlayerID];
+        const virtualPlayer = this.virtualPlayers[virtualPlayerID];
+        // bug !!!!!!!!!!!!!!!!!!!!!!!
+        socket.emit(Constants.MSG_TYPES.VIRTUAL_GAME_UPDATE, this.createUpdate(virtualPlayer, leaderboard));
+      })
       this.shouldSendUpdate = false;
     } else {
       this.shouldSendUpdate = true;

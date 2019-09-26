@@ -14,6 +14,7 @@ const connectedPromise = new Promise(resolve => {
 export const connect = onGameOver => (
   connectedPromise.then(() => {
     // Register callbacks
+    socket.on(Constants.MSG_TYPES.VIRTUAL_GAME_UPDATE, processGameUpdate, true)
     socket.on(Constants.MSG_TYPES.GAME_UPDATE, processGameUpdate);
     socket.on(Constants.MSG_TYPES.GAME_OVER, onGameOver);
     socket.on('disconnect', () => {
@@ -40,4 +41,8 @@ export const playerFire = () => {
 
 export const virtual = () => {
   socket.emit(Constants.MSG_TYPES.VIRTUAL);
+}
+
+export const destroyVirtual = () => {
+  socket.emit(Constants.MSG_TYPES.DESTROY_VIRTUAL)
 }

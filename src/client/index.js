@@ -1,4 +1,4 @@
-import { connect, play, virtual } from './networking';
+import { connect, play, virtual, destroyVirtual } from './networking';
 import { startRendering, stopRendering } from './render';
 import { startCapturingInput, stopCapturingInput } from './input';
 import { initState } from './state';
@@ -24,7 +24,7 @@ let username = "";
 connect(onGameOver)
 .then(() => {
   playMenu.classList.remove('hidden');
-  // render virtual player
+  // create virtual player
   createVirtualPlayer();
   // =================================
   usernameInput.focus();
@@ -83,7 +83,7 @@ function replaySetup() {
 
 // create a virtual player for menu background
 const createVirtualPlayer = () => {
-  console.log('virtual user');
+  console.log('create virtual user');
   virtual();
   initState();
   startRendering();
@@ -91,7 +91,8 @@ const createVirtualPlayer = () => {
 
 // remove virtual player when entering the game
 const removeVirtualPlayer = () => {
+  console.log('remove virtual player');
+  destroyVirtual();
   stopCapturingInput();
   stopRendering();
-
 }

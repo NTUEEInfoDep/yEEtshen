@@ -14,7 +14,7 @@ export function initState() {
   firstServerTimestamp = 0;
 }
 
-export function processGameUpdate(update) {
+export function processGameUpdate(update, virtual = false) {
   if (!firstServerTimestamp) {
     firstServerTimestamp = update.t;
     gameStart = Date.now();
@@ -24,7 +24,12 @@ export function processGameUpdate(update) {
   updateLeaderboard(update.leaderboard);
 
   addBroadcast(update.broadcasts);
-
+  
+  if(!virtual){
+    updateLeaderboard(update.leaderboard);
+    updateBroadcast(update.leaderboard);
+  }
+  
   // Keep only one game update before the current server time
   const base = getBaseUpdate();
   if (base > 0) {

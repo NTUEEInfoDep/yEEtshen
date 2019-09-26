@@ -33,6 +33,7 @@ io.on('connection', socket => {
   console.log('Player connected!', socket.id);
 
   socket.on(Constants.MSG_TYPES.VIRTUAL, virtual) // listen a signal form virtual()
+  socket.on(Constants.MSG_TYPES.DESTROY_VIRTUAL, destroyVirtual)
   socket.on(Constants.MSG_TYPES.JOIN_GAME, joinGame);
   socket.on(Constants.MSG_TYPES.INPUT, handleInput);
   socket.on(Constants.MSG_TYPES.PLAYER_FIRE, handleFire);
@@ -47,8 +48,14 @@ function virtual() {
   game.addVirtualPlayer(this);
 }
 
+function destroyVirtual() {
+  console.log('destroy virtual user');
+  game.removeVirtualPlayer(this);
+}
+
 function joinGame(username) {
   let spriteIdx = Math.floor(13 * Math.random()) + 1;
+  console.log('add a new player');
   game.addPlayer(this, username, spriteIdx);
 }
 
