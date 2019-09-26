@@ -49,7 +49,4 @@ module.exports = Object.freeze({
     PLAYER_FIRE: 'fire',
     GAME_OVER: 'dead',
   },
-  MONITOR_PIXEL_OFFSET: 2,
-  MONITOR_SIZE: 100,
-  MONITOR_MARGIN: 10,
 });

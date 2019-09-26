@@ -2,7 +2,6 @@ import { debounce } from 'throttle-debounce';
 import { getCurrentState } from '../state';
 import * as PIXI from 'pixi.js';
 import Background from './background';
-import Minimap from './minimap';
 import  BulletPool  from './bulletpool';
 import PlayerPool from './playerpool';
 import ItemPool from './itempool';
@@ -33,9 +32,8 @@ window.addEventListener('resize', debounce(40, setCanvasDimensions));
 
 // ===============================================
 
-// background and minimap
+// background
 const background = new Background(app);
-const minimap = new Minimap(app);
 
 // sprite pools
 const playerPool = new PlayerPool(app);
@@ -50,9 +48,6 @@ function render() {
   // render background
   background.render(me);
 
-  // render minimap
-  minimap.render(me, others);
-
   // render all players
   playerPool.render(me, others);
 
@@ -66,7 +61,6 @@ function render() {
 // When not playing.
 function renderWhenNotPlaying() {
   background.renderWhenNotPlaying();
-  minimap.renderWhenNotPlaying();
 }
 
 // ===============================================
