@@ -6,6 +6,21 @@ html, body {
   background-color: black;
 }
 
+@font-face {
+  font-family: "Sugarpunch";
+  src: url("/fonts/sugarpunch.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "Transformers";
+  src: url("/fonts/transformers.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "GeosansLight";
+  src: url("/fonts/GeosansLight.ttf") format("truetype");
+}
+
 canvas {
   width: 100%;
   height: 100%;
@@ -24,6 +39,7 @@ button {
   padding: 5px 20px;
   border-radius: 3px;
   transition: background-color 0.2s ease;
+  font-family: "Sugarpunch";
 
   &:hover {
     background-color: rgb(230, 230, 230);
@@ -43,16 +59,56 @@ button {
   top: 50%;
   left: 50%;
   transform: translateY(-50%) translateX(-50%);
-  padding: 20px 30px;
+  padding: 50px 50px;
   background-color: white;
   display: flex;
   flex-direction: column;
   align-items: center;
   border-radius: 5px;
   text-align: center;
+  
+  #header {
+    font-family: "Sugarpunch";
+    #title {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+    }
+    #subtitle {
+      font-size: 1.5rem;
+    }
+  }
 
   p {
     margin-bottom: 0;
+    font-family: "GeosansLight";
+    font-size: 1.5rem;
+    line-height: 2rem;
+    img {
+      height: 1.5rem;
+    }
+  }
+
+  #links {
+    font-family: "GeosansLight";
+    font-size: 1.5rem;
+    line-height: 2rem;
+    img {
+      height: 1.5rem;
+    }
+    #github {
+      height: 3rem;
+    }
+    #creator{
+      margin-top: 0.5rem;
+    }
+    #infodep {
+      font-family: "GeosansLight";
+      a {
+        text-decoration: none !important;
+        color: black;
+        font-weight: bold;
+      }
+    }
   }
 
   input {

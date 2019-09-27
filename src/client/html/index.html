@@ -7,6 +7,7 @@
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
     <link rel="shortcut icon" href="/assets/icon64.png" />
+    <link rel="stylesheet" href="/node_modules/animate.css/animate.min.css" />
     <meta
       property="description"
       content="Multiplayer game for NTUEE Week yEEt."
@@ -20,24 +21,29 @@
   </head>
   <body>
     <div id="play-menu" class="hidden">
-      <h1>yEEtsheng -- <br />NTUEE&nbsp;Week&nbsp;yEEt</h1>
+      <div id="header">
+        <div id="title">yEEtshen</div>
+        <div id="subtitle">-&nbsp;NTUEE&nbsp;Week&nbsp;yEEt&nbsp;-</div>
+      </div>
       <p>
-        Stay alive and shoot other players.
+        Shoot other players and stay alive.
         <br />
         Use left and right to rotate, space to shoot.
       </p>
-      <hr />
-      <p>
-        <br />
-        See the source code on
-        <a href="https://github.com/NTUEEInfoDep/yEEtshen" target="_blank"
-          >Github</a
-        >.
-        <br />
-        Created by NTUEEInfoDep<a href=""></a>.
-      </p>
-      <hr />
-      <input type="text" id="username-input" placeholder="Username" maxlength="25" />
+      <br/>
+
+      <div id="links">
+        <a href="https://github.com/NTUEEInfoDep/yEEtshen"><img id="github" src="/assets/octocat.png"/></a>
+        <div id="creator">
+            Created by 
+            <span id="infodep">
+                <a href="https://github.com/NTUEEInfoDep">NTUEEInfoDep&nbsp;</a>
+            </span>
+        </div>
+      </div>
+
+      <br/>
+      <input type="text" id="username-input" placeholder="Username" />
       <button id="play-button">PLAY</button>
     </div>
     <div id="broadcast-board" class="hidden">
@@ -74,10 +80,10 @@
     </div>
     <div id="gameover-board" class="hidden">
       <h1>Game Over!</h1>
-      <p id="name-message"></p>
       <p id="killed-message"></p>
       <p id="score-message"></p>
       <hr />
+      <input type="text" id="replay-username-input" placeholder="Username" />
       <button id="replay-button">PLAY AGAIN</button>
     </div>
     <div id="disconnect-modal" class="hidden">
