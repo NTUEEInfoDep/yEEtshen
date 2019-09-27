@@ -15,6 +15,9 @@ const gameoverBoard = document.getElementById('gameover-board');
 const replayButton = document.getElementById('replay-button');
 const replayUsernameInput = document.getElementById('replay-username-input');
 
+const killedMessage = document.getElementById('killed-message');
+const scoreMessage = document.getElementById('score-message');
+
 connect(onGameOver)
 .then(() => {
   playMenu.classList.remove('hidden');
@@ -33,10 +36,16 @@ connect(onGameOver)
   };
 }).catch(console.error);
 
-function onGameOver() {
+function onGameOver(message) {
   stopCapturingInput();
   stopRendering();
+
+  killedMessage.innerHTML =
+    "You've been killed by <b>" + message.killedBy + "</b>.";
+  scoreMessage.innerHTML =
+    "Your score is <b>" + message.score.toString() + "</b>.";
   gameoverBoard.classList.remove('hidden');
+
   setLeaderboardHidden(true);
   setBroadcastBoardHidden(true);
 }
