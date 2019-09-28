@@ -37,12 +37,9 @@ function onGameOver(message) {
   stopCapturingInput();
   stopRendering();
 
-  nameMessage.innerHTML =
-    "Your name is <b>" + message.name + "</b>.";
-  killedMessage.innerHTML =
-    "You've been killed by <b>" + message.killedBy + "</b>.";
-  scoreMessage.innerHTML =
-    "Your score is <b>" + message.score.toString() + "</b>.";
+  nameMessage.textContent = message.name;
+  killedMessage.textContent = message.killedBy;
+  scoreMessage.textContent = message.score.toString();
   gameoverBoard.classList.remove('hidden');
 
   setLeaderboardHidden(true);

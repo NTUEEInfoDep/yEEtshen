@@ -7,7 +7,6 @@
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
     <link rel="shortcut icon" href="/assets/icon64.png" />
-    <link rel="stylesheet" href="/node_modules/animate.css/animate.min.css" />
     <meta
       property="description"
       content="Multiplayer game for NTUEE Week yEEt."
@@ -80,9 +79,15 @@
     </div>
     <div id="gameover-board" class="hidden">
       <h1>Game Over!</h1>
-      <p id="name-message"></p>
-      <p id="killed-message"></p>
-      <p id="score-message"></p>
+      <p>
+        Your name is <b id="name-message"></b>.
+      </p>
+      <p >
+        You've been killed by <b id="killed-message"></b>.
+      </p>
+      <p>
+        Your score is <b id="score-message"></b>.
+      </p>
       <hr />
       <input type="text" id="replay-username-input" placeholder="Username" />
       <button id="replay-button">PLAY AGAIN</button>

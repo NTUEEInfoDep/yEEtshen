@@ -5,6 +5,8 @@ export default class Keyboard {
     this.isUp = true;
     this.press = undefined;
     this.release = undefined;
+    this.downHandler = this.downHandler.bind(this);
+    this.upHandler = this.upHandler.bind(this);
   }
 
   downHandler(e) {
@@ -26,12 +28,12 @@ export default class Keyboard {
   }
 
   subscribe() {
-    window.addEventListener('keydown', this.downHandler.bind(this), false);
-    window.addEventListener('keyup', this.upHandler.bind(this), false);
+    window.addEventListener('keydown', this.downHandler, false);
+    window.addEventListener('keyup', this.upHandler, false);
   }
 
   unsubscribe() {
-    window.removeEventListener('keydown', this.downHandler.bind(this));
-    window.removeEventListener('keyup', this.upHandler.bind(this));
+    window.removeEventListener('keydown', this.downHandler);
+    window.removeEventListener('keyup', this.upHandler);
   }
 }
