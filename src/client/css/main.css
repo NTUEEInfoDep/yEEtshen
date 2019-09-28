@@ -41,7 +41,7 @@ button {
   border: none;
   color: black;
   background-color: transparent;
-  padding: 5px 20px;
+  padding: 10px 20px 4px 20px;
   border-radius: 3px;
   transition: background-color 0.2s ease;
   font-family: "Sugarpunch";
@@ -51,6 +51,10 @@ button:hover {
 }
 button:focus {
   outline: none;
+}
+
+#reconnect-button {
+  font-size: 24px;
 }
 
 .hidden {
@@ -66,7 +70,7 @@ button:focus {
   top: 50%;
   left: 50%;
   transform: translateY(-50%) translateX(-50%);
-  padding: 50px 50px;
+  padding: 50px 50px 20px 50px;
   background-color: white;
   border: 1px solid black;
   display: flex;
@@ -129,12 +133,13 @@ button:focus {
   outline: none;
 }
 
+
 #gameover-board {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translateY(-50%) translateX(-50%);
-  padding: 20px 30px;
+  padding: 20px 60px 20px 60px;
   background-color: white;
   display: flex;
   flex-direction: column;
@@ -142,8 +147,23 @@ button:focus {
   border-radius: 5px;
   text-align: center;
 }
+
+#gameover-board h1 {
+  font-family: "Sugarpunch"; 
+  font-size: 4.5rem;
+  margin-bottom: 0.25rem;
+}
+
+#gameover-board h2 {
+  font-family: "Sugarpunch"; 
+  font-size: 2.5rem;
+  margin-bottom: 0.25rem;
+}
+
 #gameover-board p {
-  margin-bottom: 0;
+  font-family: "GeosansLight";
+  font-size: 1.5rem;
+  margin-bottom: 10px;
 }
 #gameover-board input {
   font-size: 18px;
@@ -234,10 +254,12 @@ button:focus {
   top: 50%;
   left: 50%;
   transform: translateY(-50%) translateX(-50%);
-  padding: 15px 20px;
+  padding: 30px 50px 30px 50px;
   background-color: white;
   border-radius: 5px;
   text-align: center;
+  font-family: "sugarpunch";
+  font-size: 1.5rem;
 }
 #disconnect-modal > div img {
   width: 5rem;

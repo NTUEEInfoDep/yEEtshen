@@ -32,17 +32,18 @@
       <br/>
 
       <div id="links">
-        <a href="https://github.com/NTUEEInfoDep/yEEtshen"><img id="github" src="/assets/octocat.png"/></a>
+        <a href="https://github.com/NTUEEInfoDep/yEEtshen" target="_blank"><img id="github" src="/assets/octocat.png"/></a>
         <div id="creator">
             Created by
             <span id="infodep">
-                <a href="https://github.com/NTUEEInfoDep">NTUEEInfoDep&nbsp;</a>
+                <a href="https://github.com/NTUEEInfoDep" target="_blank">NTUEEInfoDep&nbsp;</a>
             </span>
         </div>
       </div>
 
-      <br/>
+      <br />
       <input type="text" id="username-input" placeholder="Username" />
+      <br/>
       <button id="play-button">PLAY</button>
     </div>
     <div id="broadcast-board" class="hidden">
@@ -78,7 +79,9 @@
       </table>
     </div>
     <div id="gameover-board" class="hidden">
+      <audio src="/audio/yeeeet.mp3" preload="auto"></audio>
       <h1>Game Over!</h1>
+      <h2>yEEEEEEt!!!!!!</h2>
       <p>
         Your name is <b id="name-message"></b>.
       </p>
@@ -89,6 +92,7 @@
         Your score is <b id="score-message"></b>.
       </p>
       <hr />
+      <br />
       <button id="replay-button">PLAY AGAIN</button>
     </div>
     <div id="disconnect-modal" class="hidden" >
