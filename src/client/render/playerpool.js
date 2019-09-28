@@ -139,8 +139,9 @@ export default class PlayerPool extends SpritePool {
   }
 
   setSingle(me, player, index) {
-    const { x, y, direction, username, hp } = player;
+    const { x, y, direction, username, hp, spriteIdx } = player;
     const canvas = this.app.view;
+    const texture = this.textures[`sprite${spriteIdx}`];
     const playerContainer = this.sprites[index];
     const sprite = playerContainer.children[0];
     const healthbar = playerContainer.children[1];
@@ -150,6 +151,9 @@ export default class PlayerPool extends SpritePool {
     playerContainer.x = canvas.width / 2 + x - me.x;
     playerContainer.y = canvas.height / 2 + y - me.y;
     sprite.rotation = direction;
+
+    // set texture
+    sprite.texture = texture;
 
     // health bar
     this.healthbar.setHealth(healthbar, hp);
