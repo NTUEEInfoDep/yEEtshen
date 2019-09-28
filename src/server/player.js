@@ -5,7 +5,6 @@ const Item = require('./Items/');
 
 class Player extends ObjectClass {
   constructor(id, username, x, y, spriteIdx) {
-    console.log("In player", spriteIdx);
     super(id, x, y, Math.random() * 2 * Math.PI, Constants.PLAYER_SPEED);
     this.username = username;
     this.hp = Constants.PLAYER_MAX_HP;

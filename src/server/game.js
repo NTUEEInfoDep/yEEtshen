@@ -28,7 +28,6 @@ class Game {
 
   addPlayer(socket, username, spriteIdx) {
     this.sockets[socket.id] = socket;
-    console.log("In add player", spriteIdx);
     // Generate a position to start this player at.
     const x = Constants.MAP_SIZE * (0.25 + Math.random() * 0.5);
     const y = Constants.MAP_SIZE * (0.25 + Math.random() * 0.5);

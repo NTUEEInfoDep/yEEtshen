@@ -43,7 +43,6 @@ const game = new Game();
 
 function joinGame(username) {
   let spriteIdx = Math.floor(13 * Math.random()) + 1;
-  console.log("In join game", spriteIdx);
   game.addPlayer(this, username, spriteIdx);
 }
 
