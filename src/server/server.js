@@ -42,7 +42,9 @@ io.on('connection', socket => {
 const game = new Game();
 
 function joinGame(username) {
-  game.addPlayer(this, username);
+  let spriteIdx = Math.floor(13 * Math.random()) + 1;
+  console.log("In join game", spriteIdx);
+  game.addPlayer(this, username, spriteIdx);
 }
 
 function handleInput(dir) {

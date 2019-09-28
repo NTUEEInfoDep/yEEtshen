@@ -4,7 +4,8 @@ const Constants = require('../shared/constants');
 const Item = require('./Items/');
 
 class Player extends ObjectClass {
-  constructor(id, username, x, y) {
+  constructor(id, username, x, y, spriteIdx) {
+    console.log("In player", spriteIdx);
     super(id, x, y, Math.random() * 2 * Math.PI, Constants.PLAYER_SPEED);
     this.username = username;
     this.hp = Constants.PLAYER_MAX_HP;
@@ -13,6 +14,7 @@ class Player extends ObjectClass {
     this.dt = 0;
     this.item = null; // the item that the player owns
     this.state = {}; // freeze, shield, lightSword, weed
+    this.spriteIdx = spriteIdx;
 
     // The playerID of the other player who kill this player.
     this.beKilledBy = null;
@@ -128,7 +130,8 @@ class Player extends ObjectClass {
       hp: this.hp,
       username: this.username,
       item: this.getItemName(),
-      state: Object.keys( this.state )
+      state: Object.keys( this.state ),
+      spriteIdx: this.spriteIdx
     };
   }
 }

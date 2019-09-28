@@ -97,11 +97,10 @@ class UsernameText {
 
 export default class PlayerPool extends SpritePool {
   constructor(app) {
-    let index = Math.floor(13 * Math.random()) + 1;
-    console.log(index);
-    const imagePathHash = {
-      player: `assets/spaceships/ship${index.toString()}.png`,
-    }
+    const imagePathHash = {};
+    for(let idx = 1; idx <= 13; ++idx) 
+      imagePathHash[`sprite${idx}`] = `assets/spaceships/ship${idx.toString()}.png`;
+
     super(app, imagePathHash);
 
     this.healthbar = new HealthBar();
@@ -115,9 +114,10 @@ export default class PlayerPool extends SpritePool {
     this.app.stage.addChild(playerContainer);
 
     // The player sprite
-    const { x, y, direction, username } = player;
+    const { x, y, direction, username, spriteIdx } = player;
+    console.log(player);
     const canvas = this.app.view;
-    const texture = this.textures['player'];
+    const texture = this.textures[`sprite${spriteIdx}`];
     const sprite = new PIXI.Sprite(texture);
     playerContainer.addChild(sprite);
 
