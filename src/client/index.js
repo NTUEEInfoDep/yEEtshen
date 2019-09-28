@@ -52,6 +52,10 @@ function onGameOver(message) {
 
 // set up for playing
 function playSetup() {
+  if (!usernameInput.value) {
+    alert('Please enter your name!');
+    return;
+  }
   play(usernameInput.value);
   playMenu.classList.add('hidden');
   initState();
@@ -63,6 +67,10 @@ function playSetup() {
 
 // set up for replaying
 function replaySetup() {
+  if (!replayUsernameInput.value) {
+    alert('Please enter your name!');
+    return;
+  }
   play(replayUsernameInput.value);
   gameoverBoard.classList.add('hidden');
   initState();
