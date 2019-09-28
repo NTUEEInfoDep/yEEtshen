@@ -5,7 +5,7 @@ const { BULLET_RADIUS } = require('../../shared/constants');
 export default class BulletPool extends SpritePool {
   constructor(app) {
     const imagePathHash = {
-      bullet: 'assets/bullet.svg',
+      bullet: 'assets/bullet.png',
     }
     super(app, imagePathHash);
   }

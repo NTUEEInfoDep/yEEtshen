@@ -16,6 +16,8 @@ module.exports = Object.freeze({
   },
 
   BULLET_RADIUS: 3,
+  BULLET_WIDTH: 2,
+  BULLET_HEIHGT: 8,
   BULLET_SPEED: 800,
   BULLET_DAMAGE: 1,
 

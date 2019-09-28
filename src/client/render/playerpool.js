@@ -96,8 +96,9 @@ class UsernameText {
 
 export default class PlayerPool extends SpritePool {
   constructor(app) {
+    let index = Math.floor(13 * Math.random()) + 1;
     const imagePathHash = {
-      player: 'assets/ship.svg',
+      player: `assets/spaceships/ship${index.toString()}.png`,
     }
     super(app, imagePathHash);
 

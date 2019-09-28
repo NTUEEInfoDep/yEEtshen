@@ -18,6 +18,14 @@ html, body {
   font-family: "GeosansLight";
   src: url("/fonts/GeosansLight.ttf") format("truetype");
 }
+@font-face {
+  font-family: "Alien";
+  src: url("/fonts/alien.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Arcade";
+  src: url("/fonts/arcade.ttf") format("truetype");
+}
 canvas {
   width: 100%;
   height: 100%;
@@ -49,6 +57,10 @@ button:focus {
   display: none !important;
 }
 
+#broadcast-board {
+  font-family: "GeosansLight";
+}
+
 #play-menu {
   position: fixed;
   top: 50%;
@@ -56,6 +68,7 @@ button:focus {
   transform: translateY(-50%) translateX(-50%);
   padding: 50px 50px;
   background-color: white;
+  border: 1px solid black;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -194,10 +207,12 @@ button:focus {
   border-radius: 5px;
 }
 #leaderboard th {
+  font-family: "Sugarpunch";
   text-align: center;
   padding: 2px 5px;
 }
 #leaderboard td {
+  font-family: "GeosansLight";
   text-align: center;
   padding: 2px 5px;
 }
@@ -210,6 +225,10 @@ button:focus {
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.75);
 }
+#disconnect-modal h2 {
+  font-family: "GeosansLight";
+  margin-top: -10px;
+}
 #disconnect-modal > div {
   position: fixed;
   top: 50%;
@@ -219,6 +238,9 @@ button:focus {
   background-color: white;
   border-radius: 5px;
   text-align: center;
+}
+#disconnect-modal > div img {
+  width: 5rem;
 }
 
 @media screen and (max-width: 640px) {
