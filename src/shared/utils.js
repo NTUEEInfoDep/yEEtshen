@@ -6,6 +6,12 @@ function truncateName(name, truncateLength) {
   else { return (name.slice(0, truncateLength) + '...'); }
 }
 
+// Replace spaces with non-breaking spaces.
+function nonBreakingSpaces(str) {
+  return str.replace(/ /g, "&nbsp;");
+}
+
 module.exports = {
   truncateName,
+  nonBreakingSpaces,
 }

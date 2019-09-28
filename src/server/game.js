@@ -131,20 +131,20 @@ class Game {
       const socket = this.sockets[playerID];
       const player = this.players[playerID];
       if (player.hp <= 0) {
-        const playerName = Utils.truncateName(player.username, 14);
-        const beKilledName = Utils.truncateName(this.players[player.beKilledBy].username, 14);
+        const playerTruncName = Utils.truncateName(player.username, 14);
+        const beKilledName = this.players[player.beKilledBy].username;
+        const beKilledTruncName = Utils.truncateName(beKilledName, 14);
         // The message to be rendered on the gameover board.
         const message = {
-          name: playerName,
-          killedBy: beKilledName,
+          name: Utils.nonBreakingSpaces(player.username),
+          killedBy: Utils.nonBreakingSpaces(beKilledName),
           score: Math.round(player.score),
         }
         socket.emit(Constants.MSG_TYPES.GAME_OVER, message);
 
         // The broadcast message.
         const broadcastMessage =
-          (playerName + " is killed by " + beKilledName)
-            .replace(/ /g, "&nbsp;"); // replace spaces with non-breaking spaces
+          Utils.nonBreakingSpaces("<b>" + playerTruncName + "</b> is killed by <b>" + beKilledTruncName + "</b>");
         // broadcast to every player
         Object.values(this.players).forEach(singlePlayer => {
           singlePlayer.broadcasts.push(broadcastMessage);
