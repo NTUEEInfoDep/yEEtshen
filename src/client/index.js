@@ -13,16 +13,17 @@ const usernameInput = document.getElementById('username-input');
 
 const gameoverBoard = document.getElementById('gameover-board');
 const replayButton = document.getElementById('replay-button');
-const replayUsernameInput = document.getElementById('replay-username-input');
 
+const nameMessage = document.getElementById("name-message");
 const killedMessage = document.getElementById('killed-message');
 const scoreMessage = document.getElementById('score-message');
+
+let username = "";
 
 connect(onGameOver)
 .then(() => {
   playMenu.classList.remove('hidden');
   usernameInput.focus();
-  replayUsernameInput.focus();
   // click the playButton or press Enter to start playing
   playButton.onclick = playSetup;
   replayButton.onclick = replaySetup;
@@ -30,16 +31,14 @@ connect(onGameOver)
     // Enter key event code == 13
     if (e.which == 13) { playSetup(); }
   };
-  replayUsernameInput.onkeypress = (e) => {
-    // Enter key event code == 13
-    if (e.which == 13) { replaySetup(); }
-  };
 }).catch(console.error);
 
 function onGameOver(message) {
   stopCapturingInput();
   stopRendering();
 
+  nameMessage.innerHTML =
+    "Your name is <b>" + message.name + "</b>.";
   killedMessage.innerHTML =
     "You've been killed by <b>" + message.killedBy + "</b>.";
   scoreMessage.innerHTML =
@@ -56,6 +55,7 @@ function playSetup() {
     alert('Please enter your name!');
     return;
   }
+  username = usernameInput.value;
   play(usernameInput.value);
   playMenu.classList.add('hidden');
   initState();
@@ -67,11 +67,7 @@ function playSetup() {
 
 // set up for replaying
 function replaySetup() {
-  if (!replayUsernameInput.value) {
-    alert('Please enter your name!');
-    return;
-  }
-  play(replayUsernameInput.value);
+  play(username);
   gameoverBoard.classList.add('hidden');
   initState();
   startCapturingInput();
