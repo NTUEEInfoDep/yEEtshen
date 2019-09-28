@@ -44,16 +44,19 @@ const playerPool = new PlayerPool(app);
 const bulletPool = new BulletPool(app);
 const itemPool = new ItemPool(app);
 
-// render button if mobile: todo: check mobile
+
+// render button if mobile
+const isBtn = device.mobile() || device.tablet();
+if (isBtn) {
+  app.stage.addChild(rightBtn.btnSprite);
+  app.stage.addChild(leftBtn.btnSprite);
+  app.stage.addChild(fireBtn.btnSprite);
+}
+
 function renderButton() {
-  if (device.mobile() || device.tablet()) {
-    rightBtn.setpos(canvas.width - 80, canvas.height - 70);
-    leftBtn.setpos(canvas.width - 150, canvas.height - 70);
-    fireBtn.setpos(100, canvas.height - 200);
-    app.stage.addChild(rightBtn.btnSprite);
-    app.stage.addChild(leftBtn.btnSprite);
-    app.stage.addChild(fireBtn.btnSprite);
-  }
+  rightBtn.setpos(canvas.width - 80, canvas.height - 70);
+  leftBtn.setpos(canvas.width - 150, canvas.height - 70);
+  fireBtn.setpos(100, canvas.height - 200);
 }
 
 // When playing.
@@ -61,8 +64,8 @@ function render() {
   const { me, others, bullets, items } = getCurrentState();
   if (!me) { return; }
 
-  //render button
-  renderButton();
+  // render button
+  if (isBtn) { renderButton(); }
   // render background
   background.render(me);
 
