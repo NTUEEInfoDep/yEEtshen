@@ -16,6 +16,9 @@ class Player extends ObjectClass {
 
     // The playerID of the other player who kill this player.
     this.beKilledBy = null;
+
+    // The new broadcasts related to that player.
+    this.broadcasts = [];
   }
 
   // Returns a newly created bullet, or null.

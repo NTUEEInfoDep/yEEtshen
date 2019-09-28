@@ -13,7 +13,7 @@ class Game {
     this.items = [];
     this.itemEvents = [];
 
-    this.testNum = 0;
+    this.broadcasts = [];
 
     // add test sword
     const testItem = new Items.Healbag(Constants.MAP_SIZE / 3, Constants.MAP_SIZE / 3);
@@ -99,8 +99,6 @@ class Game {
     const playerIDs = Object.keys(this.sockets);
     this.lastUpdateTime = now;
 
-    this.testNum += 1;
-
     // Update each bullet
     this.bullets = this.bullets.filter(bullet => !bullet.update(dt));
 
@@ -133,11 +131,25 @@ class Game {
       const socket = this.sockets[playerID];
       const player = this.players[playerID];
       if (player.hp <= 0) {
+        const beKilledName = Utils.truncateName(this.players[player.beKilledBy].username, 14);
+        // The message to be rendered on the gameover board.
         const message = {
-          killedBy: Utils.truncateName(this.players[player.beKilledBy].username, 14),
+          killedBy: beKilledName,
           score: Math.round(player.score),
         }
         socket.emit(Constants.MSG_TYPES.GAME_OVER, message);
+
+        // The broadcast message.
+        const playerName = Utils.truncateName(player.username, 14);
+        const broadcastMessage =
+          (playerName + " is killed by " + beKilledName)
+            .replace(/ /g, "&nbsp;"); // replace spaces with non-breaking spaces
+        // broadcast to every player
+        Object.values(this.players).forEach(singlePlayer => {
+          singlePlayer.broadcasts.push(broadcastMessage);
+        });
+
+        // Remove the player.
         this.removePlayer(socket);
       }
     });
@@ -188,16 +200,8 @@ class Game {
       e => e.distanceTo(player) <= Constants.MAP_SIZE / 2,
     );
 
-    let broadcasts = [];
-    if (this.testNum % 40 === 0) {
-      if (this.testNum % 80 === 0) {
-        broadcasts = ['testtesfdsf&nbsp;tetestfdsfsd&nbsp;ffdsfasdfsaf&nbsp;dsdfafdsafasd' + this.testNum.toString()];
-      } else if (this.testNum % 120 === 0) {
-        broadcasts = ['tetestfdsfsd&nbsp;ffdsfasdfsaf&nbsp;dsdfafdsafasd' + this.testNum.toString()];
-      } else {
-        broadcasts = ['tedsfsd&nbsp;ffdsfasdfsaf&nbsp;dsdfafdsafasd' + this.testNum.toString()];
-      }
-    }
+    const broadcasts = player.broadcasts;
+    player.broadcasts = [];
 
     return {
       t: Date.now(),
