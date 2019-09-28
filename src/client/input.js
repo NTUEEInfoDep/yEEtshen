@@ -9,16 +9,33 @@ const isBtn = device.mobile() || device.tablet();
 const left = isBtn ? leftBtn : new Keyboard('ArrowLeft');
 const right = isBtn ? rightBtn : new Keyboard('ArrowRight');
 const space = isBtn ? fireBtn : new Keyboard(' ');
+let activeRotationKey = null;
 
 // Add Keyboard Press Function
-left.press = () => { updateRotateSpeed(-PLAYER_ROTATION_SPEED); };
-right.press = () => { updateRotateSpeed(PLAYER_ROTATION_SPEED); };
+left.press = () => {
+  updateRotateSpeed(-PLAYER_ROTATION_SPEED);
+  activeRotationKey = left;
+};
+right.press = () => {
+  updateRotateSpeed(PLAYER_ROTATION_SPEED);
+  activeRotationKey = right;
+};
 // fire a bullet or item
 space.press = () => { playerFire(); };
 
 // Keyboard Release Function
-left.release = () => { updateRotateSpeed(0); };
-right.release = () => { updateRotateSpeed(0); };
+left.release = () => {
+  if(activeRotationKey === left) {
+    updateRotateSpeed(0);
+    activeRotationKey = null;
+  }
+};
+right.release = () => { 
+  if(activeRotationKey === right) {
+    updateRotateSpeed(0);
+    activeRotationKey = null;
+  }
+};
 space.release = () => { console.log('Space key is Released'); };
 
 export function startCapturingInput() {
