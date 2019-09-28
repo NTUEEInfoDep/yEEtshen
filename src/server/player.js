@@ -13,6 +13,9 @@ class Player extends ObjectClass {
     this.dt = 0;
     this.item = null; // the item that the player owns
     this.state = {}; // freeze, shield, lightSword, weed
+
+    // The playerID of the other player who kill this player.
+    this.beKilledBy = null;
   }
 
   // Returns a newly created bullet, or null.
