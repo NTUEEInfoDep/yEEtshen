@@ -3,11 +3,20 @@ import * as PIXI from 'pixi.js';
 export default class SpritePool {
   // app: PIXI.application instance
   // imagePathHash: A hash table mapping from image names to their paths
-  constructor(app, imagePathHash) {
+  constructor(app, imagePathHash, animationPathHash) {
     // Create a hash table mapping from image names to their textures
     const textures = {};
     for (let imageName in imagePathHash) {
       textures[imageName] = PIXI.Texture.from(imagePathHash[imageName]);
+    }
+
+    for (let animationName in animationPathHash ) {
+      const textureArray = [];
+      for (let i=0; i<animationPathHash[animationName].frames; i++) {
+        const texture = PIXI.Texture.from( `${animationPathHash[animationName].path}_${i}.png` );
+        textureArray.push( texture );
+      }
+      textures[animationName] = textureArray;
     }
 
     this.textures = textures;
@@ -16,19 +25,6 @@ export default class SpritePool {
 
     // The number of sprites that previous rendering shows.
     this.lastShowNum = 0;
-  }
-
-  loadAnimationTextures( animationPathHash ) {
-    const animationTextures = {};
-    for (let animationName in animationPathHash ) {
-      const textureArray = [];
-      for (let i=0; i<animationPathHash[animationName].frames; i++) {
-        const texture = PIXI.Texture.from( `${animationPathHash[animationName].path}_${i}.png` );
-        textureArray.push( texture );
-      }
-      animationTextures[animationName] = textureArray;
-    }
-    return animationTextures;
   }
 
   // Destroy all sprites.

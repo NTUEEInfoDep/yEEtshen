@@ -111,11 +111,7 @@ export default class PlayerPool extends SpritePool {
         frames: 7,
       },
     }
-    super(app, imagePathHash);
-
-    // add to spritepool
-    const animationTextures = this.loadAnimationTextures( animationPathHash );
-    this.textures = {...this.textures, ...animationTextures}
+    super(app, imagePathHash, animationPathHash);
 
     this.healthbar = new HealthBar();
     this.usernameText = new UsernameText();
