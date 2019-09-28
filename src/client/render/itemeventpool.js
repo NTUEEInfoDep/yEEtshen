@@ -1,35 +1,34 @@
 import SpritePool from './spritepool';
 
-const { BULLET_RADIUS } = require('../../shared/constants');
-
-export default class BulletPool extends SpritePool {
+export default class ItemEventPool extends SpritePool {
   constructor(app) {
     const imagePathHash = {
-      bullet: 'assets/bullet.png',
+      CannonExplosion: 'assets/apple.png',
     }
     super(app, imagePathHash);
   }
 
-  addSingle(me, bullet) {
-    const { x, y } = bullet;
+  addSingle(me, itemEvent) {
+    const { x, y, name } = itemEvent;
     const canvas = this.app.view;
-    const sprite = this.addSprite(this.textures['bullet']);
+    const texture = this.textures[name];
+    const sprite = this.addSprite(texture);
 
     sprite.x = canvas.width / 2 + x - me.x;
     sprite.y = canvas.height / 2 + y - me.y;
-    //sprite.width = 2 * BULLET_RADIUS;
-    //sprite.height = 2 * BULLET_RADIUS;
     sprite.anchor.set(0.5);
   }
 
-  setSingle(me, bullet, index) {
-    const { x, y } = bullet;
+  setSingle(me, itemEvent, index) {
+    const { x, y, name } = itemEvent;
     const canvas = this.app.view;
+    const texture = this.textures[name];
     const sprite = this.sprites[index];
 
-    // set position
+    // set position and texture
     sprite.x = canvas.width / 2 + x - me.x;
     sprite.y = canvas.height / 2 + y - me.y;
+    sprite.texture = texture;
 
     // make it visible
     sprite.visible = true;

@@ -18,6 +18,19 @@ export default class SpritePool {
     this.lastShowNum = 0;
   }
 
+  loadAnimationTextures( animationPathHash ) {
+    const animationTextures = {};
+    for (let animationName in animationPathHash ) {
+      const textureArray = [];
+      for (let i=0; i<animationPathHash[animationName].frames; i++) {
+        const texture = PIXI.Texture.from( `${animationPathHash[animationName].path}_${i}.png` );
+        textureArray.push( texture );
+      }
+      animationTextures[animationName] = textureArray;
+    }
+    return animationTextures;
+  }
+
   // Destroy all sprites.
   destroy() {
     // Maybe this is not needed
@@ -44,6 +57,14 @@ export default class SpritePool {
     return sprite;
   }
 
+  // Add animated sprite
+  addAnimatedSprite(texture) {
+    //TODO
+    const sprite = new PIXI.Sprite(texture);
+    this.sprites.push(sprite);
+    this.app.stage.addChild(sprite);
+    return sprite;
+  }
   // Add a new "visible" image sprite into the sprite pool.
   addSingle(me, object) {
     console.error(

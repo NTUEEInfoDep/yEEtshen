@@ -8,6 +8,7 @@ import Background from './background';
 import BulletPool from './bulletpool';
 import PlayerPool from './playerpool';
 import ItemPool from './itempool';
+import ItemEventPool from './itemeventpool';
 import { rightBtn, leftBtn, fireBtn } from '../button';
 
 const Constants = require('../../shared/constants');
@@ -43,6 +44,7 @@ const background = new Background(app);
 const playerPool = new PlayerPool(app);
 const bulletPool = new BulletPool(app);
 const itemPool = new ItemPool(app);
+const itemEventPool = new ItemEventPool(app);
 
 
 // render button if mobile
@@ -61,13 +63,16 @@ function renderButton() {
 
 // When playing.
 function render() {
-  const { me, others, bullets, items } = getCurrentState();
+  const { me, others, bullets, items, itemEvents } = getCurrentState();
   if (!me) { return; }
 
   // render button
   if (isBtn) { renderButton(); }
   // render background
   background.render(me);
+
+  // render events
+  itemEventPool.render(me, itemEvents);
 
   // render all players
   playerPool.render(me, others);

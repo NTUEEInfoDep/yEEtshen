@@ -71,6 +71,7 @@ export function getCurrentState() {
       bullets: interpolateObjectArray(baseUpdate.bullets, next.bullets, ratio),
       // The items that have not been picked
       items: interpolateObjectArray(baseUpdate.items, next.items, ratio),
+      itemEvents: interpolateObjectArray(baseUpdate.itemEvents, next.itemEvents, ratio),
     };
   }
 }

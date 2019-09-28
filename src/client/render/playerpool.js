@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js';
 import SpritePool from './spritepool';
 
-const { PLAYER_RADIUS, PLAYER_MAX_HP } = require('../../shared/constants');
+const { ANIMATION_SPEED, PLAYER_RADIUS, PLAYER_MAX_HP } = require('../../shared/constants');
 
 // ============================================
 
@@ -101,7 +101,21 @@ export default class PlayerPool extends SpritePool {
     for(let idx = 1; idx <= 13; ++idx)
       imagePathHash[`sprite${idx}`] = `assets/spaceships/ship${idx.toString()}.png`;
 
+    const animationPathHash = {
+      lightSword: {
+        path: 'assets/lightSword/lightSword',
+        frames: 4,
+      },
+      shield: {
+        path: 'assets/shield/shield',
+        frames: 7,
+      },
+    }
     super(app, imagePathHash);
+
+    // add to spritepool
+    const animationTextures = this.loadAnimationTextures( animationPathHash );
+    this.textures = {...this.textures, ...animationTextures}
 
     this.healthbar = new HealthBar();
     this.usernameText = new UsernameText();
@@ -113,6 +127,13 @@ export default class PlayerPool extends SpritePool {
     this.sprites.push(playerContainer);
     this.app.stage.addChild(playerContainer);
 
+    //lightSword sprite
+    const lightSword = new PIXI.AnimatedSprite( this.textures['lightSword'] );
+    lightSword.animationSpeed = ANIMATION_SPEED;
+    lightSword.visible = false;
+    lightSword.anchor.set(0.5);
+    playerContainer.addChild( lightSword );
+
     // The player sprite
     const { x, y, direction, username, spriteIdx } = player;
     const canvas = this.app.view;
@@ -120,13 +141,18 @@ export default class PlayerPool extends SpritePool {
     const sprite = new PIXI.Sprite(texture);
     playerContainer.addChild(sprite);
 
+    //shield sprite
+    const shield = new PIXI.AnimatedSprite( this.textures['shield'] );
+    shield.animationSpeed = 0.25;
+    shield.visible = false;
+    shield.anchor.set(0.5);
+    playerContainer.addChild( shield );
+
     // set position and direction
     playerContainer.x = canvas.width / 2 + x - me.x;
     playerContainer.y = canvas.height / 2 + y - me.y;
-    sprite.width = 2 * PLAYER_RADIUS;
-    sprite.height = 2 * PLAYER_RADIUS;
-    sprite.anchor.x = 0.5;
-    sprite.anchor.y = 0.5;
+    console.log(sprite.height);
+    sprite.anchor.set(0.5);
     sprite.rotation = direction;
 
     // health bar
@@ -136,6 +162,8 @@ export default class PlayerPool extends SpritePool {
     // username
     const usernameText = this.usernameText.create(username);
     playerContainer.addChild(usernameText);
+
+
   }
 
   setSingle(me, player, index) {
@@ -143,9 +171,11 @@ export default class PlayerPool extends SpritePool {
     const canvas = this.app.view;
     const texture = this.textures[`sprite${spriteIdx}`];
     const playerContainer = this.sprites[index];
-    const sprite = playerContainer.children[0];
-    const healthbar = playerContainer.children[1];
-    const usernameText = playerContainer.children[2];
+    const lightSword = playerContainer.children[0];
+    const sprite = playerContainer.children[1];
+    const shield = playerContainer.children[2];
+    const healthbar = playerContainer.children[3];
+    const usernameText = playerContainer.children[4];
 
     // set position and direction
     playerContainer.x = canvas.width / 2 + x - me.x;
@@ -161,8 +191,27 @@ export default class PlayerPool extends SpritePool {
     // username
     this.usernameText.update(usernameText, username);
 
+
+    // lightSword
+    if ( player.state.includes( 'lightSword' ) ) {
+      lightSword.visible = true;
+      lightSword.play();
+    } else {
+      lightSword.visible = false;
+    }
+
+    // shield
+    if ( player.state.includes( 'shield' ) ) {
+      shield.visible = true;
+      shield.play();
+      console.log( 'shield' );
+    } else { 
+      shield.visible = false;
+    }
+
     // make it visible
     playerContainer.visible = true;
+
   }
 
   render(me, others) {

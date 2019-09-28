@@ -4,6 +4,7 @@ const Constants = require('../shared/constants');
 
 class Bullet extends ObjectClass {
   constructor(parentID, x, y, dir) {
+    //super(shortid(), x + Math.cos(dir) * Constants.PLAYER_RADIUS / 2, y - Math.sin(dir) * Constants.PLAYER_RADIUS / 2, dir, Constants.BULLET_SPEED);
     super(shortid(), x, y, dir, Constants.BULLET_SPEED);
     this.parentID = parentID;
   }

@@ -51,4 +51,6 @@ module.exports = Object.freeze({
     PLAYER_FIRE: 'fire',
     GAME_OVER: 'dead',
   },
+
+  ANIMATION_SPEED: 0.25,
 });

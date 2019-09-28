@@ -4,6 +4,7 @@ const ObjectClass = require('../object');
 // The base class to be inherited by other item classes.
 class ItemEventClass extends ObjectClass {
   constructor(x, y, radius, parent, dir = 0 ) {
+    console.log(dir)
     super(shortid(), x, y, dir, 0);
     this.radius = radius;
     this.timestamp = Date.now();

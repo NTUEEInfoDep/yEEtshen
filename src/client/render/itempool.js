@@ -5,14 +5,14 @@ const { ITEM_RADIUS } = require('../../shared/constants');
 export default class ItemPool extends SpritePool {
   constructor(app) {
     const imagePathHash = {
-      Healbag: 'assets/heart.svg',
-      Shield: 'assets/shield.svg',
-      LightSword: 'assets/lightSword.png',
+      Healbag: 'assets/apple.png',
+      Shield: 'assets/apple.png',
+      LightSword: 'assets/apple.png',
       Bomb: 'assets/malware.svg',
       // FreezeBomb: 'assets/',
       // Weed: 'assets/',
       // Shotgun: 'assets/',
-      // Cannon: 'assets/',
+      Cannon: 'assets/apple.png',
     }
     super(app, imagePathHash);
   }
@@ -23,10 +23,9 @@ export default class ItemPool extends SpritePool {
     const texture = this.textures[name];
     const sprite = this.addSprite(texture);
 
-    sprite.x = canvas.width / 2 + x - me.x - ITEM_RADIUS;
-    sprite.y = canvas.height / 2 + y - me.y - ITEM_RADIUS;
-    sprite.width = 2 * ITEM_RADIUS;
-    sprite.height = 2 * ITEM_RADIUS;
+    sprite.x = canvas.width / 2 + x - me.x;
+    sprite.y = canvas.height / 2 + y - me.y;
+    sprite.anchor.set(0.5);
   }
 
   setSingle(me, item, index) {
@@ -36,9 +35,8 @@ export default class ItemPool extends SpritePool {
     const sprite = this.sprites[index];
 
     // set position and texture
-    sprite.x = canvas.width / 2 + x - me.x - ITEM_RADIUS;
-    sprite.y = canvas.height / 2 + y - me.y - ITEM_RADIUS;
-    sprite.texture = texture;
+    sprite.x = canvas.width / 2 + x - me.x;
+    sprite.y = canvas.height / 2 + y - me.y;
 
     // make it visible
     sprite.visible = true;

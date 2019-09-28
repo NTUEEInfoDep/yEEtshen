@@ -2,8 +2,8 @@ const ItemEventClass = require('./itemEvent');
 const Constants = require('./../../shared/constants')
 
 class CannonExplosion extends ItemEventClass {
-    constructor( x, y, player ) {
-        super( x, y, Constants.ITEM_EVENTS_PARAMETERS.CANNON_EXPLOSION_RADIUS, player, player.dir );
+    constructor( x, y, player, dir ) {
+        super( x, y, Constants.ITEM_EVENTS_PARAMETERS.CANNON_EXPLOSION_RADIUS, player, dir );
         this.hasGeneratedSecondEXlopsion = false;
     }
     update( dt, itemEvents ) {
@@ -12,9 +12,10 @@ class CannonExplosion extends ItemEventClass {
             this.hasGeneratedSecondEXlopsion = true;
             if ( x > 0 && x < Constants.MAP_SIZE && y > 0 && y < Constants.MAP_SIZE ) {
                 const newCannonExplosion = new CannonExplosion( 
-                    x + Math.cos(direction) * Constants.ITEM_EVENTS_PARAMETERS.CANNON_EXPLOSION_RADIUS * 0.7,
-                    y + Math.sin(direction) * Constants.ITEM_EVENTS_PARAMETERS.CANNON_EXPLOSION_RADIUS * 0.7,
-                    parent
+                    x + Math.sin(direction) * Constants.ITEM_EVENTS_PARAMETERS.CANNON_EXPLOSION_RADIUS * 0.7,
+                    y - Math.cos(direction) * Constants.ITEM_EVENTS_PARAMETERS.CANNON_EXPLOSION_RADIUS * 0.7,
+                    parent,
+                    direction,
                 )
                 itemEvents.push( newCannonExplosion );
             }
