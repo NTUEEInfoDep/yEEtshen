@@ -23,7 +23,7 @@ class HealthBar {
 
     // health
     const health = new PIXI.Graphics();
-    health.beginFill(0xff0000);
+    health.beginFill(0xf02929, 1);
     health.lineStyle(1, 0, 0);
     health.drawRect(0, 0, this.width, this.height);
     health.endFill();
@@ -32,7 +32,7 @@ class HealthBar {
     // border
     const border = new PIXI.Graphics();
     border.beginFill(0, 0);
-    border.lineStyle(1, 0x000000);
+    border.lineStyle(1, 0xff7d7d);
     border.drawRect(0, 0, this.width, this.height);
     border.endFill();
     healthbar.addChild(border);
@@ -40,7 +40,7 @@ class HealthBar {
     // dividing line
     for (let i = 1; i < PLAYER_MAX_HP; i++) {
       const divLine = new PIXI.Graphics();
-      divLine.lineStyle(1, 0x000000);
+      divLine.lineStyle(1, 0xad0000);
       divLine.moveTo(i * this.interval, 0);
       divLine.lineTo(i * this.interval, this.height);
       healthbar.addChild(divLine);
@@ -97,6 +97,7 @@ class UsernameText {
 export default class PlayerPool extends SpritePool {
   constructor(app) {
     let index = Math.floor(13 * Math.random()) + 1;
+    console.log(index);
     const imagePathHash = {
       player: `assets/spaceships/ship${index.toString()}.png`,
     }
