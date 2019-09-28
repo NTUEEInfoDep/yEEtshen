@@ -68,6 +68,7 @@ class UsernameText {
 
     this.style = new PIXI.TextStyle({
       fontSize: 16,
+      fill: 0xffffff,
     });
 
   }
