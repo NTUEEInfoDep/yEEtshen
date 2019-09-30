@@ -8,7 +8,7 @@ export default class ItemPool extends SpritePool {
       Healbag: 'assets/apple.png',
       Shield: 'assets/apple.png',
       LightSword: 'assets/apple.png',
-      Bomb: 'assets/malware.svg',
+      Bomb: 'assets/apple.png',
       // FreezeBomb: 'assets/',
       // Weed: 'assets/',
       // Shotgun: 'assets/',

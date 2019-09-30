@@ -12,8 +12,9 @@ export default class SpritePool {
 
     for (let animationName in animationPathHash ) {
       const textureArray = [];
+      const width = (animationPathHash[animationName].frames > 10) ? 2 : 1;
       for (let i=0; i<animationPathHash[animationName].frames; i++) {
-        const texture = PIXI.Texture.from( `${animationPathHash[animationName].path}_${i}.png` );
+        const texture = PIXI.Texture.from( `${animationPathHash[animationName].path}_${i.toString().padStart(width, '0')}.png` );
         textureArray.push( texture );
       }
       textures[animationName] = textureArray;
@@ -54,9 +55,8 @@ export default class SpritePool {
   }
 
   // Add animated sprite
-  addAnimatedSprite(texture) {
-    //TODO
-    const sprite = new PIXI.Sprite(texture);
+  addAnimatedSprite(textures) {
+    const sprite = new PIXI.AnimatedSprite(textures);
     this.sprites.push(sprite);
     this.app.stage.addChild(sprite);
     return sprite;
