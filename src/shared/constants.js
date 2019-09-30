@@ -50,7 +50,7 @@ module.exports = Object.freeze({
   SCORE_BULLET_HIT: 20,
   SCORE_PER_SECOND: 1,
 
-  MAP_SIZE: 1000,
+  MAP_SIZE: 2000,
   MSG_TYPES: {
     VIRTUAL: 'virtual',
     DESTROY_VIRTUAL: 'destory_virtual',
