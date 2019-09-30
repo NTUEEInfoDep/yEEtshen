@@ -15,9 +15,15 @@ class Game {
 
     this.broadcasts = [];
 
-    // add test sword
-    this.addItem(new Items.Shield( Math.random() * Constants.MAP_SIZE, Math.random() * Constants.MAP_SIZE ));
-    this.addItem(new Items.LightSword( Math.random() * Constants.MAP_SIZE, Math.random() * Constants.MAP_SIZE ));
+    // test items
+    this.addItem(new Items.Healbag( 100, 100 ));
+    this.addItem(new Items.Weed( 300, 100 ));
+    this.addItem(new Items.Shield( 500, 100 ));
+    this.addItem(new Items.LightSword( 700, 100 ));
+    this.addItem(new Items.Bomb( 100, 300 ));
+    this.addItem(new Items.Cannon( 300, 300 ));
+    this.addItem(new Items.FreezeBomb( 500, 300 ));
+    this.addItem(new Items.Shotgun( 700, 300 ));
 
     this.lastUpdateTime = Date.now();
     this.shouldSendUpdate = false;

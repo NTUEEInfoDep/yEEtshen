@@ -6,9 +6,9 @@ import { getCurrentState } from '../state';
 
 import Background from './background';
 import BulletPool from './bulletpool';
-import PlayerPool from './playerpool';
-import ItemPool from './itempool';
-import ItemEventPool from './itemeventpool';
+import PlayerArray from './playerArray';
+import ItemArray from './itemArray';
+import ItemEventArray from './itemEventArray';
 import { rightBtn, leftBtn, fireBtn } from '../button';
 
 const Constants = require('../../shared/constants');
@@ -41,10 +41,10 @@ window.addEventListener('resize', debounce(40, setCanvasDimensions));
 const background = new Background(app);
 
 // sprite pools
-const playerPool = new PlayerPool(app);
+const itemEventArray = new ItemEventArray(app);
+const itemArray = new ItemArray(app);
+const playerArray = new PlayerArray(app);
 const bulletPool = new BulletPool(app);
-const itemPool = new ItemPool(app);
-const itemEventPool = new ItemEventPool(app);
 
 
 // render button if mobile
@@ -72,16 +72,17 @@ function render() {
   background.render(me);
 
   // render events
-  itemEventPool.render(me, itemEvents);
+  itemEventArray.render(me, itemEvents);
+
+  // render items
+  itemArray.render(me, items);
 
   // render all players
-  playerPool.render(me, others);
+  playerArray.render(me, [me, ...others]);
 
   // render bullets
   bulletPool.render(me, bullets);
 
-  // render items
-  itemPool.render(me, items);
 }
 
 // When not playing.

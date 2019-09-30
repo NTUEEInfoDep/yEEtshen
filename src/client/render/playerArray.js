@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js';
-import SpritePool from './spritepool';
+import SpriteArray from './spriteArray';
 
 const { ANIMATION_SPEED, PLAYER_RADIUS, PLAYER_MAX_HP } = require('../../shared/constants');
 
@@ -95,9 +95,11 @@ class UsernameText {
 
 // ============================================
 
-export default class PlayerPool extends SpritePool {
+export default class PlayerArray extends SpriteArray {
   constructor(app) {
-    const imagePathHash = {};
+    const imagePathHash = {
+      freeze: 'assets/frozen.png',
+    };
     for(let idx = 1; idx <= 13; ++idx)
       //imagePathHash[`sprite${idx}`] = `assets/spaceships/ship${idx.toString()}.png`;
       imagePathHash[`sprite${idx}`] = `assets/spaceships/ship.png`;
@@ -118,11 +120,11 @@ export default class PlayerPool extends SpritePool {
     this.usernameText = new UsernameText();
   }
 
-  addSingle(me, player) {
+  createSpriteFromObject(me, player) {
     // The container that holds all stuffs related to player.
+    const { id, x, y, direction, username, spriteIdx } = player;
     const playerContainer = new PIXI.Container();
-    this.sprites.push(playerContainer);
-    this.app.stage.addChild(playerContainer);
+    this.addSprite( id, playerContainer );
 
     //lightSword sprite
     const lightSword = new PIXI.AnimatedSprite( this.textures['lightSword'] );
@@ -132,7 +134,6 @@ export default class PlayerPool extends SpritePool {
     playerContainer.addChild( lightSword );
 
     // The player sprite
-    const { x, y, direction, username, spriteIdx } = player;
     const canvas = this.app.view;
     const texture = this.textures[`sprite${spriteIdx}`];
     const sprite = new PIXI.Sprite(texture);
@@ -145,10 +146,16 @@ export default class PlayerPool extends SpritePool {
     shield.anchor.set(0.5);
     playerContainer.addChild( shield );
 
+    //shield sprite
+    const freeze = new PIXI.Sprite( this.textures['freeze'] );
+    freeze.visible = false;
+    freeze.anchor.set(0.5);
+    freeze.alpha = 0.6;
+    playerContainer.addChild( freeze );
+
     // set position and direction
     playerContainer.x = canvas.width / 2 + x - me.x;
     playerContainer.y = canvas.height / 2 + y - me.y;
-    console.log(sprite.height);
     sprite.anchor.set(0.5);
     sprite.rotation = direction;
 
@@ -159,28 +166,22 @@ export default class PlayerPool extends SpritePool {
     // username
     const usernameText = this.usernameText.create(username);
     playerContainer.addChild(usernameText);
-
-
   }
 
-  setSingle(me, player, index) {
-    const { x, y, direction, username, hp, spriteIdx } = player;
+  updateSprite(me, playerContainer, player) {
+    const { x, y, direction, username, hp } = player;
     const canvas = this.app.view;
-    const texture = this.textures[`sprite${spriteIdx}`];
-    const playerContainer = this.sprites[index];
     const lightSword = playerContainer.children[0];
     const sprite = playerContainer.children[1];
     const shield = playerContainer.children[2];
-    const healthbar = playerContainer.children[3];
-    const usernameText = playerContainer.children[4];
+    const freeze = playerContainer.children[3];
+    const healthbar = playerContainer.children[4];
+    const usernameText = playerContainer.children[5];
 
     // set position and direction
     playerContainer.x = canvas.width / 2 + x - me.x;
     playerContainer.y = canvas.height / 2 + y - me.y;
     sprite.rotation = direction;
-
-    // set texture
-    sprite.texture = texture;
 
     // health bar
     this.healthbar.setHealth(healthbar, hp);
@@ -201,16 +202,20 @@ export default class PlayerPool extends SpritePool {
     if ( player.state.includes( 'shield' ) ) {
       shield.visible = true;
       shield.play();
-      console.log( 'shield' );
     } else { 
       shield.visible = false;
     }
 
-    // make it visible
-    playerContainer.visible = true;
-
+    // freeze
+    if ( player.state.includes('freeze') ) {
+      freeze.rotation = direction;
+      freeze.visible = true;
+    } else {
+      freeze.visible = false;
+    }
   }
 
+  /*
   render(me, others) {
     const otherCount = others.length;
     const poolLength = this.sprites.length;
@@ -237,4 +242,5 @@ export default class PlayerPool extends SpritePool {
     // update lastShowNum
     this.lastShowNum = otherCount + 1;
   }
+  */
 }
