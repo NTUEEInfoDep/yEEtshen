@@ -130,6 +130,8 @@ export default class PlayerPool extends SpritePool {
     lightSword.visible = false;
     lightSword.anchor.set(0.5);
     playerContainer.addChild( lightSword );
+    lightSword.width *= 2;
+    lightSword.height *= 2;
 
     // The player sprite
     const { x, y, direction, username, spriteIdx } = player;
@@ -137,6 +139,8 @@ export default class PlayerPool extends SpritePool {
     const texture = this.textures[`sprite${spriteIdx}`];
     const sprite = new PIXI.Sprite(texture);
     playerContainer.addChild(sprite);
+    sprite.width *= 2;
+    sprite.height *= 2;
 
     //shield sprite
     const shield = new PIXI.AnimatedSprite( this.textures['shield'] );
@@ -144,6 +148,8 @@ export default class PlayerPool extends SpritePool {
     shield.visible = false;
     shield.anchor.set(0.5);
     playerContainer.addChild( shield );
+    shield.height *= 2;
+    shield.width *= 2;
 
     // set position and direction
     playerContainer.x = canvas.width / 2 + x - me.x;

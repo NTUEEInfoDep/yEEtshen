@@ -132,6 +132,8 @@ export default class PlayerArray extends SpriteArray {
     lightSword.visible = false;
     lightSword.anchor.set(0.5);
     playerContainer.addChild( lightSword );
+    lightSword.height *= 2;
+    lightSword.width *= 2;
 
     // The player sprite
     const canvas = this.app.view;
