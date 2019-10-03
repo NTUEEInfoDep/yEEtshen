@@ -20,6 +20,8 @@ class Player extends ObjectClass {
 
     // The new broadcasts related to that player.
     this.broadcasts = [];
+
+    this.isCollided = false;
   }
 
   // Returns a newly created bullet, or null.
@@ -53,6 +55,7 @@ class Player extends ObjectClass {
   }
 
   updateState() {
+    this.isCollided = false;
     if ( this.state.freeze ) {
       if ( Date.now() - this.state.freeze > Constants.PLAYER_STATE_PARAMETERS.FREEZE_DURATION ) {
         delete this.state.freeze;
@@ -107,8 +110,11 @@ class Player extends ObjectClass {
 
   // called when collide with another player
   collideWith(other) {
-    this.x -= this.dt * this.speed * Math.sin(this.direction);
-    this.y += this.dt * this.speed * Math.cos(this.direction);
+    if (!this.isCollided) {
+      this.x -= this.dt * this.speed * Math.sin(this.direction);
+      this.y += this.dt * this.speed * Math.cos(this.direction);
+      this.isCollided = true;
+    }
     if ( this.state.lightSword ) {
       if ( other.takeDamage( Constants.PLAYER_STATE_PARAMETERS.LIGHTSWORD_DAMAGE ) ) {
         this.onDealtDamage()
