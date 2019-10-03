@@ -17,7 +17,6 @@ export default class SpriteArray {
         const texture = PIXI.Texture.from( `${animationPathHash[animationName].path}_${i.toString().padStart(width, '0')}.png` );
         textureArray.push( texture );
       }
-      console.log(textureArray);
       textures[animationName] = textureArray;
     }
 
@@ -62,19 +61,16 @@ export default class SpriteArray {
     const objIds = objs.map( obj => Object.values( obj )[0] );
     Object.keys( this.sprites ).filter( id => !objIds.includes( id ) ).forEach( id => {
         this.removeSprite( id );
-        console.log(`remove object with id ${id}`);
     } )
     //add sprite
     const spriteIds = Object.keys( this.sprites );
     objs.filter( ( obj ) => !spriteIds.includes( obj.id ) ).forEach( obj => {
-        console.log(`create object with id ${obj.id}`);
         this.createSpriteFromObject( me, obj );
     } )
 
     //update sprite
     objs.forEach( (obj) => {
         if ( this.sprites[obj.id] ) {
-            console.log(`updating sprite`);
             this.updateSprite( me, this.sprites[obj.id], obj );
         } else {
             console.error( `id doesn't exist!` );

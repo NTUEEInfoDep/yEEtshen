@@ -79,9 +79,12 @@ class Player extends ObjectClass {
   }
 
   //take damage and give score
-  takeDamage( damage ) {
-    if ( this.state.shield ) {
+  takeDamage( damage, parentID ) {
+    if ( !this.state.shield && this.hp > 0 ) {
       this.hp -= damage;
+      if ( this.hp <= 0) {
+        this.beKilledBy = parentID;
+      }
       return true;
     }
     return false;

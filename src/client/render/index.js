@@ -5,7 +5,7 @@ import { debounce } from 'throttle-debounce';
 import { getCurrentState } from '../state';
 
 import Background from './background';
-import BulletPool from './bulletpool';
+import BulletArray from './bulletArray';
 import PlayerArray from './playerArray';
 import ItemArray from './itemArray';
 import ItemEventArray from './itemEventArray';
@@ -44,7 +44,7 @@ const background = new Background(app);
 const itemEventArray = new ItemEventArray(app);
 const itemArray = new ItemArray(app);
 const playerArray = new PlayerArray(app);
-const bulletPool = new BulletPool(app);
+const bulletArray = new BulletArray(app);
 
 
 // render button if mobile
@@ -81,7 +81,7 @@ function render() {
   playerArray.render(me, [me, ...others]);
 
   // render bullets
-  bulletPool.render(me, bullets);
+  bulletArray.render(me, bullets);
 
 }
 

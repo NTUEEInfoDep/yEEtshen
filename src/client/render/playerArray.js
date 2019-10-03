@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js';
 import SpriteArray from './spriteArray';
 
-const { ANIMATION_SIZE, ANIMATION_SPEED, PLAYER_RADIUS, PLAYER_MAX_HP } = require('../../shared/constants');
+const { ANIMATION_SPEED, PLAYER_RADIUS, PLAYER_MAX_HP } = require('../../shared/constants');
 
 // ============================================
 

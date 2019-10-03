@@ -17,7 +17,7 @@ class BombExplosion extends ItemEventClass {
             this.needCollision = false;
             Object.values(players).filter( player => player.distanceTo( this ) < this.radius + Constants.PLAYER_RADIUS ).forEach( player => {
                 if ( player != this.parent ) {
-                    if ( player.takeDamage( Constants.ITEM_EVENTS_PARAMETERS.BOMB_EXPLOSION_DAMAGE ) ) {
+                    if ( player.takeDamage( Constants.ITEM_EVENTS_PARAMETERS.BOMB_EXPLOSION_DAMAGE, this.parent.id ) ) {
                         this.parent.onDealtDamage();
                     }
                 }
