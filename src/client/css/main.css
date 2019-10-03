@@ -78,6 +78,8 @@ button:focus {
   align-items: center;
   border-radius: 5px;
   text-align: center;
+  max-height: 80%; 
+  overflow: auto;
 }
 #play-menu #header {
   font-family: "Sugarpunch";
@@ -146,6 +148,8 @@ button:focus {
   align-items: center;
   border-radius: 5px;
   text-align: center;
+  max-height: 80%; 
+  overflow: auto;
 }
 
 #gameover-board h1 {
