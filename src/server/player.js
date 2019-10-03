@@ -110,7 +110,7 @@ class Player extends ObjectClass {
 
   // called when collide with another player
   collideWith(other) {
-    if (!this.isCollided) {
+    if (!this.isCollided && !this.state.freeze) {
       this.x -= this.dt * this.speed * Math.sin(this.direction);
       this.y += this.dt * this.speed * Math.cos(this.direction);
       this.isCollided = true;
