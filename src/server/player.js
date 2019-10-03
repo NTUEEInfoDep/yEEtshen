@@ -84,6 +84,7 @@ class Player extends ObjectClass {
       this.hp -= damage;
       return true;
     }
+    return false;
   }
 
   onDealtDamage() {
@@ -101,6 +102,7 @@ class Player extends ObjectClass {
         return { bullets: [newBullet] }
       }
     }
+    return {};
   }
 
   // called when collide with another player

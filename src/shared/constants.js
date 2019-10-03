@@ -63,4 +63,5 @@ module.exports = Object.freeze({
   },
 
   ANIMATION_SPEED: 0.2,
+  ANIMATION_SIZE: 2,
 });    
