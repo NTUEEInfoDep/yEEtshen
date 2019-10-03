@@ -1,5 +1,6 @@
 import * as PIXI from 'pixi.js';
 import SpriteArray from './spriteArray';
+import { } from '../../shared/constants';
 
 export default class ItemArray extends SpriteArray {
   constructor(app) {
@@ -27,6 +28,9 @@ export default class ItemArray extends SpriteArray {
     const container = new PIXI.Container();
     const bubble = new PIXI.Sprite(base_texture);
     const sprite = new PIXI.Sprite(texture);
+    // original size: x2
+
+
     container.addChild( bubble );
     container.addChild( sprite );
     this.addSprite( id, container );
@@ -46,6 +50,5 @@ export default class ItemArray extends SpriteArray {
     // set position
     sprite.x = canvas.width / 2 + x - me.x;
     sprite.y = canvas.height / 2 + y - me.y;
-
   }
 }

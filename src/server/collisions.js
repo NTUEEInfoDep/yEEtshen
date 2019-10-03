@@ -18,11 +18,7 @@ function applyCollisions(players, bullets) {
           Constants.PLAYER_RADIUS + Constants.BULLET_RADIUS
       ) {
         destroyedBullets.push(bullet);
-        player.takeBulletDamage();
-        // If the player be killed, record who kill him/her.
-        if (player.hp <= 0) {
-          player.beKilledBy = bullet.parentID;
-        }
+        player.takeDamage( Constants.BULLET_DAMAGE, bullet.parentID );
         break;
       }
     }
