@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js';
 import SpriteArray from './spriteArray';
 
-const { ANIMATION_SPEED, PLAYER_RADIUS, PLAYER_MAX_HP } = require('../../shared/constants');
+const { ANIMATION_SIZE, ANIMATION_SPEED, PLAYER_RADIUS, PLAYER_MAX_HP } = require('../../shared/constants');
 
 // ============================================
 
@@ -132,8 +132,7 @@ export default class PlayerArray extends SpriteArray {
     lightSword.visible = false;
     lightSword.anchor.set(0.5);
     playerContainer.addChild( lightSword );
-    lightSword.height *= 2;
-    lightSword.width *= 2;
+    //warning: original size
 
     // The player sprite
     const canvas = this.app.view;
@@ -216,33 +215,4 @@ export default class PlayerArray extends SpriteArray {
       freeze.visible = false;
     }
   }
-
-  /*
-  render(me, others) {
-    const otherCount = others.length;
-    const poolLength = this.sprites.length;
-
-    // hide original objects
-    this.hideMany(this.lastShowNum);
-
-    // set or add me and show
-    if (poolLength) {
-      this.setSingle(me, me, 0);
-    } else {
-      this.addSingle(me, me);
-    }
-
-    // set or add others and show them
-    for (let i = 0; i < otherCount; i++) {
-      if ((i + 1) < poolLength) {
-        this.setSingle(me, others[i], i + 1);
-      } else {
-        this.addSingle(me, others[i]);
-      }
-    }
-
-    // update lastShowNum
-    this.lastShowNum = otherCount + 1;
-  }
-  */
 }
