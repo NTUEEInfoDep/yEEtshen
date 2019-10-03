@@ -207,8 +207,8 @@ button:focus {
 #broadcast-board ul li {
   position: absolute;
   display: table;
-  color: #ffffff;
-  background-color: rgba(0, 0, 0, 0.5);
+  color: #000000;
+  background-color: rgba(255, 255, 255, 0.5);
   margin: 4px;
   border-radius: 5px;
   padding: 4px 10px;
