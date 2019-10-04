@@ -1,3 +1,5 @@
+const Utils = require('../shared/utils');
+
 const broadcastBoard = document.getElementById('broadcast-board');
 const ul = broadcastBoard.children[0]; // The <ul> element
 
@@ -15,8 +17,18 @@ export function addBroadcast(broadcasts) {
   const dx = 1; // The distance to move down in every interval
 
   for (let broadcast of broadcasts) {
+    const { playerName, beKilledName } = broadcast;
+    // Create <li> element
     let li = document.createElement("li");
-    li.innerHTML = broadcast;
+    const playerNameBold = document.createElement('b');
+    playerNameBold.textContent = playerName;
+    const beKilledNameBold = document.createElement('b');
+    beKilledNameBold.textContent = beKilledName;
+    li.appendChild(playerNameBold);
+    li.appendChild(document.createTextNode(" is killed by "));
+    li.appendChild(beKilledNameBold);
+    li.appendChild(document.createTextNode("."));
+
     li.topNum = 0; // The variable that store "style.top" in type of Number
     ul.insertBefore(li, ul.firstChild);
 

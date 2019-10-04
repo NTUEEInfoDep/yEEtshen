@@ -159,8 +159,10 @@ class Game {
         socket.emit(Constants.MSG_TYPES.GAME_OVER, message);
 
         // The broadcast message.
-        const broadcastMessage =
-          Utils.nonBreakingSpaces("<b>" + playerTruncName + "</b> is killed by <b>" + beKilledTruncName + "</b>");
+        const broadcastMessage = {
+          playerName: playerTruncName,
+          beKilledName: beKilledTruncName,
+        };
         // broadcast to every player
         Object.values(this.players).forEach(singlePlayer => {
           singlePlayer.broadcasts.push(broadcastMessage);
