@@ -100,9 +100,8 @@ export default class PlayerArray extends SpriteArray {
     const imagePathHash = {
       freeze: 'assets/frozen.png',
     };
-    for(let idx = 1; idx <= 13; ++idx)
-      //imagePathHash[`sprite${idx}`] = `assets/spaceships/ship${idx.toString()}.png`;
-      imagePathHash[`sprite${idx}`] = `assets/spaceships/ship.png`;
+    for(let idx = 0; idx <= 8; ++idx)
+      imagePathHash[`ship${idx}`] = `assets/spaceships/ship${idx.toString()}.png`;
 
     const animationPathHash = {
       lightSword: {
@@ -113,6 +112,10 @@ export default class PlayerArray extends SpriteArray {
         path: 'assets/shield/shield',
         frames: 7,
       },
+      engine: {
+        path: 'assets/engine/engine',
+        frames: 3,
+      }
     }
     super(app, imagePathHash, animationPathHash);
 
@@ -131,12 +134,19 @@ export default class PlayerArray extends SpriteArray {
     lightSword.animationSpeed = ANIMATION_SPEED;
     lightSword.visible = false;
     lightSword.anchor.set(0.5);
+    lightSword.play();
     playerContainer.addChild( lightSword );
-    //warning: original size
+
+    //engine
+    const engine = new PIXI.AnimatedSprite( this.textures['engine'] );
+    engine.animationSpeed = ANIMATION_SPEED;
+    engine.play();
+    engine.anchor.set(0.5);
+    playerContainer.addChild( engine );
 
     // The player sprite
     const canvas = this.app.view;
-    const texture = this.textures[`sprite${spriteIdx}`];
+    const texture = this.textures[`ship${spriteIdx}`];
     const sprite = new PIXI.Sprite(texture);
     playerContainer.addChild(sprite);
 
@@ -144,6 +154,7 @@ export default class PlayerArray extends SpriteArray {
     const shield = new PIXI.AnimatedSprite( this.textures['shield'] );
     shield.animationSpeed = 0.25;
     shield.visible = false;
+    shield.play();
     shield.anchor.set(0.5);
     playerContainer.addChild( shield );
 
@@ -173,16 +184,18 @@ export default class PlayerArray extends SpriteArray {
     const { x, y, direction, username, hp } = player;
     const canvas = this.app.view;
     const lightSword = playerContainer.children[0];
-    const sprite = playerContainer.children[1];
-    const shield = playerContainer.children[2];
-    const freeze = playerContainer.children[3];
-    const healthbar = playerContainer.children[4];
-    const usernameText = playerContainer.children[5];
+    const engine = playerContainer.children[1];
+    const sprite = playerContainer.children[2];
+    const shield = playerContainer.children[3];
+    const freeze = playerContainer.children[4];
+    const healthbar = playerContainer.children[5];
+    const usernameText = playerContainer.children[6];
 
     // set position and direction
     playerContainer.x = canvas.width / 2 + x - me.x;
     playerContainer.y = canvas.height / 2 + y - me.y;
     sprite.rotation = direction;
+    engine.rotation = direction;
 
     // health bar
     this.healthbar.setHealth(healthbar, hp);
@@ -194,7 +207,6 @@ export default class PlayerArray extends SpriteArray {
     // lightSword
     if ( player.state.includes( 'lightSword' ) ) {
       lightSword.visible = true;
-      lightSword.play();
     } else {
       lightSword.visible = false;
     }
@@ -202,7 +214,6 @@ export default class PlayerArray extends SpriteArray {
     // shield
     if ( player.state.includes( 'shield' ) ) {
       shield.visible = true;
-      shield.play();
     } else { 
       shield.visible = false;
     }
@@ -211,8 +222,10 @@ export default class PlayerArray extends SpriteArray {
     if ( player.state.includes('freeze') ) {
       freeze.rotation = direction;
       freeze.visible = true;
+      engine.visible = false;
     } else {
       freeze.visible = false;
+      engine.visible = true;
     }
   }
 }
