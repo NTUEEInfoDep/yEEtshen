@@ -49,6 +49,17 @@ module.exports = Object.freeze({
     CANNON_EXPLOSION_GENERATE_INTERVAL: 100,
   },
 
+  ITEM_MAX_NUM: {
+    HEALBAG: 15,
+    SHIELD: 15,
+    LIGHTSWORD: 10,
+    BOMB: 5,
+    FREEZEBOMB: 10,
+    WEED: 15,
+    SHOTGUN: 5,
+    CANNON: 5,
+  },
+
   KILLED_SCORE: {
     BASE_SCORE: 1000,
     RATIO: 0.5,
