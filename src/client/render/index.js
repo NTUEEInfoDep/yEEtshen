@@ -9,6 +9,7 @@ import BulletArray from './bulletArray';
 import PlayerArray from './playerArray';
 import ItemArray from './itemArray';
 import ItemEventArray from './itemEventArray';
+import WeedArray from './weedArray';
 import { rightBtn, leftBtn, fireBtn } from '../button';
 
 const Constants = require('../../shared/constants');
@@ -45,6 +46,9 @@ const itemEventArray = new ItemEventArray(app);
 const itemArray = new ItemArray(app);
 const playerArray = new PlayerArray(app);
 const bulletArray = new BulletArray(app);
+const weedArray = new WeedArray(app);
+
+let lastUpdateTime = Date.now();
 
 
 // render button if mobile
@@ -83,6 +87,9 @@ function render() {
   // render bullets
   bulletArray.render(me, bullets);
 
+  //render weeds
+  weedArray.render( me, ( Date.now() - lastUpdateTime )/1000 );
+  lastUpdateTime = Date.now();
 }
 
 // When not playing.
