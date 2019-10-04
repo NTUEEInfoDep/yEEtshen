@@ -78,7 +78,7 @@ button:focus {
   align-items: center;
   border-radius: 5px;
   text-align: center;
-  max-height: 90%; 
+  max-height: 85%; 
   overflow: auto;
 }
 #play-menu #header {
