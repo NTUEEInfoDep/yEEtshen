@@ -3,7 +3,7 @@ const Utils = require('../shared/utils');
 
 const Player = require('./player');
 // const Obj = require('./object');
-const { applyCollisions, itemCollisions, itemEventCollisions, playerCollisions } = require('./collisions');
+const { applyCollisions, itemCollisions, playerCollisions } = require('./collisions');
 
 const itemGenerator = require('./generate');
 

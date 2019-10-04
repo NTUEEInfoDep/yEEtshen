@@ -8,7 +8,8 @@ class FreezingArea extends ItemEventClass {
         super( x + ( ITEM_EVENTS_PARAMETERS.FREEZING_AREA_RADIUS) * Math.sin( direction), 
             y - ( ITEM_EVENTS_PARAMETERS.FREEZING_AREA_RADIUS) * Math.cos( direction),
             ITEM_EVENTS_PARAMETERS.FREEZING_AREA_RADIUS,
-            player,
+            player.id,
+            player.username,
             player.direction
         );
     }
@@ -23,7 +24,7 @@ class FreezingArea extends ItemEventClass {
     }
     collide( players ) {
         Object.values(players).filter( player => player.distanceTo( this ) < this.radius + Constants.PLAYER_RADIUS ).forEach( player => {
-            if ( player != this.parent ) {
+            if ( player.id != this.parentID ) {
                 player.state.freeze = Date.now();
             }
         } );

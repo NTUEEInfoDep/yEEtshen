@@ -11,7 +11,7 @@ class Cannon extends ItemClass {
   }
   static use( player ) {
     player.item = null;
-    const newCannonExplosion = new CannonExplosion(player.x, player.y, player, player.direction);
+    const newCannonExplosion = new CannonExplosion(player.x, player.y, player.id, player.username, player.direction);
     return { itemEvents: [newCannonExplosion] }
   }
 }

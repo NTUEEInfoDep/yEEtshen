@@ -3,8 +3,8 @@ const ItemEventClass = require('./itemEvent');
 const Constants = require('./../../shared/constants')
 
 class BombExplosion extends ItemEventClass {
-    constructor( x, y, player ) {
-        super( x, y, Constants.ITEM_EVENTS_PARAMETERS.BOMB_EXPLOSION_RADIUS, player );
+    constructor( x, y, playerID, playerName ) {
+        super( x, y, Constants.ITEM_EVENTS_PARAMETERS.BOMB_EXPLOSION_RADIUS, playerID, playerName );
         this.needCollision = true;
     }
     update( dt, itemEvents ) {
@@ -16,10 +16,8 @@ class BombExplosion extends ItemEventClass {
         if ( this.needCollision &&  Date.now() - this.timestamp >= Constants.ITEM_EVENTS_PARAMETERS.BOMB_EXPLOSION_HIT ) {
             this.needCollision = false;
             Object.values(players).filter( player => player.distanceTo( this ) < this.radius + Constants.PLAYER_RADIUS ).forEach( player => {
-                if ( player != this.parent ) {
-                    if ( player.takeDamage( Constants.ITEM_EVENTS_PARAMETERS.BOMB_EXPLOSION_DAMAGE, this.parent.id ) ) {
-                        this.parent.onDealtDamage();
-                    }
+                if ( player.id != this.parentID ) {
+                    player.takeDamage( Constants.ITEM_EVENTS_PARAMETERS.BOMB_EXPLOSION_DAMAGE, this.parentID, this.parentName );
                 }
             } );
         }

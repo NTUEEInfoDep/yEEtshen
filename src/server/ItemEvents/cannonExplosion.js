@@ -2,21 +2,21 @@ const ItemEventClass = require('./itemEvent');
 const Constants = require('./../../shared/constants')
 
 class CannonExplosion extends ItemEventClass {
-    constructor( x, y, player, dir ) {
-        super( x, y, Constants.ITEM_EVENTS_PARAMETERS.CANNON_EXPLOSION_RADIUS, player, dir );
+    constructor( x, y, playerID, playerName, dir ) {
+        super( x, y, Constants.ITEM_EVENTS_PARAMETERS.CANNON_EXPLOSION_RADIUS, playerID, playerName, dir );
         this.hasGeneratedSecondEXlopsion = false;
-        this.needCollision = false;
         this.needCollision = true;
     }
     update( dt, itemEvents ) {
         if ( !this.hasGeneratedSecondEXlopsion && Date.now() - this.timestamp > Constants.ITEM_EVENTS_PARAMETERS.CANNON_EXPLOSION_GENERATE_INTERVAL ) {
-            const {x, y, direction, parent} = this;
+            const {x, y, direction, parentID, parentName} = this;
             this.hasGeneratedSecondEXlopsion = true;
             if ( x > 0 && x < Constants.MAP_SIZE && y > 0 && y < Constants.MAP_SIZE ) {
                 const newCannonExplosion = new CannonExplosion( 
                     x + Math.sin(direction) * Constants.ITEM_EVENTS_PARAMETERS.CANNON_EXPLOSION_RADIUS * 1.2,
                     y - Math.cos(direction) * Constants.ITEM_EVENTS_PARAMETERS.CANNON_EXPLOSION_RADIUS * 1.2,
-                    parent,
+                    parentID,
+                    parentName,
                     direction,
                 )
                 itemEvents.push( newCannonExplosion );
@@ -28,10 +28,8 @@ class CannonExplosion extends ItemEventClass {
         if ( this.needCollision && Date.now() - this.timestamp >= Constants.ITEM_EVENTS_PARAMETERS.CANNON_EXPLOSION_HIT ) {
             this.needCollision = false;
             Object.values(players).filter( player => player.distanceTo( this ) < this.radius + Constants.PLAYER_RADIUS ).forEach( player => {
-                if ( player != this.parent ) {
-                    if ( player.takeDamage( Constants.ITEM_EVENTS_PARAMETERS.CANNON_EXPLOSION_DAMAGE, this.parent.id ) ) {
-                        this.parent.onDealtDamage();
-                    }
+                if ( player.id != this.parentID ) {
+                    player.takeDamage( Constants.ITEM_EVENTS_PARAMETERS.CANNON_EXPLOSION_DAMAGE, this.parentID, this.parentName );
                 }
             } );
         } 
