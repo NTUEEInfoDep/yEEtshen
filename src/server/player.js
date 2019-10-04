@@ -15,8 +15,9 @@ class Player extends ObjectClass {
     this.state = {}; // freeze, shield, lightSword, weed
     this.spriteIdx = spriteIdx;
 
-    // The playerID of the other player who kill this player.
-    this.beKilledBy = null;
+    // The player ID and name of the other player who kill this player.
+    this.beKilledByID = null;
+    this.beKilledByName = null;
 
     // The new broadcasts related to that player.
     this.broadcasts = [];
@@ -82,11 +83,12 @@ class Player extends ObjectClass {
   }
 
   //take damage and give score
-  takeDamage( damage, parentID ) {
+  takeDamage( damage, parentID, parentName ) {
     if ( !this.state.shield && this.hp > 0 ) {
       this.hp -= damage;
       if ( this.hp <= 0) {
-        this.beKilledBy = parentID;
+        this.beKilledByID = parentID;
+        this.beKilledByName = parentName;
       }
       return true;
     }
@@ -104,7 +106,7 @@ class Player extends ObjectClass {
         return this.item.use( this );
       }
       else {
-        const newBullet = new Bullet(this.id, this.x, this.y, this.direction);
+        const newBullet = new Bullet(this.id, this.x, this.y, this.direction, this.username);
         return { bullets: [newBullet] }
       }
     }
@@ -119,13 +121,13 @@ class Player extends ObjectClass {
       this.isCollided = true;
     }
     if ( this.state.lightSword ) {
-      other.takeDamage( Constants.PLAYER_STATE_PARAMETERS.LIGHTSWORD_DAMAGE, this.id )
+      other.takeDamage( Constants.PLAYER_STATE_PARAMETERS.LIGHTSWORD_DAMAGE, this.id, this.username);
       delete this.state.lightSword;
       this.radius = Constants.PLAYER_RADIUS;
       this.speed = Constants.PLAYER_SPEED;
     }
     if ( other.state.lightSword ) {
-      this.takeDamage( Constants.PLAYER_STATE_PARAMETERS.LIGHTSWORD_DAMAGE, other.id )
+      this.takeDamage( Constants.PLAYER_STATE_PARAMETERS.LIGHTSWORD_DAMAGE, other.id, other.username);
       delete other.state.lightSword;
       other.radius = Constants.PLAYER_RADIUS;
       other.speed = Constants.PLAYER_SPEED;

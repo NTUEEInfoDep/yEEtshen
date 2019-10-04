@@ -142,15 +142,18 @@ class Game {
       const socket = this.sockets[playerID];
       const player = this.players[playerID];
       if (player.hp <= 0) {
-        // Increase the score of the killer player
-        const param = Constants.KILLED_SCORE; // parameters
-        const killScore = param.BASE_SCORE + 
-                          Math.min(player.score * param.RATIO
-                                   , param.UPPERBOUND);
-        this.players[player.beKilledBy].score += killScore;
+        // If the killer player still alive, increase his or her score
+        const killer = this.players[player.beKilledByID];
+        if (killer) {
+          const param = Constants.KILLED_SCORE; // parameters
+          const killScore = param.BASE_SCORE + 
+                            Math.min(player.score * param.RATIO
+                                     , param.UPPERBOUND);
+          killer.score += killScore;
+        }
 
         const playerTruncName = Utils.truncateName(player.username, 14);
-        const beKilledName = this.players[player.beKilledBy].username;
+        const beKilledName = player.beKilledByName;
         const beKilledTruncName = Utils.truncateName(beKilledName, 14);
         // The message to be rendered on the gameover board.
         const message = {
