@@ -49,10 +49,25 @@ module.exports = Object.freeze({
     CANNON_EXPLOSION_GENERATE_INTERVAL: 100,
   },
 
-  SCORE_BULLET_HIT: 20,
-  SCORE_PER_SECOND: 1,
+  ITEM_MAX_NUM: {
+    HEALBAG: 15,
+    SHIELD: 15,
+    LIGHTSWORD: 10,
+    BOMB: 5,
+    FREEZEBOMB: 10,
+    WEED: 15,
+    SHOTGUN: 5,
+    CANNON: 5,
+  },
 
-  MAP_SIZE: 2000,
+  KILLED_SCORE: {
+    BASE_SCORE: 1000,
+    RATIO: 0.5,
+    UPPERBOUND: 5000,
+  },
+  SCORE_PER_SECOND: Math.PI,
+
+  MAP_SIZE: 5000,
   MSG_TYPES: {
     VIRTUAL: 'virtual',
     DESTROY_VIRTUAL: 'destory_virtual',

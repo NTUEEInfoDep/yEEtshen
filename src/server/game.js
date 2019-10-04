@@ -2,9 +2,11 @@ const Constants = require('../shared/constants');
 const Utils = require('../shared/utils');
 
 const Player = require('./player');
-const Obj = require('./object');
+// const Obj = require('./object');
 const { applyCollisions, itemCollisions, itemEventCollisions, playerCollisions } = require('./collisions');
 const Items = require('./Items/');
+
+const itemGenerator = require('./generate');
 
 class Game {
   constructor() {
@@ -33,6 +35,7 @@ class Game {
     this.lastUpdateTime = Date.now();
     this.shouldSendUpdate = false;
     setInterval(this.update.bind(this), 1000 / 60);
+    setInterval(() => itemGenerator(this.items), 5000);
   }
   
   // add a virtual player for menu background
@@ -149,6 +152,13 @@ class Game {
       const socket = this.sockets[playerID];
       const player = this.players[playerID];
       if (player.hp <= 0) {
+        // Increase the score of the killer player
+        const param = Constants.KILLED_SCORE; // parameters
+        const killScore = param.BASE_SCORE + 
+                          Math.min(player.score * param.RATIO
+                                   , param.UPPERBOUND);
+        this.players[player.beKilledBy].score += killScore;
+
         const playerTruncName = Utils.truncateName(player.username, 14);
         const beKilledName = this.players[player.beKilledBy].username;
         const beKilledTruncName = Utils.truncateName(beKilledName, 14);
