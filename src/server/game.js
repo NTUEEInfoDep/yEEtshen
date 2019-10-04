@@ -149,6 +149,13 @@ class Game {
       const socket = this.sockets[playerID];
       const player = this.players[playerID];
       if (player.hp <= 0) {
+        // Increase the score of the killer player
+        const param = Constants.KILLED_SCORE; // parameters
+        const killScore = param.BASE_SCORE + 
+                          Math.min(player.score * param.RATIO
+                                   , param.UPPERBOUND);
+        this.players[player.beKilledBy].score += killScore;
+
         const playerTruncName = Utils.truncateName(player.username, 14);
         const beKilledName = this.players[player.beKilledBy].username;
         const beKilledTruncName = Utils.truncateName(beKilledName, 14);

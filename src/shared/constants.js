@@ -49,8 +49,12 @@ module.exports = Object.freeze({
     CANNON_EXPLOSION_GENERATE_INTERVAL: 100,
   },
 
-  SCORE_BULLET_HIT: 20,
-  SCORE_PER_SECOND: 1,
+  KILLED_SCORE: {
+    BASE_SCORE: 1000,
+    RATIO: 0.5,
+    UPPERBOUND: 5000,
+  },
+  SCORE_PER_SECOND: Math.PI,
 
   MAP_SIZE: 2000,
   MSG_TYPES: {

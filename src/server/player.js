@@ -94,7 +94,7 @@ class Player extends ObjectClass {
   }
 
   onDealtDamage() {
-    this.score += Constants.SCORE_BULLET_HIT;
+    // this.score += Constants.SCORE_BULLET_HIT;
   }
 
   // Fire Bullet or Item
