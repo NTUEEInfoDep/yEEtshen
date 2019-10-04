@@ -78,7 +78,7 @@ button:focus {
   align-items: center;
   border-radius: 5px;
   text-align: center;
-  max-height: 100%; 
+  max-height: 90%; 
   overflow: auto;
 }
 #play-menu #header {
@@ -269,7 +269,7 @@ button:focus {
   width: 5rem;
 }
 
-@media screen and (max-width: 640px) {
+@media screen and (max-width: 768px) {
   h1 {
     font-size: 2rem;
   }
@@ -280,12 +280,12 @@ button:focus {
 
   #play-menu {
     padding: 10px 15px;
-    min-width: 280px;
+    min-width: 180px;
   }
 
   #gameover-board {
     padding: 10px 15px;
-    min-width: 280px;
+    min-width: 180px;
   }
 
   #disconnect-modal > div {
