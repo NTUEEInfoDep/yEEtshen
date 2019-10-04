@@ -1,8 +1,11 @@
 import device from 'current-device';
+import { throttle } from 'throttle-debounce';
 import { updateRotateSpeed, playerFire } from './networking';
 import { PLAYER_ROTATION_SPEED } from '../shared/constants';
 import Keyboard from './keyboard';
 import { leftBtn, rightBtn, fireBtn } from './button';
+
+const Constants = require('../shared/constants');
 
 // check if mobile
 const isBtn = device.mobile() || device.tablet();
@@ -21,7 +24,8 @@ right.press = () => {
   activeRotationKey = right;
 };
 // fire a bullet or item
-space.press = () => { playerFire(); };
+// space.press = throttle(() => { playerFire(); };
+space.press = throttle(Constants.BULLET_SHOOT_SPEET, () => { playerFire(); });
 
 // Keyboard Release Function
 left.release = () => {
