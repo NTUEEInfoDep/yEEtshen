@@ -21,14 +21,14 @@ class Game {
     this.virtualSockets = {};
 
     // test items
-    this.addItem(new Items.Healbag( 100, 100 ));
-    this.addItem(new Items.Weed( 300, 100 ));
-    this.addItem(new Items.Shield( 500, 100 ));
-    this.addItem(new Items.LightSword( 700, 100 ));
-    this.addItem(new Items.Bomb( 100, 300 ));
-    this.addItem(new Items.Cannon( 300, 300 ));
-    this.addItem(new Items.FreezeBomb( 500, 300 ));
-    this.addItem(new Items.Shotgun( 700, 300 ));
+    this.addItem(new Items.Healbag( 100, 200 ));
+    this.addItem(new Items.Weed( 400, 200 ));
+    this.addItem(new Items.Shield( 700, 200 ));
+    this.addItem(new Items.LightSword( 1000, 200 ));
+    this.addItem(new Items.Bomb( 100, 500 ));
+    this.addItem(new Items.Cannon( 400, 500 ));
+    this.addItem(new Items.FreezeBomb( 700, 500 ));
+    this.addItem(new Items.Shotgun( 1000, 500 ));
 
     this.lastUpdateTime = Date.now();
     this.shouldSendUpdate = false;

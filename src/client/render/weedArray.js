@@ -9,7 +9,7 @@ export default class WeedArray extends SpriteArray {
     const imagePathHash = {
     }
     // load the images of weeds
-    const weedNum = 5;
+    const weedNum = 1;
     for ( let i = 0; i < weedNum; i ++ ) {
       imagePathHash[i] = `assets/weeds/weed_${i}.png`;
     }
@@ -20,7 +20,7 @@ export default class WeedArray extends SpriteArray {
     this.weedNum = weedNum;
     this.container.visible = false;
 
-    for ( let i = 0; i < 50; i++ ) {
+    for ( let i = 0; i < 30; i++ ) {
       this.createSpriteFromObject();
     }
   }

@@ -6,6 +6,7 @@ class CannonExplosion extends ItemEventClass {
         super( x, y, Constants.ITEM_EVENTS_PARAMETERS.CANNON_EXPLOSION_RADIUS, player, dir );
         this.hasGeneratedSecondEXlopsion = false;
         this.needCollision = false;
+        this.needCollision = true;
     }
     update( dt, itemEvents ) {
         if ( !this.hasGeneratedSecondEXlopsion && Date.now() - this.timestamp > Constants.ITEM_EVENTS_PARAMETERS.CANNON_EXPLOSION_GENERATE_INTERVAL ) {
@@ -24,16 +25,16 @@ class CannonExplosion extends ItemEventClass {
         if ( Date.now() - this.timestamp > Constants.ITEM_EVENTS_PARAMETERS.CANNON_EXPLOSION_END ) this.destroy = true;
     }
     collide( players ) {
-        if ( this.needCollision && Date.now() - this.timestamp > Constants.ITEM_EVENTS_PARAMETERS.CANNON_EXPLOSION_HIT ) {
+        if ( this.needCollision && Date.now() - this.timestamp >= Constants.ITEM_EVENTS_PARAMETERS.CANNON_EXPLOSION_HIT ) {
             this.needCollision = false;
             Object.values(players).filter( player => player.distanceTo( this ) < this.radius + Constants.PLAYER_RADIUS ).forEach( player => {
                 if ( player != this.parent ) {
-                    if ( player.takeDamage( Constants.ITEM_EVENTS_PARAMETERS.BOMB_EXPLOSION_DAMAGE, this.parent.id ) ) {
+                    if ( player.takeDamage( Constants.ITEM_EVENTS_PARAMETERS.CANNON_EXPLOSION_DAMAGE, this.parent.id ) ) {
                         this.parent.onDealtDamage();
                     }
                 }
             } );
-        }
+        } 
     }
 }
 

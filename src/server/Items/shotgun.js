@@ -18,7 +18,7 @@ class Shotgun extends ItemClass {
     const newBullets = [];
     const { id, x, y, direction } = player;
     for( let i = 0; i < Constants.ITEMS_PARAMETERS.SHOTGUN_BULLET_NUMBER; i++ ) {
-      const newBullet = new Bullet( id, x, y + Math.random() * 80, direction + ( Math.random() - 0.5 ) / 2 )
+      const newBullet = new Bullet( id, x, y + Math.random() * 120, direction + ( Math.random() - 0.5 ) / 1.5 )
       newBullets.push( newBullet );
     }
     return { bullets: newBullets };

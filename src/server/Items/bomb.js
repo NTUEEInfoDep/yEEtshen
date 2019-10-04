@@ -16,7 +16,7 @@ class Bomb extends ItemClass {
     const { x, y, direction } = player;
     for ( let i=0; i< BOMB_EXPLOSIONS_NUMBER; i++ ) {
       const dir =  direction + 2*Math.PI/BOMB_EXPLOSIONS_NUMBER*i;
-      newItemEvents.push( new BombExplosion( x + BOMB_EXPLOSIONS_RADIUS * Math.sin(dir) , y - BOMB_EXPLOSIONS_RADIUS * Math.cos(dir), player ) );
+      newItemEvents.push( new BombExplosion( x + 2 * BOMB_EXPLOSIONS_RADIUS * Math.sin(dir) , y - 2 * BOMB_EXPLOSIONS_RADIUS * Math.cos(dir), player ) );
     }
     newItemEvents.push( new BombExplosion( x, y, player ) );
     player.item = null;
