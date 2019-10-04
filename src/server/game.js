@@ -152,8 +152,8 @@ class Game {
         const beKilledTruncName = Utils.truncateName(beKilledName, 14);
         // The message to be rendered on the gameover board.
         const message = {
-          name: Utils.nonBreakingSpaces(player.username),
-          killedBy: Utils.nonBreakingSpaces(beKilledName),
+          name: player.username,
+          killedBy: beKilledName,
           score: Math.round(player.score),
         }
         socket.emit(Constants.MSG_TYPES.GAME_OVER, message);

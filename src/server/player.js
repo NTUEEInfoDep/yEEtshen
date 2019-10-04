@@ -38,6 +38,14 @@ class Player extends ObjectClass {
     // Update score
     this.score += dt * Constants.SCORE_PER_SECOND;
 
+    // Take boundary damage
+    if (this.x < 0 ||
+        this.y < 0 ||
+        this.x > Constants.MAP_SIZE ||
+        this.y > Constants.MAP_SIZE
+        ) {
+      this.takeDamage(0.1, null, "Boundary Damage");
+    }
     // Make sure the player stays in bounds
     this.x = Math.max(0, Math.min(Constants.MAP_SIZE, this.x));
     this.y = Math.max(0, Math.min(Constants.MAP_SIZE, this.y));

@@ -55,7 +55,7 @@ class HealthBar {
 
   // Set the health of a health bar
   setHealth(healthbar, num) {
-    healthbar.children[0].width = num * this.interval;
+    healthbar.children[0].width = Math.ceil(num) * this.interval;
   }
 }
 
