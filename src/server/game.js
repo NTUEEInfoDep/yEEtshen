@@ -2,9 +2,11 @@ const Constants = require('../shared/constants');
 const Utils = require('../shared/utils');
 
 const Player = require('./player');
-const Obj = require('./object');
+// const Obj = require('./object');
 const { applyCollisions, itemCollisions, itemEventCollisions, playerCollisions } = require('./collisions');
 const Items = require('./Items/');
+
+const itemGenerator = require('./generate');
 
 class Game {
   constructor() {
@@ -20,19 +22,20 @@ class Game {
     this.virtualPlayer = new Player('virtual', '', Constants.MAP_SIZE * 0.5, Constants.MAP_SIZE * 0.5, 0);
     this.virtualSockets = {};
 
-    // test items
-    this.addItem(new Items.Healbag( 100, 100 ));
-    this.addItem(new Items.Weed( 300, 100 ));
-    this.addItem(new Items.Shield( 500, 100 ));
-    this.addItem(new Items.LightSword( 700, 100 ));
-    this.addItem(new Items.Bomb( 100, 300 ));
-    this.addItem(new Items.Cannon( 300, 300 ));
-    this.addItem(new Items.FreezeBomb( 500, 300 ));
-    this.addItem(new Items.Shotgun( 700, 300 ));
+    // // test items
+    // this.addItem(new Items.Healbag( 100, 100 ));
+    // this.addItem(new Items.Weed( 300, 100 ));
+    // this.addItem(new Items.Shield( 500, 100 ));
+    // this.addItem(new Items.LightSword( 700, 100 ));
+    // this.addItem(new Items.Bomb( 100, 300 ));
+    // this.addItem(new Items.Cannon( 300, 300 ));
+    // this.addItem(new Items.FreezeBomb( 500, 300 ));
+    // this.addItem(new Items.Shotgun( 700, 300 ));
 
     this.lastUpdateTime = Date.now();
     this.shouldSendUpdate = false;
     setInterval(this.update.bind(this), 1000 / 60);
+    setInterval(() => itemGenerator(this.items), 5000);
   }
   
   // add a virtual player for menu background
