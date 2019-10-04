@@ -4,7 +4,6 @@ const Utils = require('../shared/utils');
 const Player = require('./player');
 // const Obj = require('./object');
 const { applyCollisions, itemCollisions, itemEventCollisions, playerCollisions } = require('./collisions');
-const Items = require('./Items/');
 
 const itemGenerator = require('./generate');
 
@@ -76,10 +75,6 @@ class Game {
         newBulletsAndItemEvents.itemEvents.forEach( itemEvent => this.itemEvents.push( itemEvent ) );
       }
     }
-  }
-
-  addItem(item) {
-    this.items.push(item);
   }
 
   /*
