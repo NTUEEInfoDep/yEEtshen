@@ -119,7 +119,7 @@ class Player extends ObjectClass {
       this.isCollided = true;
     }
     if ( this.state.lightSword ) {
-      if ( other.takeDamage( Constants.PLAYER_STATE_PARAMETERS.LIGHTSWORD_DAMAGE ) ) {
+      if ( other.takeDamage( Constants.PLAYER_STATE_PARAMETERS.LIGHTSWORD_DAMAGE, this.id ) ) {
         this.onDealtDamage()
       }
       delete this.state.lightSword;

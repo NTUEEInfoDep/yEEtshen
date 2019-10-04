@@ -29,15 +29,15 @@ export default class WeedArray extends SpriteArray {
     const canvas = this.app.view;
     const sprite = new PIXI.Sprite(this.textures[Math.floor(Math.random()*this.weedNum)]);
 
-    sprite.x = Math.random() * canvas.width;
-    sprite.y = Math.random() * canvas.height;
+    //sprite.x = Math.random() * canvas.width;
+    //sprite.y = Math.random() * canvas.height;
+    sprite.x = canvas.width/2;
+    sprite.y = canvas.height/2;
     sprite.rotation = Math.random()*2*Math.PI;
     sprite.anchor.set(0.5);
     sprite._rotation_speed = Math.random() * 2 * Math.PI / 2 + Math.PI / 2;
     sprite._direction = Math.random() * 2 * Math.PI;
     sprite._speed = Math.random() * 500 + 200;
-    //sprite.height *= 2;
-    //sprite.width *= 2;
     this.addSprite( shortid(), sprite);
   }
 
@@ -59,6 +59,11 @@ export default class WeedArray extends SpriteArray {
   render( me, dt ) {
     if ( me.state.includes( 'weed' ) ) {
       if ( !this.container.visible ) {
+        const canvas = this.app.view;
+        Object.values( this.sprites ).forEach( weed => {
+          weed.x = canvas.width/2;
+          weed.y = canvas.height/2;
+        })
         this.container.visible = true;
       }
       Object.values( this.sprites ).forEach( weed => {
