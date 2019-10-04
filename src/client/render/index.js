@@ -29,7 +29,7 @@ setCanvasDimensions();
 function setCanvasDimensions() {
   // On small screens (e.g. phones), we want to "zoom out" so players can
   // still see at least 800 in-game units of width.
-  const scaleRatio = Math.max(1, 800 / window.innerWidth);
+  const scaleRatio = Math.max(1, 600 / Math.min(window.innerWidth, window.innerHeight));
   canvas.width = scaleRatio * window.innerWidth;
   canvas.height = scaleRatio * window.innerHeight;
 }
