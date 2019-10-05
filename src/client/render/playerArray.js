@@ -175,7 +175,16 @@ export default class PlayerArray extends SpriteArray {
       engine: {
         path: 'assets/engine/engine',
         frames: 3,
+      },
+      weedState: {
+        path: 'assets/weeds/weedState/weedState',
+        frames: 6,
+      },
+      heal: {
+        path: 'assets/heal/heal',
+        frames: 9,
       }
+
     }
     super(app, imagePathHash, animationPathHash);
 
@@ -226,6 +235,22 @@ export default class PlayerArray extends SpriteArray {
     freeze.alpha = 0.6;
     playerContainer.addChild( freeze );
 
+    //weed sprite
+    const weedState = new PIXI.AnimatedSprite( this.textures['weedState'] );
+    weedState.visible = false;
+    weedState.animationSpeed = ANIMATION_SPEED;
+    weedState.anchor.set(0.5);
+    weedState.play();
+    playerContainer.addChild( weedState );
+
+    //heal sprite
+    const heal = new PIXI.AnimatedSprite( this.textures['heal'] );
+    heal.visible = false;
+    heal.animationSpeed = ANIMATION_SPEED;
+    heal.anchor.set(0.5);
+    heal.loop = false;
+    playerContainer.addChild( heal );
+    
     // set position and direction
     playerContainer.x = canvas.width / 2 + x - me.x;
     playerContainer.y = canvas.height / 2 + y - me.y;
@@ -267,11 +292,12 @@ export default class PlayerArray extends SpriteArray {
     const sprite = playerContainer.children[2];
     const shield = playerContainer.children[3];
     const freeze = playerContainer.children[4];
-    const usernameText = playerContainer.children[5];
-    const bulletNumBar = playerContainer.children[6];
-    const healthbar = playerContainer.children[7];
-    const bubble = playerContainer.children[8];
-    const itemIcon = playerContainer.children[9];
+    const weedState = playerContainer.children[5];
+    const heal = playerContainer.children[6];
+    const usernameText = playerContainer.children[7];
+    const bulletNumBar = playerContainer.children[8];
+    const healthbar = playerContainer.children[9];
+    const itemIcon = playerContainer.children[11];
 
     // set position and direction
     playerContainer.x = canvas.width / 2 + x - me.x;
@@ -318,6 +344,25 @@ export default class PlayerArray extends SpriteArray {
     } else {
       freeze.visible = false;
       engine.visible = true;
+    }
+    
+    // weed 
+    if ( player.state.includes('weed') ) {
+      weedState.visible = true;
+    } else {
+      weedState.visible = false;
+    }
+
+    // heal
+    if ( player.state.includes( 'heal' ) ) {
+      if ( !heal.visible ) {
+        heal.gotoAndPlay(0);
+        heal.visible = true;
+      }
+    } else {
+      if ( heal.currentFrame == 8 ) {
+        heal.visible = false;
+      }
     }
 
     if ( player.state.includes('damaged') ) {

@@ -23,7 +23,7 @@ class Player extends ObjectClass {
     this.score = 0;
     this.dt = 0;
     this.item = null; // the item that the player owns
-    this.state = {}; // freeze, shield, lightSword, weed, damaged
+    this.state = {}; // freeze, shield, lightSword, weed, damaged, heal
     this.spriteIdx = spriteIdx;
 
     // The bullets that the player owns
@@ -92,9 +92,12 @@ class Player extends ObjectClass {
         delete this.state.weed;
       }
     }
-    if ( this.state.damaged ) {
-      if ( Date.now() - this.state.damaged > Constants.PLAYER_STATE_PARAMETERS.DAMAGED_DURATION ) {
+    if ( this.state.damaged ) { if ( Date.now() - this.state.damaged > Constants.PLAYER_STATE_PARAMETERS.DAMAGED_DURATION ) {
         delete this.state.damaged;
+      }
+    }
+    if ( this.state.heal ) { if ( Date.now() - this.state.heal > Constants.PLAYER_STATE_PARAMETERS.HEAL_DURATION ) {
+        delete this.state.heal;
       }
     }
   }
