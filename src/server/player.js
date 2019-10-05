@@ -3,6 +3,16 @@ const Bullet = require('./bullet');
 const Constants = require('../shared/constants');
 const Item = require('./Items/');
 
+// ============================================
+
+function recoverBullet(player) {
+  if (player.bulletNum < Constants.PLAYER_MAX_BULLET_NUM) {
+    player.bulletNum += 1;
+  }
+}
+
+// ============================================
+
 class Player extends ObjectClass {
   constructor(id, username, x, y, spriteIdx) {
     super(id, x, y, Math.random() * 2 * Math.PI, Constants.PLAYER_SPEED);
@@ -14,6 +24,12 @@ class Player extends ObjectClass {
     this.item = null; // the item that the player owns
     this.state = {}; // freeze, shield, lightSword, weed
     this.spriteIdx = spriteIdx;
+
+    // The bullets that the player owns
+    this.bulletNum = Constants.PLAYER_MAX_BULLET_NUM;
+    // recover bullets
+    setInterval(() => { recoverBullet(this); },
+      Constants.PLAYER_BULLET_NUM_RECOVER_TIME * 1000);
 
     // The player ID and name of the other player who kill this player.
     this.beKilledByID = null;
@@ -113,8 +129,9 @@ class Player extends ObjectClass {
       if( this.item ) {
         return this.item.use( this );
       }
-      else {
+      else if (this.bulletNum > 0) {
         const newBullet = new Bullet(this.id, this.x, this.y, this.direction, this.username);
+        this.bulletNum -= 1;
         return { bullets: [newBullet] }
       }
     }
@@ -155,7 +172,8 @@ class Player extends ObjectClass {
       username: this.username,
       item: this.getItemName(),
       state: Object.keys( this.state ),
-      spriteIdx: this.spriteIdx
+      spriteIdx: this.spriteIdx,
+      bulletNum: this.bulletNum,
     };
   }
 }
