@@ -2,6 +2,7 @@ const ObjectClass = require('./object');
 const Bullet = require('./bullet');
 const Constants = require('../shared/constants');
 const Item = require('./Items/');
+const ItemEvent = require('./ItemEvents/');
 
 // ============================================
 
@@ -22,7 +23,7 @@ class Player extends ObjectClass {
     this.score = 0;
     this.dt = 0;
     this.item = null; // the item that the player owns
-    this.state = {}; // freeze, shield, lightSword, weed
+    this.state = {}; // freeze, shield, lightSword, weed, damaged
     this.spriteIdx = spriteIdx;
 
     // The bullets that the player owns
@@ -60,7 +61,7 @@ class Player extends ObjectClass {
         this.x > Constants.MAP_SIZE ||
         this.y > Constants.MAP_SIZE
         ) {
-      this.takeDamage(0.1, null, "Boundary Damage");
+      this.takeDamage(0.02, null, "Boundary Damage");
     }
     // Make sure the player stays in bounds
     this.x = Math.max(0, Math.min(Constants.MAP_SIZE, this.x));
@@ -96,6 +97,11 @@ class Player extends ObjectClass {
         delete this.state.weed;
       }
     }
+    if ( this.state.damaged ) {
+      if ( Date.now() - this.state.damaged > Constants.PLAYER_STATE_PARAMETERS.DAMAGED_DURATION ) {
+        delete this.state.damaged;
+      }
+    }
   }
 
   // TODO: use takeDamage instead
@@ -110,6 +116,7 @@ class Player extends ObjectClass {
   takeDamage( damage, parentID, parentName ) {
     if ( !this.state.shield && this.hp > 0 ) {
       this.hp -= damage;
+      this.state.damaged = Date.now();
       if ( this.hp <= 0) {
         this.beKilledByID = parentID;
         this.beKilledByName = parentName;

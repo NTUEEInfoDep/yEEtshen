@@ -21,7 +21,7 @@ export default class ItemEventArray extends SpriteArray {
       },
       Death: {
         path: 'assets/death/death',
-        frames: 25,
+        frames: 40,
       }
     }
     super(app, imagePathHash, animationPathHash);

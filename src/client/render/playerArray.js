@@ -2,17 +2,18 @@ import * as PIXI from 'pixi.js';
 import SpriteArray from './spriteArray';
 
 const { ANIMATION_SPEED, PLAYER_RADIUS, PLAYER_MAX_HP, PLAYER_MAX_BULLET_NUM } = require('../../shared/constants');
+const lineColor = 0x000000;
 
 // ============================================
 
 class HealthBar {
   constructor() {
     this.width = 3 * PLAYER_RADIUS;
-    this.height = 6;
+    this.height = 10;
     this.interval = this.width / PLAYER_MAX_HP;
 
     // The offset with respect to the center of the player.
-    this.offsetX = -(this.width/2);
+    this.offsetX = -(this.width/2.4);
     this.offsetY = 1.3 * PLAYER_RADIUS;
   }
 
@@ -24,7 +25,7 @@ class HealthBar {
     // health
     const health = new PIXI.Graphics();
     health.beginFill(0xf02929, 1);
-    health.lineStyle(1, 0, 0);
+    health.lineStyle(1, 0, lineColor);
     health.drawRect(0, 0, this.width, this.height);
     health.endFill();
     healthbar.addChild(health);
@@ -32,7 +33,7 @@ class HealthBar {
     // border
     const border = new PIXI.Graphics();
     border.beginFill(0, 0);
-    border.lineStyle(1, 0xff7d7d);
+    border.lineStyle(1, lineColor);
     border.drawRect(0, 0, this.width, this.height);
     border.endFill();
     healthbar.addChild(border);
@@ -40,7 +41,7 @@ class HealthBar {
     // dividing line
     for (let i = 1; i < PLAYER_MAX_HP; i++) {
       const divLine = new PIXI.Graphics();
-      divLine.lineStyle(1, 0xad0000);
+      divLine.lineStyle(1, lineColor);
       divLine.moveTo(i * this.interval, 0);
       divLine.lineTo(i * this.interval, this.height);
       healthbar.addChild(divLine);
@@ -62,11 +63,11 @@ class HealthBar {
 class BulletNumBar {
   constructor() {
     this.width = 3 * PLAYER_RADIUS;
-    this.height = 6;
+    this.height = 10;
     this.interval = this.width / PLAYER_MAX_BULLET_NUM;
 
     // The offset with respect to the center of the player.
-    this.offsetX = -(this.width/2);
+    this.offsetX = -(this.width/2.4);
     this.offsetY = 1.6 * PLAYER_RADIUS;
   }
 
@@ -77,8 +78,8 @@ class BulletNumBar {
 
     // bulletNum
     const bulletNum = new PIXI.Graphics();
-    bulletNum.beginFill(0xedef23, 1);
-    bulletNum.lineStyle(1, 0, 0);
+    bulletNum.beginFill(0xffb400, 1);
+    bulletNum.lineStyle(1, lineColor);
     bulletNum.drawRect(0, 0, this.width, this.height);
     bulletNum.endFill();
     bulletNumBar.addChild(bulletNum);
@@ -86,7 +87,7 @@ class BulletNumBar {
     // border
     const border = new PIXI.Graphics();
     border.beginFill(0, 0);
-    border.lineStyle(1, 0xff7d7d);
+    border.lineStyle(1, lineColor);
     border.drawRect(0, 0, this.width, this.height);
     border.endFill();
     bulletNumBar.addChild(border);
@@ -94,7 +95,7 @@ class BulletNumBar {
     // dividing line
     for (let i = 1; i < PLAYER_MAX_BULLET_NUM; i++) {
       const divLine = new PIXI.Graphics();
-      divLine.lineStyle(1, 0xad0000);
+      divLine.lineStyle(1, lineColor);
       divLine.moveTo(i * this.interval, 0);
       divLine.lineTo(i * this.interval, this.height);
       bulletNumBar.addChild(divLine);
@@ -152,6 +153,11 @@ class UsernameText {
 export default class PlayerArray extends SpriteArray {
   constructor(app) {
     const imagePathHash = {
+      Bubble: 'assets/items/bubble_small.png',
+      Bomb: 'assets/items/item_5.png',
+      Cannon: 'assets/items/item_6.png',
+      Shotgun: 'assets/items/item_7.png',
+      FreezeBomb: 'assets/items/item_8.png',
       freeze: 'assets/frozen.png',
     };
     for(let idx = 0; idx < 8; ++idx)
@@ -226,9 +232,6 @@ export default class PlayerArray extends SpriteArray {
     sprite.anchor.set(0.5);
     sprite.rotation = direction;
 
-    // health bar
-    const healthbar = this.healthbar.create();
-    playerContainer.addChild(healthbar);
 
     // username
     const usernameText = this.usernameText.create(username);
@@ -237,19 +240,38 @@ export default class PlayerArray extends SpriteArray {
     // bullet num bar
     const bulletNumBar = this.bulletNumBar.create();
     playerContainer.addChild(bulletNumBar);
+
+    // health bar
+    const healthbar = this.healthbar.create();
+    playerContainer.addChild(healthbar);
+
+    // item bubble
+    const bubble = new PIXI.Sprite( this.textures['Bubble'] );
+    playerContainer.addChild(bubble);
+    bubble.x = -2.3* PLAYER_RADIUS;
+    bubble.y = 0.85 * PLAYER_RADIUS;
+
+    // item
+    const item = new PIXI.Sprite( this.textures['Bomb']);
+    item.visible = false;
+    playerContainer.addChild(item);
+    item.x = -2.3* PLAYER_RADIUS;
+    item.y = 0.85 * PLAYER_RADIUS;
   }
 
   updateSprite(me, playerContainer, player) {
-    const { x, y, direction, username, hp, bulletNum } = player;
+    const { x, y, direction, username, hp, bulletNum, item } = player;
     const canvas = this.app.view;
     const lightSword = playerContainer.children[0];
     const engine = playerContainer.children[1];
     const sprite = playerContainer.children[2];
     const shield = playerContainer.children[3];
     const freeze = playerContainer.children[4];
-    const healthbar = playerContainer.children[5];
-    const usernameText = playerContainer.children[6];
-    const bulletNumBar = playerContainer.children[7];
+    const usernameText = playerContainer.children[5];
+    const bulletNumBar = playerContainer.children[6];
+    const healthbar = playerContainer.children[7];
+    const bubble = playerContainer.children[8];
+    const itemIcon = playerContainer.children[9];
 
     // set position and direction
     playerContainer.x = canvas.width / 2 + x - me.x;
@@ -260,11 +282,19 @@ export default class PlayerArray extends SpriteArray {
     // health bar
     this.healthbar.setHealth(healthbar, hp);
 
+
     // username
     this.usernameText.update(usernameText, username);
 
     // bullet num bar
     this.bulletNumBar.setBulletNum(bulletNumBar, bulletNum);
+
+    if ( item ) {
+      itemIcon.texture = this.textures[item];
+      itemIcon.visible = true;
+    } else {
+      itemIcon.visible = false;
+    }
 
     // lightSword
     if ( player.state.includes( 'lightSword' ) ) {
@@ -288,6 +318,16 @@ export default class PlayerArray extends SpriteArray {
     } else {
       freeze.visible = false;
       engine.visible = true;
+    }
+
+    if ( player.state.includes('damaged') ) {
+      if ( Date.now() % 300 > 150 ) {
+        playerContainer.visible = false;
+      } else {
+        playerContainer.visible = true;
+      }
+    } else {
+      playerContainer.visible = true;
     }
   }
 }

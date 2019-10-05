@@ -6,6 +6,7 @@ const Player = require('./player');
 const { applyCollisions, itemCollisions, playerCollisions } = require('./collisions');
 
 const itemGenerator = require('./generate');
+const ItemEvent = require('./ItemEvents/');
 
 class Game {
   constructor() {
@@ -142,6 +143,7 @@ class Game {
       const socket = this.sockets[playerID];
       const player = this.players[playerID];
       if (player.hp <= 0) {
+        this.itemEvents.push( new ItemEvent.Death( player ) );
         // If the killer player still alive, increase his or her score
         const killer = this.players[player.beKilledByID];
         if (killer) {
