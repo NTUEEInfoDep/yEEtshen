@@ -7,6 +7,7 @@ const { applyCollisions, itemCollisions, playerCollisions } = require('./collisi
 
 const itemGenerator = require('./generate');
 const ItemEvent = require('./ItemEvents/');
+const fs = require('fs');
 
 class Game {
   constructor() {
@@ -20,7 +21,7 @@ class Game {
     // set initial leaderborads value 0
     this.leaderboards = [];
     for(let i = 0; i < Constants.LEADERBOARD_SIZE; i++) {
-      this.leaderboards.push({ username: '-', score: '-', id: 'virtual' + 'i'});
+      this.leaderboards.push({ username: '-', score: '-', id: ''});
     }
 
     // this.virtualPlayers = {}; 
@@ -29,6 +30,8 @@ class Game {
 
     this.lastUpdateTime = Date.now();
     this.shouldSendUpdate = false;
+
+    this.getTopTenData();
     setInterval(this.update.bind(this), 1000 / 60);
     setInterval(() => itemGenerator(this.items), 5000);
   }
@@ -210,6 +213,18 @@ class Game {
     }
   }
 
+  getTopTenData() { // get data from topten.json
+    fs.readFile('topten.json', (err, data) => {
+        if (err) console.log(err);
+        else {
+          let tmpdata = JSON.parse(data);
+          for (let i = 0; i < 10; i++) {
+            this.leaderboards[i] = Object.assign({}, this.leaderboards[i], tmpdata[i]);
+          }
+        }
+    })
+  }
+
   getLeaderboard() {      
     Object.values(this.players)
       .forEach(p => {                                       // for any player
@@ -225,7 +240,7 @@ class Game {
         for(let i = 0; i < Constants.LEADERBOARD_SIZE; i++) { // check if the id is on the leaderboard 
           if(this.leaderboards[i].id == p.id) {
              exist = true;
-             this.leaderboards[i].score = Math.round(p.score);
+             this.leaderboards[i].score = Math.max(Math.round(p.score), this.leaderboards[i].score);
              break;
           }
         }
@@ -240,6 +255,9 @@ class Game {
     this.leaderboards
       .sort((p1, p2) => p2.score - p1.score)  
 
+    fs.writeFile('topten.json', JSON.stringify(this.leaderboards), (err) => {
+        if (err) console.log(err)
+    });
     return this.leaderboards
     // .map(p => ({ username: p.username, score: Math.round(p.score) }));
     // return Object.values(this.players)
