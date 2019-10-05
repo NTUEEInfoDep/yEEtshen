@@ -174,6 +174,7 @@ class Player extends ObjectClass {
       state: Object.keys( this.state ),
       spriteIdx: this.spriteIdx,
       bulletNum: this.bulletNum,
+      score: Math.round(this.score)
     };
   }
 }
