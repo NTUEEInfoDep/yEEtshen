@@ -188,7 +188,7 @@ button:focus {
 
 #playerOnline {
   position: fixed;
-  width: 100vh;
+  width: 100vw;
   top: 10px;
   text-align: center;
   font-size: 1.5rem;
