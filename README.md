@@ -1,5 +1,5 @@
 <h1 align="center">
-    <img alt="An Example .io Game" title="An Example .io Game" src="https://github.com/vzhou842/example-.io-game/blob/master/public/assets/icon.svg" width="140"> <br />
+    <img alt="EEWeek" title="2019EEWeek" src="https://github.com/NTUEEInfoDep/yEEtshen/blob/master/public/assets/EEweek_bigHead.png" width="140"> <br />
     yEEtshen -- Multiplayer game for NTUEE Week yEEt
 </h1>
 
