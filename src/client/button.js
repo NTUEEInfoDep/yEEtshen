@@ -5,6 +5,7 @@ class Button {
     this.texture = PIXI.Texture.from(imagePath);
     this.btnSprite = new PIXI.Sprite(this.texture);
     this.btnSprite.visible = false;
+    this.btnSprite.alpha = 0.5;
     this.btnSprite.anchor.set(0.5, 0.5);
     this.press = undefined;
     this.release = undefined;
