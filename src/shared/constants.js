@@ -18,6 +18,7 @@ module.exports = Object.freeze({
   },
 
   BOUNDARY_KILL_NAME: "Boundary Damage",
+  BOUNDARY_KILL_NAME_COLOR: "red",
 
   BULLET_RADIUS: 12,
   BULLET_WIDTH: 2,
