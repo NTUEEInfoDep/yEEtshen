@@ -320,6 +320,7 @@ class Game {
       itemEvents: nearbyItemEvents.map(e => e.serializeForUpdate()),
       leaderboard,
       broadcasts,
+      playerNum: Object.keys(this.players).length,
     };
   }
 }

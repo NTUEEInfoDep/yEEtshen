@@ -186,6 +186,16 @@ button:focus {
   outline: none;
 }
 
+#playerOnline {
+  position: fixed;
+  width: 100vh;
+  top: 10px;
+  text-align: center;
+  font-size: 1.5rem;
+  color: white;
+  font-family: "GeosansLight";
+}
+
 @keyframes fadeIn {
   0% {
     opacity: 0;

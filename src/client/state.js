@@ -1,5 +1,6 @@
 import { updateLeaderboard } from './leaderboard';
 import { addBroadcast } from './broadcast';
+import { updatePlayerOnline } from './playerOnline';
 
 // The "current" state will always be RENDER_DELAY ms behind server time.
 // This makes gameplay smoother and lag less noticeable.
@@ -28,6 +29,9 @@ export function processGameUpdate(update, virtual = false) {
   // }
 
   addBroadcast(update.broadcasts);
+
+  // update online player
+  updatePlayerOnline(update.playerNum);
   
   // Keep only one game update before the current server time
   const base = getBaseUpdate();

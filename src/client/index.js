@@ -4,6 +4,7 @@ import { startCapturingInput, stopCapturingInput } from './input';
 import { initState } from './state';
 import { setLeaderboardHidden } from './leaderboard';
 import { setBroadcastBoardHidden } from './broadcast';
+import { setPlayerOnlineHidden } from './playerOnline';
 
 import * as PIXI from 'pixi.js';
 import './css/main.css';
@@ -51,6 +52,7 @@ function onGameOver(message) {
 
   setLeaderboardHidden(true);
   setBroadcastBoardHidden(true);
+  setPlayerOnlineHidden(true);
 }
 
 // set up for playing
@@ -70,6 +72,7 @@ function playSetup() {
   startRendering();
   setLeaderboardHidden(false);
   setBroadcastBoardHidden(false);
+  setPlayerOnlineHidden(false);
 }
 
 // set up for replaying
@@ -81,6 +84,7 @@ function replaySetup() {
   startRendering();
   setLeaderboardHidden(false);
   setBroadcastBoardHidden(false);
+  setPlayerOnlineHidden(false);
 }
 
 // create a virtual player for menu background
