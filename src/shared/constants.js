@@ -15,6 +15,7 @@ module.exports = Object.freeze({
     LIGHTSWORD_DAMAGE: 4,
     WEED_DURATION: 8000,
     DAMAGED_DURATION: 1000,
+    HEAL_DURATION: 300,
   },
 
   SPECIAL_ID: "special",

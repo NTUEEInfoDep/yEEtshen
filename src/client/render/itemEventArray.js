@@ -22,9 +22,10 @@ export default class ItemEventArray extends SpriteArray {
       Death: {
         path: 'assets/death/death',
         frames: 40,
-      }
+      }, 
     }
     super(app, imagePathHash, animationPathHash);
+    console.log(this.textures['Heal']);
   }
 
   createSpriteFromObject(me, itemEvent) {
