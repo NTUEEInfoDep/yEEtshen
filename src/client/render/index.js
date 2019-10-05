@@ -7,6 +7,7 @@ import { getCurrentState } from '../state';
 import Background from './background';
 import BulletArray from './bulletArray';
 import PlayerArray from './playerArray';
+import ComputerPlayerArray from './computerplayerArray';
 import ItemArray from './itemArray';
 import ItemEventArray from './itemEventArray';
 import WeedArray from './weedArray';
@@ -47,6 +48,7 @@ const borderArray = new BorderArray(app);
 const itemEventArray = new ItemEventArray(app);
 const itemArray = new ItemArray(app);
 const playerArray = new PlayerArray(app);
+const computerplayerArray = new ComputerPlayerArray(app);
 const bulletArray = new BulletArray(app);
 const weedArray = new WeedArray(app);
 
@@ -69,7 +71,7 @@ function renderButton() {
 
 // When playing.
 function render() {
-  const { me, others, bullets, items, itemEvents } = getCurrentState();
+  const { me, others, computerplayers, bullets, items, itemEvents } = getCurrentState();
   if (!me) { return; }
 
   // render button
@@ -87,6 +89,9 @@ function render() {
 
   // render all players
   playerArray.render(me, [me, ...others]);
+
+  // render all computer players
+  computerplayerArray.render(me, computerplayers);
 
   // render bullets
   bulletArray.render(me, bullets);

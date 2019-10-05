@@ -50,7 +50,6 @@ function playerCollisions(player, others) {
   });
 }
 
-
 module.exports = {
   applyCollisions,
   itemCollisions,
