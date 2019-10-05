@@ -8,8 +8,10 @@ export default class WeedArray extends SpriteArray {
   constructor(app) {
     const imagePathHash = {
       weed: 'assets/weeds/weed.png',
-      text1: 'assets/weeds/weed0.png',
-      text2: 'assets/weeds/weed1.png',
+      text0: 'assets/weeds/text_0.png',
+      text1: 'assets/weeds/text_1.png',
+      text2: 'assets/weeds/text_2.png',
+      text3: 'assets/weeds/text_3.png',
     }
     const animationPathHash = {
       red: {
@@ -24,9 +26,11 @@ export default class WeedArray extends SpriteArray {
     for ( let i = 0; i < 20; i++ ) {
       this.createSpriteFromObject( 'weed' );
     }
-    for ( let i = 0; i < 3; i++ ) {
+    for ( let i = 0; i < 2; i++ ) {
+      this.createSpriteFromObject( 'text0' );
       this.createSpriteFromObject( 'text1' );
       this.createSpriteFromObject( 'text2' );
+      this.createSpriteFromObject( 'text3' );
     }
     for ( let i = 0; i < 10; i++ ) {
       this.createSpriteFromObject( 'red' );
