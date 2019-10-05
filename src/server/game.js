@@ -16,6 +16,11 @@ class Game {
     this.itemEvents = [];
 
     this.broadcasts = [];
+    // set initial leaderborads value 0
+    this.leaderboards = [];
+    for(let i = 0; i < Constants.LEADERBOARD_SIZE; i++) {
+      this.leaderboards.push({ username: '-', score: '-', id: 'virtual' + 'i'});
+    }
 
     // this.virtualPlayers = {}; 
     this.virtualPlayer = new Player('virtual', '', Constants.MAP_SIZE * 0.5, Constants.MAP_SIZE * 0.5, 0);
@@ -203,11 +208,42 @@ class Game {
     }
   }
 
-  getLeaderboard() {
-    return Object.values(this.players)
-      .sort((p1, p2) => p2.score - p1.score)
-      .slice(0, 5)
-      .map(p => ({ username: p.username, score: Math.round(p.score) }));
+  getLeaderboard() {      
+    Object.values(this.players)
+      .forEach(p => {                                       // for any player
+        // console.log(p.score)
+        let count = -1;                                           
+        for(let i = 0; i < Constants.LEADERBOARD_SIZE; i++) { // run through the leaderboard
+          if(p.score > this.leaderboards[i].score || this.leaderboards[i].score === '-') {        // if bigger than the history score
+            count = i;                                  // save the place to replace                                                 
+            break;
+          }
+        }
+        let exist = false;
+        for(let i = 0; i < Constants.LEADERBOARD_SIZE; i++) { // check if the id is on the leaderboard 
+          if(this.leaderboards[i].id == p.id) {
+             exist = true;
+             this.leaderboards[i].score = Math.round(p.score);
+             break;
+          }
+        }
+        if(count != -1 && !exist) { // if need to change the leaderboard
+          for(let i = Constants.LEADERBOARD_SIZE - 1; i > count ; i--) { // move the past record back
+            this.leaderboards[i] = this.leaderboards[i - 1];
+          }
+          this.leaderboards[count] = { username: p.username, score: Math.round(p.score), id: p.id };    
+        }  
+      })    
+    
+    this.leaderboards
+      .sort((p1, p2) => p2.score - p1.score)  
+
+    return this.leaderboards
+    // .map(p => ({ username: p.username, score: Math.round(p.score) }));
+    // return Object.values(this.players)
+    //   .sort((p1, p2) => p2.score - p1.score)
+    //   .slice(0, 5)
+    //   .map(p => ({ username: p.username, score: Math.round(p.score) }));
   }
 
   createUpdate(player, leaderboard) {

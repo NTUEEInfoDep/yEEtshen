@@ -109,7 +109,6 @@ class BulletNumBar {
 
   // Set the health of a health bar
   setBulletNum(bulletNumBar, num) {
-    console.log(num);
     bulletNumBar.children[0].width = num * this.interval;
   }
 }
@@ -155,7 +154,7 @@ export default class PlayerArray extends SpriteArray {
     const imagePathHash = {
       freeze: 'assets/frozen.png',
     };
-    for(let idx = 0; idx <= 8; ++idx)
+    for(let idx = 0; idx < 8; ++idx)
       imagePathHash[`ship${idx}`] = `assets/spaceships/ship${idx.toString()}.png`;
 
     const animationPathHash = {

@@ -83,7 +83,6 @@ function replaySetup() {
 
 // create a virtual player for menu background
 const createVirtualPlayer = () => {
-  console.log('create virtual user');
   virtual();
   initState();
   startRendering();
@@ -91,7 +90,6 @@ const createVirtualPlayer = () => {
 
 // remove virtual player when entering the game
 const removeVirtualPlayer = () => {
-  console.log('remove virtual player');
   destroyVirtual();
   stopCapturingInput();
   stopRendering();

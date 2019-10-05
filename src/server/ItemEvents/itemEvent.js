@@ -10,7 +10,6 @@ class ItemEventClass extends ObjectClass {
     this.destroy = false;
     this.parentID = parentID;
     this.parentName = parentName;
-    console.log( `${this.constructor.name} generated`)
   }
 
   // TODO:

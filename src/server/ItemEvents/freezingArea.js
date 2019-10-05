@@ -19,7 +19,6 @@ class FreezingArea extends ItemEventClass {
         const { x, y } = this;
         if ( x < 0 || x > MAP_SIZE || y < 0 || y > MAP_SIZE) {
             this.destroy = true;
-            console.log('freezing area destroyed');
         }
     }
     collide( players ) {

@@ -21,11 +21,11 @@ export function processGameUpdate(update, virtual = false) {
   }
   gameUpdates.push(update);
 
-  updateLeaderboard(update.leaderboard);
+  updateLeaderboard(update.leaderboard, update.me);
 
-  if(!virtual){
-    updateLeaderboard(update.leaderboard);
-  }
+  // if(!virtual){
+  //   updateLeaderboard(update.leaderboard, {username: 'virtual', score: 0});
+  // }
 
   addBroadcast(update.broadcasts);
   
