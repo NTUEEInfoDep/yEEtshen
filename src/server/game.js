@@ -49,8 +49,22 @@ class Game {
   addPlayer(socket, username, spriteIdx) {
     this.sockets[socket.id] = socket;
     // Generate a position to start this player at.
-    const x = Constants.MAP_SIZE * (0.25 + Math.random() * 0.5);
-    const y = Constants.MAP_SIZE * (0.25 + Math.random() * 0.5);
+    let positionValid = null;
+    let x = null;
+    let y = null;
+    do {
+      positionValid = true;
+      x = Constants.MAP_SIZE * (0.25 + Math.random() * 0.5);
+      y = Constants.MAP_SIZE * (0.25 + Math.random() * 0.5);
+      const position = {x, y};
+      // make sure the position is not close to any player
+      for (let player of Object.values(this.players)) {
+        if (player.distanceTo(position) < 2.5 * Constants.PLAYER_RADIUS) {
+          positionValid = false;
+          break;
+        }
+      }
+    } while (!positionValid);
     this.players[socket.id] = new Player(socket.id, username, x, y, spriteIdx);
   }
 

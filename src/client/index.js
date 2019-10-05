@@ -46,7 +46,7 @@ function onGameOver(message) {
   nameMessage.textContent = message.name;
   killedMessage.textContent = message.killedBy;
   if (message.killedBy === Constants.BOUNDARY_KILL_NAME) {
-    killedMessage.style.color = "red";
+    killedMessage.style.color = Constants.BOUNDARY_KILL_NAME_COLOR;
   }
   scoreMessage.textContent = message.score.toString();
   gameoverBoard.classList.remove('hidden');
