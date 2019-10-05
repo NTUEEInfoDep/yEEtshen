@@ -87,11 +87,6 @@ class Player extends ObjectClass {
         delete this.state.freeze;
       }
     }
-    if ( this.state.shield ) {
-      if ( Date.now() - this.state.shield > Constants.PLAYER_STATE_PARAMETERS.SHIELD_DURATION ) {
-        delete this.state.shield;
-      }
-    }
     if ( this.state.weed ) {
       if ( Date.now() - this.state.weed > Constants.PLAYER_STATE_PARAMETERS.WEED_DURATION ) {
         delete this.state.weed;
@@ -105,16 +100,20 @@ class Player extends ObjectClass {
   }
 
   // TODO: use takeDamage instead
-  takeBulletDamage() {
-    // If the player has shield and has use it, take zero damage
-    if ((!this.item) || (this.item.name !== 'SHIELD') || (!this.item.used)) {
-      this.hp -= Constants.BULLET_DAMAGE;
-    }
-  }
+  // takeBulletDamage() {
+  //   // If the player has shield and has use it, take zero damage
+  //   if ((!this.item) || (this.item.name !== 'SHIELD') || (!this.item.used)) {
+  //     this.hp -= Constants.BULLET_DAMAGE;
+  //   }
+  // }
 
   //take damage and give score
   takeDamage( damage, parentID, parentName ) {
-    if ( !this.state.shield && this.hp > 0 ) {
+    if (this.state.shield) {
+      delete this.state.shield;
+      return false;
+    }
+    if (this.hp > 0) {
       this.hp -= damage;
       this.state.damaged = Date.now();
       if ( this.hp <= 0) {
