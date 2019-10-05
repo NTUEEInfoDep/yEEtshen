@@ -238,7 +238,7 @@ class Game {
         for(let i = 0; i < Constants.LEADERBOARD_SIZE; i++) { // check if the id is on the leaderboard 
           if(this.leaderboards[i].id == p.id) {
              exist = true;
-             this.leaderboards[i].score = Math.round(p.score);
+             this.leaderboards[i].score = Math.max(Math.round(p.score), this.leaderboards[i].score);
              break;
           }
         }
