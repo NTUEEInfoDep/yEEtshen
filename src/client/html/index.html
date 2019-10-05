@@ -2,49 +2,44 @@
 <html>
   <head>
     <title>yEEtshen</title>
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-    <link rel="shortcut icon" href="/assets/icon64.png" />
-    <meta
-      property="description"
-      content="Multiplayer game for NTUEE Week yEEt."
-    />
-    <meta property="og:title" content="yEEtsheng -- NTUEE Week yEEt" />
-    <meta
-      property="og:description"
-      content="Multiplayer game for NTUEE Week yEEt."
-    />
-    <meta property="og:image" content="/assets/icon1200.png" />
-  </head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta property="description" content="Multiplayer game for NTUEE Week yEEt.">
+    <meta property="og:title" content="yEEtsheng -- NTUEE Week yEEt">
+    <meta property="og:description" content="Multiplayer game for NTUEE Week yEEt.">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
+<link rel="manifest" href="assets/favicon/site.webmanifest">
+<link rel="mask-icon" href="assets/favicon/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-TileImage" content="assets/favicon/mstile-144x144.png">
+<meta name="theme-color" content="#ffffff"></head>
   <body>
     <div id="play-menu" class="hidden">
       <div id="header">
-        <div id="title">yEEtshen</div>
+        <div id="title" style="margin-top: 10px">yEEtshen</div>
         <div id="subtitle">-&nbsp;NTUEE&nbsp;Week&nbsp;yEEt&nbsp;-</div>
+        <div id="subtitle">10/14~10/18&nbsp;小福廣場</div>
       </div>
       <p>
         Shoot other players and stay alive.
-        <br />
+        <br>
         Press left and right to rotate, space to shoot.
       </p>
-      <br/>
-
-      <div id="links">
-        <a href="https://github.com/NTUEEInfoDep/yEEtshen" target="_blank"><img id="github" src="/assets/octocat.png"/></a>
-        <div id="creator">
-            Created by
-            <span id="infodep">
-                <a href="https://github.com/NTUEEInfoDep" target="_blank">NTUEEInfoDep&nbsp;</a>
-            </span>
-        </div>
-      </div>
-
-      <br />
-      <input type="text" id="username-input" maxlength="25" placeholder="Username" />
-      <br/>
+      <br>
+      <br>
+      <input type="text" id="username-input" maxlength="25" placeholder="Username">
+      <br>
       <button id="play-button">PLAY</button>
+        <div id="links">
+          <!-- <a href="https://github.com/NTUEEInfoDep/yEEtshen" target="_blank"><img id="github" src="/assets/octocat.png"></a> -->
+          <div id="creator">
+              Created by
+              <span id="infodep">
+                  <a href="https://github.com/NTUEEInfoDep" target="_blank">NTUEEInfoDep&nbsp;</a>
+              </span>
+          </div>
+        </div>
     </div>
     <div id="broadcast-board" class="hidden">
       <ul>
@@ -85,19 +80,19 @@
       <p>
         Your name is <b id="name-message"></b>.
       </p>
-      <p >
+      <p>
         You've been killed by <b id="killed-message"></b>.
       </p>
       <p>
         Your score is <b id="score-message"></b>.
       </p>
-      <hr />
-      <br />
+      <hr>
+      <br>
       <button id="replay-button">PLAY AGAIN</button>
     </div>
-    <div id="disconnect-modal" class="hidden" >
+    <div id="disconnect-modal" class="hidden">
       <div>
-        <div><img src="/assets/server_error.png" /></div>
+        <div><img src="/assets/server_error.png"></div>
         <h2>Disconnected from Server</h2>
         <button id="reconnect-button">RECONNECT</button>
       </div>

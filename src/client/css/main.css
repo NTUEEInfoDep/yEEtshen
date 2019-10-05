@@ -113,6 +113,7 @@ button:focus {
 }
 #play-menu #links #creator {
   margin-top: 0.5rem;
+  font-size: 1rem;
 }
 #play-menu #links #infodep {
   font-family: "GeosansLight";
@@ -169,6 +170,9 @@ button:focus {
   font-size: 1.5rem;
   margin-bottom: 10px;
 }
+#gameover-board p b {
+  white-space: pre;
+}
 #gameover-board input {
   font-size: 18px;
   outline: none;
@@ -212,7 +216,7 @@ button:focus {
   position: absolute;
   display: table;
   color: #000000;
-  white-space: nowrap;
+  white-space: pre;
   background-color: rgba(255, 255, 255, 0.5);
   margin: 4px;
   border-radius: 5px;
@@ -239,6 +243,7 @@ button:focus {
 #leaderboard td {
   font-family: "GeosansLight";
   text-align: center;
+  white-space: pre;
   padding: 2px 5px;
 }
 
