@@ -9,14 +9,10 @@
   </a>
 </p>
 
-Built with [Node.js](https://nodejs.org/), [socket.io](https://socket.io/), and [PixiJS](https://www.pixijs.com/).
 
-## Credit
+## Demo
 
-1. **How to Build a Multiplayer (.io) Web Game -- [Victor Zhou](https://victorzhou.com)**
-    1. [part1](https://victorzhou.com/blog/build-an-io-game-part-1/)
-    2. [part2](https://victorzhou.com/blog/build-an-io-game-part-2/)
-    3. [github](https://github.com/vzhou842/example-.io-game)
+[https://yeet.ntuee.org/](https://yeet.ntuee.org/)
 
 ## Development
 
@@ -36,3 +32,25 @@ $ npm install
 $ npm run build
 $ npm start
 ```
+## Built with 
+
+* [Node.js](https://nodejs.org/)
+* [socket.io](https://socket.io/)
+* [PixiJS](https://www.pixijs.com/).
+
+## Credit
+
+1. **How to Build a Multiplayer (.io) Web Game -- [Victor Zhou](https://victorzhou.com)**
+    1. [part1](https://victorzhou.com/blog/build-an-io-game-part-1/)
+    2. [part2](https://victorzhou.com/blog/build-an-io-game-part-2/)
+    3. [github](https://github.com/vzhou842/example-.io-game)
+
+## Authors
+
+* [Kenchu123](https://github.com/Kenchu123)
+* [MortalHappiness](https://github.com/MortalHappiness)
+* [allen1236](https://github.com/allen1236)
+* [yingchiaochen](https://github.com/yingchiaochen)
+* [tzyLee](https://github.com/tzyLee)
+* [Mckinsey666](https://github.com/Mckinsey666)
+
