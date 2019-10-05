@@ -33,7 +33,7 @@ module.exports = Object.freeze({
   ITEMS_PARAMETERS: {
     HEALBAG_HEAL_HP: 2,
     SHIELD_LAST_TIME: 3, // seconds
-    SHOTGUN_BULLET_NUMBER: 5,
+    SHOTGUN_BULLET_NUMBER: 8,
   },
 
   ITEM_EVENTS_PARAMETERS: {
