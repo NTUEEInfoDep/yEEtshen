@@ -89,5 +89,5 @@ module.exports = Object.freeze({
   ANIMATION_SPEED: 0.2,
   ANIMATION_SCALE: 2,
 
-  LEADERBOARD_SIZE: 10,
+  LEADERBOARD_SIZE: 5,
 });    

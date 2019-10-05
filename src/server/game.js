@@ -246,7 +246,7 @@ class Game {
         if (err) console.log(err);
         else {
           let tmpdata = JSON.parse(data);
-          for (let i = 0; i < 10; i++) {
+          for (let i = 0; i < Constants.LEADERBOARD_SIZE; i++) {
             this.leaderboards[i] = Object.assign({}, this.leaderboards[i], tmpdata[i]);
           }
         }
