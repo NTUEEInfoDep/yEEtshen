@@ -109,7 +109,6 @@ class BulletNumBar {
 
   // Set the health of a health bar
   setBulletNum(bulletNumBar, num) {
-    console.log(num);
     bulletNumBar.children[0].width = num * this.interval;
   }
 }

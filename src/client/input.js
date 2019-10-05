@@ -40,7 +40,7 @@ right.release = () => {
     activeRotationKey = null;
   }
 };
-space.release = () => { console.log('Space key is Released'); };
+space.release = () => {  };
 
 export function startCapturingInput() {
   left.subscribe();

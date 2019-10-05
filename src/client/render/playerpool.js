@@ -154,7 +154,6 @@ export default class PlayerPool extends SpritePool {
     // set position and direction
     playerContainer.x = canvas.width / 2 + x - me.x;
     playerContainer.y = canvas.height / 2 + y - me.y;
-    console.log(sprite.height);
     sprite.anchor.set(0.5);
     sprite.rotation = direction;
 
@@ -205,7 +204,6 @@ export default class PlayerPool extends SpritePool {
     if ( player.state.includes( 'shield' ) ) {
       shield.visible = true;
       shield.play();
-      console.log( 'shield' );
     } else { 
       shield.visible = false;
     }
