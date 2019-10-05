@@ -234,6 +234,8 @@ button:focus {
   background-color: rgba(255, 255, 255, 0.5);
   padding: 10px;
   border-radius: 5px;
+  max-height: 55vh;
+  overflow: auto;
 }
 #leaderboard th {
   font-family: "Sugarpunch";
