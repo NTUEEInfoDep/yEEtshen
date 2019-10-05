@@ -61,7 +61,7 @@ class Player extends ObjectClass {
         this.x > Constants.MAP_SIZE ||
         this.y > Constants.MAP_SIZE
         ) {
-      this.takeDamage(0.02, null, "Boundary Damage");
+      this.takeDamage(0.02, null, Constants.BOUNDARY_KILL_NAME);
     }
     // Make sure the player stays in bounds
     this.x = Math.max(0, Math.min(Constants.MAP_SIZE, this.x));
