@@ -62,9 +62,9 @@ if (isBtn) {
 }
 
 function renderButton() {
-  rightBtn.setpos(canvas.width - 80, canvas.height - 70);
-  leftBtn.setpos(canvas.width - 150, canvas.height - 70);
-  fireBtn.setpos(100, canvas.height - 70);
+  rightBtn.setpos(canvas.width - 100, canvas.height - 70);
+  leftBtn.setpos(canvas.width - 240, canvas.height - 70);
+  fireBtn.setpos(110, canvas.height - 80);
 }
 
 // When playing.
