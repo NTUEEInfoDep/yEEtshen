@@ -7,35 +7,47 @@ const { ANIMATION_SPEED, BULLET_RADIUS } = require('../../shared/constants');
 export default class WeedArray extends SpriteArray {
   constructor(app) {
     const imagePathHash = {
-    }
-    // load the images of weeds
-    const weedNum = 1;
-    for ( let i = 0; i < weedNum; i ++ ) {
-      imagePathHash[i] = `assets/weeds/weed_${i}.png`;
+      weed: 'assets/weeds/weed.png',
+      text1: 'assets/weeds/weed0.png',
+      text2: 'assets/weeds/weed1.png',
     }
     const animationPathHash = {
+      red: {
+        path: 'assets/weeds/red/red',
+        frames: 6,
+      },
     }
     super(app, imagePathHash, animationPathHash);
 
-    this.weedNum = weedNum;
     this.container.visible = false;
 
-    for ( let i = 0; i < 25; i++ ) {
-      this.createSpriteFromObject();
+    for ( let i = 0; i < 20; i++ ) {
+      this.createSpriteFromObject( 'weed' );
+    }
+    for ( let i = 0; i < 3; i++ ) {
+      this.createSpriteFromObject( 'text1' );
+      this.createSpriteFromObject( 'text2' );
+    }
+    for ( let i = 0; i < 10; i++ ) {
+      this.createSpriteFromObject( 'red' );
     }
   }
 
-  createSpriteFromObject() {
+  createSpriteFromObject( name ) {
     const canvas = this.app.view;
-    const sprite = new PIXI.Sprite(this.textures[Math.floor(Math.random()*this.weedNum)]);
-
-    //sprite.x = Math.random() * canvas.width;
-    //sprite.y = Math.random() * canvas.height;
+    let sprite = null;
+    if ( name != 'red' ) {
+      sprite = new PIXI.Sprite(this.textures[name]);
+    } else {
+      sprite = new PIXI.AnimatedSprite( this.textures[name] );
+      sprite.animationSpeed = ANIMATION_SPEED;
+      sprite.play();
+    }
     sprite.x = canvas.width/2;
     sprite.y = canvas.height/2;
     sprite.rotation = Math.random()*2*Math.PI;
     sprite.anchor.set(0.5);
-    sprite._rotation_speed = Math.random() * 2 * Math.PI / 2 + Math.PI / 2;
+    sprite._rotation_speed = Math.random() * 2 * Math.PI / 2 + Math.PI / 3;
     sprite._direction = Math.random() * 2 * Math.PI;
     sprite._speed = Math.random() * 500 + 200;
     this.addSprite( shortid(), sprite);

@@ -26,10 +26,13 @@ export default class Background {
     }
 
 
-    // use a picture as background (haven't draw the border yet)
     /*
     const backgroundTexture = new PIXI.Texture.from( 'assets/background/space.png' );
     const background = new PIXI.Sprite( backgroundTexture );
+    background.alpha = 0.3;
+    background.anchor.set(0.5);
+    background.x = this.canvas.width/2;
+    background.y = this.canvas.height/2;
     this.container.addChild( background );
     this.background = background;
     */
