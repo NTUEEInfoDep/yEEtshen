@@ -20,7 +20,7 @@ export default class WeedArray extends SpriteArray {
     this.weedNum = weedNum;
     this.container.visible = false;
 
-    for ( let i = 0; i < 30; i++ ) {
+    for ( let i = 0; i < 25; i++ ) {
       this.createSpriteFromObject();
     }
   }

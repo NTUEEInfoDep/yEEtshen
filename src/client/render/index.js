@@ -10,6 +10,7 @@ import PlayerArray from './playerArray';
 import ItemArray from './itemArray';
 import ItemEventArray from './itemEventArray';
 import WeedArray from './weedArray';
+import BorderArray from './borderArray';
 import { rightBtn, leftBtn, fireBtn } from '../button';
 
 const Constants = require('../../shared/constants');
@@ -42,6 +43,7 @@ window.addEventListener('resize', debounce(40, setCanvasDimensions));
 const background = new Background(app);
 
 // sprite pools
+const borderArray = new BorderArray(app);
 const itemEventArray = new ItemEventArray(app);
 const itemArray = new ItemArray(app);
 const playerArray = new PlayerArray(app);
@@ -74,6 +76,8 @@ function render() {
   if (isBtn) { renderButton(); }
   // render background
   background.render(me);
+
+  borderArray.render(me);
 
   // render events
   itemEventArray.render(me, itemEvents);
