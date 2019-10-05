@@ -18,6 +18,8 @@ module.exports = Object.freeze({
     DAMAGED_DURATION: 1000,
   },
 
+  BOUNDARY_KILL_NAME: "Boundary Damage",
+
   BULLET_RADIUS: 12,
   BULLET_WIDTH: 2,
   BULLET_HEIHGT: 8,

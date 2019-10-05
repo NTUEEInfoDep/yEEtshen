@@ -159,7 +159,12 @@ class Game {
 
         const playerTruncName = Utils.truncateName(player.username, 14);
         const beKilledName = player.beKilledByName;
-        const beKilledTruncName = Utils.truncateName(beKilledName, 14);
+        let beKilledTruncName = null;
+        if (beKilledName !== Constants.BOUNDARY_KILL_NAME) {
+          beKilledTruncName = Utils.truncateName(beKilledName, 14);
+        } else {
+          beKilledTruncName = Constants.BOUNDARY_KILL_NAME;
+        }
         // The message to be rendered on the gameover board.
         const message = {
           name: player.username,
