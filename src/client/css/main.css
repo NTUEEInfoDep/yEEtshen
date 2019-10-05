@@ -113,6 +113,7 @@ button:focus {
 }
 #play-menu #links #creator {
   margin-top: 0.5rem;
+  font-size: 1rem;
 }
 #play-menu #links #infodep {
   font-family: "GeosansLight";
