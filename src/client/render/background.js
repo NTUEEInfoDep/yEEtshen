@@ -37,6 +37,7 @@ export default class Background {
     // or use black as background
     app.renderer.backgroundColor = 0x000;
 
+    /*
     // draw a box
     const background = new PIXI.Graphics();
     this.background = background;
@@ -48,6 +49,8 @@ export default class Background {
     background.drawRect(0, 0, MAP_SIZE, MAP_SIZE);
     background.endFill();
     container.addChild( background );
+    */
+
 
     // add stars
     this.spd_factors = [0.2, 0.4, 0.7, 1];
@@ -68,15 +71,15 @@ export default class Background {
 
   // When not playing.
   renderWhenNotPlaying() {
-    this.background.x = -(MAP_SIZE - this.canvas.width) / 2;
-    this.background.y = -(MAP_SIZE - this.canvas.height) / 2;
+    //this.background.x = -(MAP_SIZE - this.canvas.width) / 2;
+    //this.background.y = -(MAP_SIZE - this.canvas.height) / 2;
   }
 
   // When playing.
   render(me) {
 
-    this.background.x = this.canvas.width / 2 - me.x;
-    this.background.y = this.canvas.height / 2 - me.y;
+    //this.background.x = this.canvas.width / 2 - me.x;
+    //this.background.y = this.canvas.height / 2 - me.y;
 
     for( let i in this.stars ) {
       const star = this.stars[i];
