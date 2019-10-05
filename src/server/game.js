@@ -162,13 +162,20 @@ class Game {
       if (player.hp <= 0) {
         this.itemEvents.push( new ItemEvent.Death( player ) );
         // If the killer player still alive, increase his or her score
-        const killer = this.players[player.beKilledByID];
+        const killerID = player.beKilledByID;
+        const killer = this.players[killerID];
         if (killer) {
           const param = Constants.KILLED_SCORE; // parameters
           const killScore = param.BASE_SCORE + 
                             Math.min(player.score * param.RATIO
                                      , param.UPPERBOUND);
           killer.score += killScore;
+        }
+
+        // The special color for the killer name
+        let color = "black";
+        if (killerID && (killerID === Constants.SPECIAL_ID)) {
+          color = "red";
         }
 
         const playerTruncName = Utils.truncateName(player.username, 14);
@@ -183,6 +190,7 @@ class Game {
         const message = {
           name: player.username,
           killedBy: beKilledName,
+          color: color,
           score: Math.round(player.score),
         }
         socket.emit(Constants.MSG_TYPES.GAME_OVER, message);
@@ -191,6 +199,7 @@ class Game {
         const broadcastMessage = {
           playerName: playerTruncName,
           beKilledName: beKilledTruncName,
+          color: color,
         };
         // broadcast to every player
         Object.values(this.players).forEach(singlePlayer => {

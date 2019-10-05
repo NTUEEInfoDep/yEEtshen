@@ -18,16 +18,14 @@ export function addBroadcast(broadcasts) {
   const dx = 1; // The distance to move down in every interval
 
   for (let broadcast of broadcasts) {
-    const { playerName, beKilledName } = broadcast;
+    const { playerName, beKilledName, color } = broadcast;
     // Create <li> element
     let li = document.createElement("li");
     const playerNameBold = document.createElement('b');
     playerNameBold.textContent = playerName;
     const beKilledNameBold = document.createElement('b');
     beKilledNameBold.textContent = beKilledName;
-    if (beKilledName === Constants.BOUNDARY_KILL_NAME) {
-      beKilledNameBold.style.color = Constants.BOUNDARY_KILL_NAME_COLOR;
-    }
+    beKilledNameBold.style.color = color;
     li.appendChild(playerNameBold);
     li.appendChild(document.createTextNode(" is killed by "));
     li.appendChild(beKilledNameBold);
