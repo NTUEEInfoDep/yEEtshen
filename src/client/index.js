@@ -7,6 +7,7 @@ import { setBroadcastBoardHidden } from './broadcast';
 
 import * as PIXI from 'pixi.js';
 import './css/main.css';
+const Constants = require('../shared/constants');
 
 const playMenu = document.getElementById('play-menu');
 const playButton = document.getElementById('play-button');
@@ -44,6 +45,9 @@ function onGameOver(message) {
 
   nameMessage.textContent = message.name;
   killedMessage.textContent = message.killedBy;
+  if (message.killedBy === Constants.BOUNDARY_KILL_NAME) {
+    killedMessage.style.color = "red";
+  }
   scoreMessage.textContent = message.score.toString();
   gameoverBoard.classList.remove('hidden');
 

@@ -1,3 +1,4 @@
+const Constants = require('../shared/constants');
 const Utils = require('../shared/utils');
 
 const broadcastBoard = document.getElementById('broadcast-board');
@@ -24,6 +25,9 @@ export function addBroadcast(broadcasts) {
     playerNameBold.textContent = playerName;
     const beKilledNameBold = document.createElement('b');
     beKilledNameBold.textContent = beKilledName;
+    if (beKilledName === Constants.BOUNDARY_KILL_NAME) {
+      beKilledNameBold.style.color = "red";
+    }
     li.appendChild(playerNameBold);
     li.appendChild(document.createTextNode(" is killed by "));
     li.appendChild(beKilledNameBold);
