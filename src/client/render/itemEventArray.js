@@ -18,6 +18,10 @@ export default class ItemEventArray extends SpriteArray {
       FreezingArea: {
         path: 'assets/freezingArea/freezingArea',
         frames: 4,
+      },
+      Death: {
+        path: 'assets/death/death',
+        frames: 25,
       }
     }
     super(app, imagePathHash, animationPathHash);
@@ -40,6 +44,7 @@ export default class ItemEventArray extends SpriteArray {
     switch( name ) {
       case 'BombExplosion':
       case 'CannonExplosion':
+      case 'Death':
         sprite.loop = false;
         break;
       case 'FreezingArea':

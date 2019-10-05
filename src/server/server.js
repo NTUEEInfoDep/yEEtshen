@@ -54,7 +54,7 @@ function destroyVirtual() {
 }
 
 function joinGame(username) {
-  let spriteIdx = Math.floor(8 * Math.random());
+  let spriteIdx = Math.floor(Math.random()*8);
   console.log('add a new player');
   game.addPlayer(this, username, spriteIdx);
 }
