@@ -2,6 +2,7 @@ const Constants = require('../shared/constants');
 const Utils = require('../shared/utils');
 
 const Player = require('./player');
+const ComputerPlayer = require('./computerplayer');
 // const Obj = require('./object');
 const { applyCollisions, itemCollisions, playerCollisions } = require('./collisions');
 
@@ -13,6 +14,7 @@ class Game {
   constructor() {
     this.sockets = {};
     this.players = {};
+    this.computerplayers = {};
     this.bullets = [];
     this.items = [];
     this.itemEvents = [];
@@ -24,6 +26,13 @@ class Game {
       this.leaderboards.push({ username: '-', score: '-', id: ''});
     }
 
+    // add computerplayers
+    this.generateComputerPlayer('cp1', '奇聖號（電腦）');
+    this.generateComputerPlayer('cp2', '哲廣號（電腦）');
+    this.generateComputerPlayer('cp3', '國瑋號（電腦）');
+    this.generateComputerPlayer('cp4', '映樵號（電腦）');
+    this.allComputerID = ['cp1', 'cp2', 'cp3', 'cp4'];
+
     // this.virtualPlayers = {}; 
     this.virtualPlayer = new Player('virtual', '', Constants.MAP_SIZE * 0.5, Constants.MAP_SIZE * 0.5, 0);
     this.virtualSockets = {};
@@ -34,6 +43,9 @@ class Game {
     this.getTopTenData();
     setInterval(this.update.bind(this), 1000 / 60);
     setInterval(() => itemGenerator(this.items), 5000);
+
+    setInterval(() => this.handleComputerPlayerFire(),
+      Constants.COMPUTER_PLAYER_FIRE_COOLDOWN * 1000);
   }
   
   // add a virtual player for menu background
@@ -46,25 +58,42 @@ class Game {
     delete this.virtualSockets[socket.id];
   }
 
-  addPlayer(socket, username, spriteIdx) {
-    this.sockets[socket.id] = socket;
-    // Generate a position to start this player at.
-    let positionValid = null;
+  generateComputerPlayer(id, username) {
+    const {x, y} = this.generateValidPosition(0.15);
+    const computerplayer = new ComputerPlayer(id, username, x, y);
+    this.computerplayers[computerplayer.id] = computerplayer;
+  }
+
+  positionIsValid(x, y) {
+    const position = {x, y};
+    for (let player of Object.values(this.players)) {
+      if (player.distanceTo(position) < 2.5 * Constants.PLAYER_RADIUS) {
+        return false;
+      }
+    }
+    for (let computerplayer of Object.values(this.computerplayers)) {
+      if (computerplayer.distanceTo(position) < 2.5 * Constants.COMPUTER_PLAYER_RADIUS) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  generateValidPosition(mapBoundaryRatio) {
     let x = null;
     let y = null;
     do {
-      positionValid = true;
-      x = Constants.MAP_SIZE * (0.25 + Math.random() * 0.5);
-      y = Constants.MAP_SIZE * (0.25 + Math.random() * 0.5);
-      const position = {x, y};
-      // make sure the position is not close to any player
-      for (let player of Object.values(this.players)) {
-        if (player.distanceTo(position) < 2.5 * Constants.PLAYER_RADIUS) {
-          positionValid = false;
-          break;
-        }
-      }
-    } while (!positionValid);
+      x = Constants.MAP_SIZE * (mapBoundaryRatio + Math.random() * (1 - 2 * mapBoundaryRatio));
+      y = Constants.MAP_SIZE * (mapBoundaryRatio + Math.random() * (1 - 2 * mapBoundaryRatio));
+    } while (!this.positionIsValid(x, y));
+
+    return {x, y};
+  }
+
+  addPlayer(socket, username, spriteIdx) {
+    this.sockets[socket.id] = socket;
+    // Generate a position to start this player at.
+    const {x, y} = this.generateValidPosition(0.25);
     this.players[socket.id] = new Player(socket.id, username, x, y, spriteIdx);
   }
 
@@ -98,6 +127,18 @@ class Game {
         newBulletsAndItemEvents.itemEvents.forEach( itemEvent => this.itemEvents.push( itemEvent ) );
       }
     }
+  }
+
+  handleComputerPlayerFire() {
+    Object.values(this.computerplayers).forEach(computerplayer => {
+    const newBulletsAndItemEvents = computerplayer.handleFire();
+    if ( newBulletsAndItemEvents.bullets ) {
+      newBulletsAndItemEvents.bullets.forEach( bullet => this.bullets.push( bullet )  );
+    }
+    if ( newBulletsAndItemEvents.itemEvents ) {
+      newBulletsAndItemEvents.itemEvents.forEach( itemEvent => this.itemEvents.push( itemEvent ) );
+    }
+    });
   }
 
   /*
@@ -140,19 +181,27 @@ class Game {
     //   }
     });
 
+    Object.values(this.computerplayers).forEach(computerplayer => {
+      computerplayer.update(dt);
+    });
+
     // Apply collisions, give players score for hitting bullets
     const destroyedBullets = applyCollisions(Object.values(this.players), this.bullets);
-    destroyedBullets.forEach(b => {
-      if (this.players[b.parentID]) {
-        this.players[b.parentID].onDealtDamage();
-      }
-    });
     this.bullets = this.bullets.filter(bullet => !destroyedBullets.includes(bullet));
+
+    const destroyedBullets1 = applyCollisions(Object.values(this.computerplayers), this.bullets);
+    this.bullets = this.bullets.filter(bullet => !destroyedBullets1.includes(bullet));
 
     // Apply player collision with other
     // Todo
     Object.values(this.players).forEach(player => {
       playerCollisions(player, Object.values(this.players));
+    });
+    Object.values(this.players).forEach(player => {
+      playerCollisions(player, Object.values(this.computerplayers));
+    });
+    Object.values(this.computerplayers).forEach(computerplayer => {
+      playerCollisions(computerplayer, Object.values(this.computerplayers));
     });
 
     // Check if any players are dead
@@ -174,8 +223,9 @@ class Game {
 
         // The special color for the killer name
         let color = "black";
-        if (killerID && (killerID === Constants.SPECIAL_ID)) {
-          color = "red";
+        if (killerID) {
+          if (killerID === Constants.SPECIAL_ID) {color = "red";};
+          if (this.allComputerID.includes(killerID)) {color = "green";};
         }
 
         const playerTruncName = Utils.truncateName(player.username, 14);
@@ -191,6 +241,7 @@ class Game {
           name: player.username,
           killedBy: beKilledName,
           color: color,
+          condition: "normal",
           score: Math.round(player.score),
         }
         socket.emit(Constants.MSG_TYPES.GAME_OVER, message);
@@ -200,6 +251,7 @@ class Game {
           playerName: playerTruncName,
           beKilledName: beKilledTruncName,
           color: color,
+          condition: "normal",
         };
         // broadcast to every player
         Object.values(this.players).forEach(singlePlayer => {
@@ -211,16 +263,61 @@ class Game {
       }
     });
 
+    // Check if any computerplayers are dead
+    Object.values(this.computerplayers).forEach(computerplayer => {
+      if (computerplayer.hp <= 0) {
+        // If the killer player still alive, increase his or her score
+        const killerID = computerplayer.beKilledByID;
+        const killer = this.players[killerID];
+        if (killer) {
+          killer.score += Constants.COMPUTER_KILL_SCORE;
+        }
+        let condition = null;
+        if (this.allComputerID.includes(killerID)) {
+          condition = "both";
+        } else {
+          condition = "inverse";
+        }
+
+        // The special color for the killer name
+        const color = "green";
+
+        // The broadcast message.
+        const broadcastMessage = {
+          playerName: computerplayer.username,
+          beKilledName: computerplayer.beKilledByName,
+          color: color,
+          condition: condition,
+        };
+        // broadcast to every player
+        Object.values(this.players).forEach(singlePlayer => {
+          singlePlayer.broadcasts.push(broadcastMessage);
+        });
+
+        // Remove the player and set the revive time
+        if (computerplayer.item) {
+          delete this.items[computerplayer.item.id];
+          computerplayer.item = null;
+        }
+        setTimeout(() => this.generateComputerPlayer(computerplayer.id, computerplayer.username), Constants.COMPUTER_PLAYER_REVIVAL_TIME * 1000);
+        delete this.computerplayers[computerplayer.id];
+      }
+    });
+
     // update item events and check collision
     this.itemEvents.forEach( itemEvent => {
       itemEvent.update( dt, this.itemEvents );
       itemEvent.collide( this.players );
+      itemEvent.collide( this.computerplayers );
     })
     this.itemEvents = this.itemEvents.filter( itemEvent => !itemEvent.destroy )
 
     // Check the collisions of items and destroy collected items
     const destroyedItems = itemCollisions(Object.values(this.players), this.items);
     this.items = this.items.filter(item => !destroyedItems.includes(item));
+
+    const destroyedItems1 = itemCollisions(Object.values(this.computerplayers), this.items);
+    this.items = this.items.filter(item => !destroyedItems1.includes(item));
 
     // Send a game update to each player every other time
     if (this.shouldSendUpdate) {
@@ -298,6 +395,9 @@ class Game {
     const nearbyPlayers = Object.values(this.players).filter(
       p => p !== player && p.distanceTo(player) <= Constants.MAP_SIZE / 2,
     );
+    const nearbyComputerPlayers = Object.values(this.computerplayers).filter(
+      c => c.distanceTo(player) <= Constants.MAP_SIZE / 2,
+    );
     const nearbyBullets = this.bullets.filter(
       b => b.distanceTo(player) <= Constants.MAP_SIZE / 2,
     );
@@ -315,6 +415,7 @@ class Game {
       t: Date.now(),
       me: player.serializeForUpdate(),
       others: nearbyPlayers.map(p => p.serializeForUpdate()),
+      computerplayers: nearbyComputerPlayers.map(c => c.serializeForUpdate()),
       bullets: nearbyBullets.map(b => b.serializeForUpdate()),
       items: nearbyItems.map(i => i.serializeForUpdate()),
       itemEvents: nearbyItemEvents.map(e => e.serializeForUpdate()),

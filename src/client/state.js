@@ -76,6 +76,7 @@ export function getCurrentState() {
     return {
       me: interpolateObject(baseUpdate.me, next.me, ratio),
       others: interpolateObjectArray(baseUpdate.others, next.others, ratio),
+      computerplayers: interpolateObjectArray(baseUpdate.computerplayers, next.computerplayers, ratio),
       bullets: interpolateObjectArray(baseUpdate.bullets, next.bullets, ratio),
       // The items that have not been picked
       items: interpolateObjectArray(baseUpdate.items, next.items, ratio),

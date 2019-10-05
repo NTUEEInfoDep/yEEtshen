@@ -18,14 +18,28 @@ export function addBroadcast(broadcasts) {
   const dx = 1; // The distance to move down in every interval
 
   for (let broadcast of broadcasts) {
-    const { playerName, beKilledName, color } = broadcast;
+    const { playerName, beKilledName, color, condition } = broadcast;
     // Create <li> element
     let li = document.createElement("li");
     const playerNameBold = document.createElement('b');
     playerNameBold.textContent = playerName;
     const beKilledNameBold = document.createElement('b');
     beKilledNameBold.textContent = beKilledName;
-    beKilledNameBold.style.color = color;
+    switch (condition) {
+      case 'normal':
+        beKilledNameBold.style.color = color;
+        break;
+      case 'inverse':
+        playerNameBold.style.color = color;
+        break;
+      case 'both':
+        beKilledNameBold.style.color = color;
+        playerNameBold.style.color = color;
+        break;
+      default:
+        console.log("Error!!!");
+        break;
+    }
     li.appendChild(playerNameBold);
     li.appendChild(document.createTextNode(" is killed by "));
     li.appendChild(beKilledNameBold);

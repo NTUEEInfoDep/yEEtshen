@@ -46,7 +46,21 @@ function onGameOver(message) {
 
   nameMessage.textContent = message.name;
   killedMessage.textContent = message.killedBy;
-  killedMessage.style.color = message.color;
+  switch (message.condition) {
+    case 'normal':
+      killedMessage.style.color = message.color;
+      break;
+    case 'inverse':
+      nameMessage.style.color = message.color;
+      break;
+    case 'both':
+      killedMessage.style.color = message.color;
+      nameMessage.style.color = message.color;
+      break;
+    default:
+      console.log("Error!!!");
+      break;
+  }
   scoreMessage.textContent = message.score.toString();
   gameoverBoard.classList.remove('hidden');
 
