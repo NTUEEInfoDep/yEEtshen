@@ -26,7 +26,7 @@ export function addBroadcast(broadcasts) {
     const beKilledNameBold = document.createElement('b');
     beKilledNameBold.textContent = beKilledName;
     if (beKilledName === Constants.BOUNDARY_KILL_NAME) {
-      beKilledNameBold.style.color = "red";
+      beKilledNameBold.style.color = Constants.BOUNDARY_KILL_NAME_COLOR;
     }
     li.appendChild(playerNameBold);
     li.appendChild(document.createTextNode(" is killed by "));
