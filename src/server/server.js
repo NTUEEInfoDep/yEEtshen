@@ -30,8 +30,6 @@ const io = socketio(server);
 
 // Listen for socket.io connections
 io.on('connection', socket => {
-  console.log('Player connected!', socket.id);
-
   socket.on(Constants.MSG_TYPES.VIRTUAL, virtual) // listen a signal form virtual()
   socket.on(Constants.MSG_TYPES.DESTROY_VIRTUAL, destroyVirtual)
   socket.on(Constants.MSG_TYPES.JOIN_GAME, joinGame);
@@ -44,18 +42,15 @@ io.on('connection', socket => {
 const game = new Game();
 
 function virtual() {
-  console.log('create virtual user');
   game.addVirtualPlayer(this);
 }
 
 function destroyVirtual() {
-  console.log('destroy virtual user');
   game.removeVirtualPlayer(this);
 }
 
 function joinGame(username) {
   let spriteIdx = Math.floor(8 * Math.random());
-  console.log('add a new player');
   game.addPlayer(this, username, spriteIdx);
 }
 

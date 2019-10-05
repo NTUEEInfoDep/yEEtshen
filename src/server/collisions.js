@@ -31,7 +31,6 @@ function itemCollisions(players, items) {
   for ( let item of items ) {
     for ( let player of Object.values(players) ) {
       if ( player.distanceTo( item ) <= Constants.PLAYER_RADIUS + Constants.ITEM_RADIUS ) {
-        console.log( `item ${item.constructor.name} collected!` );
         item.beCollected( player );
         destroyedItems.push( item );
         break;
