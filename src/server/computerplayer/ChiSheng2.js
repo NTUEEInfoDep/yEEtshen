@@ -4,7 +4,7 @@ const Bullet = require('../bullet');
 class ChiSheng2 extends ComputerPlayer {
   constructor(x, y) {
     super('ChiSheng2', '奇聖二號（電腦）', x, y);
-    this.fireCooldown = 0.1;
+    this.fireCooldown = 0.7;
   }
 
   move() {
