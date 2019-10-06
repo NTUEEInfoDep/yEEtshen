@@ -1,5 +1,4 @@
 const ObjectClass = require('../object');
-const Bullet = require('../bullet');
 const Constants = require('../../shared/constants');
 const Item = require('../Items/');
 const ItemEvent = require('../ItemEvents/');
@@ -19,6 +18,9 @@ class ComputerPlayer extends ObjectClass {
     // The bullets that the player owns
     this.bulletNum = Infinity;
 
+    // Store the return value of setInterval for the bullets.
+    this.fireInterval = null;
+
     // The player ID and name of the other player who kill this player.
     this.beKilledByID = null;
     this.beKilledByName = null;
@@ -28,9 +30,8 @@ class ComputerPlayer extends ObjectClass {
 
   // Returns a newly created bullet, or null.
   update(dt) {
-
-    const randomAngle = (Math.random() * 10) - 5;
-    this.rotateSpeed = Math.round(randomAngle) * Math.PI / 180;
+    
+    this.move();
 
     if( !this.state.freeze ) {
       super.update(dt);
@@ -46,6 +47,11 @@ class ComputerPlayer extends ObjectClass {
     // update state
     this.updateState();
 
+  }
+
+  // should modify the rotationSpeed or direction
+  move() {
+    console.error("The move() method for each computerplayer must be implemented!");
   }
 
   updateState() {
@@ -96,17 +102,16 @@ class ComputerPlayer extends ObjectClass {
         return this.item.use( this );
       }
       else if (this.bulletNum > 0) {
-        const bulletArray = [];
-        const angleInterval = (2 * Math.PI / 8);
-        for (let i = 0; i < 8; i++) {
-          const newBullet = new Bullet(this.id, this.x, this.y,
-            this.direction + i * angleInterval, this.username);
-          bulletArray.push(newBullet);
-        }
+        const bulletArray = this.shot();
         return { bullets: bulletArray }
       }
     }
     return {};
+  }
+
+  // should return array of bullets
+  shot() {
+    console.error("The shot() method for each computerplayer must be implemented!");
   }
 
   // called when collide with another player
