@@ -27,11 +27,9 @@ class Game {
     }
 
     // add computerplayers
-    this.generateComputerPlayer('cp1', '奇聖號（電腦）');
-    this.generateComputerPlayer('cp2', '哲廣號（電腦）');
-    this.generateComputerPlayer('cp3', '國瑋號（電腦）');
-    this.generateComputerPlayer('cp4', '映樵號（電腦）');
-    this.allComputerID = ['cp1', 'cp2', 'cp3', 'cp4'];
+    this.generateComputerPlayer('ChiSheng1');
+    this.generateComputerPlayer('ChiSheng2');
+    this.allComputerID = Object.keys(ComputerPlayer);
 
     // this.virtualPlayers = {}; 
     this.virtualPlayer = new Player('virtual', '', Constants.MAP_SIZE * 0.5, Constants.MAP_SIZE * 0.5, 0);
@@ -58,9 +56,9 @@ class Game {
     delete this.virtualSockets[socket.id];
   }
 
-  generateComputerPlayer(id, username) {
+  generateComputerPlayer(id) {
     const {x, y} = this.generateValidPosition(0.15);
-    const computerplayer = new ComputerPlayer(id, username, x, y);
+    const computerplayer = new ComputerPlayer[id](x, y);
     this.computerplayers[computerplayer.id] = computerplayer;
   }
 
@@ -300,7 +298,7 @@ class Game {
           delete this.items[computerplayer.item.id];
           computerplayer.item = null;
         }
-        setTimeout(() => this.generateComputerPlayer(computerplayer.id, computerplayer.username), Constants.COMPUTER_PLAYER_REVIVAL_TIME * 1000);
+        setTimeout(() => this.generateComputerPlayer(computerplayer.id), Constants.COMPUTER_PLAYER_REVIVAL_TIME * 1000);
         delete this.computerplayers[computerplayer.id];
       }
     });
