@@ -91,21 +91,21 @@ class ComputerPlayer extends ObjectClass {
 
   // Fire Bullet or Item
   handleFire() {
-    if( !this.state.freeze ) {
-      if( this.item ) {
-        return this.item.use( this );
-      }
-      else if (this.bulletNum > 0) {
-        const bulletArray = [];
-        const angleInterval = (2 * Math.PI / 8);
-        for (let i = 0; i < 8; i++) {
-          const newBullet = new Bullet(this.id, this.x, this.y,
-            this.direction + i * angleInterval, this.username);
-          bulletArray.push(newBullet);
-        }
-        return { bullets: bulletArray }
-      }
-    }
+    // if( !this.state.freeze ) {
+    //   if( this.item ) {
+    //     return this.item.use( this );
+    //   }
+    //   else if (this.bulletNum > 0) {
+    //     const bulletArray = [];
+    //     const angleInterval = (2 * Math.PI / 8);
+    //     for (let i = 0; i < 8; i++) {
+    //       const newBullet = new Bullet(this.id, this.x, this.y,
+    //         this.direction + i * angleInterval, this.username);
+    //       bulletArray.push(newBullet);
+    //     }
+    //     return { bullets: bulletArray }
+    //   }
+    // }
     return {};
   }
 

@@ -28,10 +28,11 @@ class Game {
 
     // add computerplayers
     this.generateComputerPlayer('cp1', '奇聖號（電腦）');
-    this.generateComputerPlayer('cp2', '哲廣號（電腦）');
-    this.generateComputerPlayer('cp3', '國瑋號（電腦）');
-    this.generateComputerPlayer('cp4', '映樵號（電腦）');
-    this.allComputerID = ['cp1', 'cp2', 'cp3', 'cp4'];
+    // this.generateComputerPlayer('cp2', '哲廣號（電腦）');
+    // this.generateComputerPlayer('cp3', '國瑋號（電腦）');
+    // this.generateComputerPlayer('cp4', '映樵號（電腦）');
+    // this.allComputerID = ['cp1', 'cp2', 'cp3', 'cp4'];
+    this.allComputerID = ['cp1'];
 
     // this.virtualPlayers = {}; 
     this.virtualPlayer = new Player('virtual', '', Constants.MAP_SIZE * 0.5, Constants.MAP_SIZE * 0.5, 0);
@@ -59,7 +60,9 @@ class Game {
   }
 
   generateComputerPlayer(id, username) {
-    const {x, y} = this.generateValidPosition(0.15);
+    // const {x, y} = this.generateValidPosition(0.15);
+    const x = Constants.MAP_SIZE * 0.25;
+    const y = Constants.MAP_SIZE * 0.25;
     const computerplayer = new ComputerPlayer(id, username, x, y);
     this.computerplayers[computerplayer.id] = computerplayer;
   }
@@ -266,6 +269,7 @@ class Game {
     // Check if any computerplayers are dead
     Object.values(this.computerplayers).forEach(computerplayer => {
       if (computerplayer.hp <= 0) {
+        this.itemEvents.push( new ItemEvent.Death( computerplayer ) );
         // If the killer player still alive, increase his or her score
         const killerID = computerplayer.beKilledByID;
         const killer = this.players[killerID];
@@ -307,11 +311,12 @@ class Game {
     // update item events and check collision
     this.itemEvents.forEach( itemEvent => {
       itemEvent.update( dt, this.itemEvents );
-      itemEvent.collide( this.players );
-      itemEvent.collide( this.computerplayers );
+      // itemEvent.collide( this.players );
+      // itemEvent.collide( this.computerplayers );
+      itemEvent.collide(Object.assign({}, this.players, this.computerplayers));
     })
     this.itemEvents = this.itemEvents.filter( itemEvent => !itemEvent.destroy )
-
+    
     // Check the collisions of items and destroy collected items
     const destroyedItems = itemCollisions(Object.values(this.players), this.items);
     this.items = this.items.filter(item => !destroyedItems.includes(item));
