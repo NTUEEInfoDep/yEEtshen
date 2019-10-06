@@ -2,6 +2,9 @@ const ItemClass = require('./item.js');
 const Constants = require('../../shared/constants');
 const ItemEvent = require( '../ItemEvents/');
 
+const ComputerPlayer = require('../computerplayer');
+const allComputerID = Object.keys(ComputerPlayer);
+
 class Healbag extends ItemClass {
   constructor(x, y) {
     super(x, y);
@@ -11,10 +14,15 @@ class Healbag extends ItemClass {
     super.beCollected(player);
     // regain hp
     player.state.heal = Date.now();
-    player.hp = Math.min(
+    if (allComputerID.includes(player.id)) {
+      player.hp = Math.min(
       player.hp + Constants.ITEMS_PARAMETERS.HEALBAG_HEAL_HP,
-      Constants.PLAYER_MAX_HP
-    )
+      Constants.COMPUTER_PLAYER_MAX_HP);
+    } else {
+      player.hp = Math.min(
+        player.hp + Constants.ITEMS_PARAMETERS.HEALBAG_HEAL_HP,
+        Constants.PLAYER_MAX_HP);
+    }
   }
 }
 
