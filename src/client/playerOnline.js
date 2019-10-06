@@ -1,7 +1,9 @@
 const playerOnlineNum = document.getElementById('playerOnlineNum');
+const computerOnlineNum = document.getElementById('computerOnlineNum');
 
-export function updatePlayerOnline(num) {
-    playerOnlineNum.textContent = num;
+export function updatePlayerOnline(playerNum, computerNum) {
+    playerOnlineNum.textContent = playerNum;
+    computerOnlineNum.textContent = computerNum;
 }
 
 export function setPlayerOnlineHidden(hidden) {
