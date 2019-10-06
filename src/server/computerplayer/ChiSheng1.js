@@ -12,8 +12,9 @@ const centralPoint = {x: MAP_SIZE / 2, y: MAP_SIZE / 2};
 class ChiSheng1 extends ComputerPlayer {
   constructor(x, y) {
     super('ChiSheng1', '奇聖一號（電腦）', x, y);
-    this.fireCooldown = 0.35;
+    this.fireCooldown = 0.8;
     this.rotateSpeed = 0;
+    this.speed = 120;
   }
 
   move() {
@@ -41,6 +42,7 @@ class ChiSheng1 extends ComputerPlayer {
     for (let i = 0; i < 8; i++) {
       const newBullet = new Bullet(this.id, this.x, this.y,
         this.direction + i * angleInterval, this.username);
+        newBullet.speed = 300;
       bulletArray.push(newBullet);
     }
     return bulletArray;
