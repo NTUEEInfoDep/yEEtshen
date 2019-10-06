@@ -11,14 +11,18 @@ class KuangCom extends ComputerPlayer {
     this.shootAngle = this.direction;
     this.coolDown = 30;
     this.fireCooldown = 0.2;
-    console.log(x, y)
   }
 
   move() {
     const size = Constants.MAP_SIZE;
-    if (this.x <= 300 || this.x >= size - 300 || this.y <= 300 || this.y >= size - 300) {
-      const mi = -this.direction
-      const ma = -this.direction + Math.PI / 4;
+    if (this.x <= 0 || this.x >= size) {
+      const mi = -this.direction - Math.PI / 4;
+      const ma = -this.direction + Math.PI / 2;
+      this.direction = Math.random() * (ma - mi) + mi;
+    }
+    else if (this.y <= 0 || this.y >= size) {
+      const mi = Math.PI / 2 - this.direction - Math.PI / 4;
+      const ma = mi + Math.PI / 2;
       this.direction = Math.random() * (ma - mi) + mi;
     }
   }

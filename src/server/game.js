@@ -423,6 +423,7 @@ class Game {
       leaderboard,
       broadcasts,
       playerNum: Object.keys(this.players).length,
+      computerNum: Object.keys(this.computerplayers).length,
     };
   }
 }

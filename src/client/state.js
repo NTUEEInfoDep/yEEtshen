@@ -31,7 +31,7 @@ export function processGameUpdate(update, virtual = false) {
   addBroadcast(update.broadcasts);
 
   // update online player
-  updatePlayerOnline(update.playerNum);
+  updatePlayerOnline(update.playerNum, update.computerNum);
   
   // Keep only one game update before the current server time
   const base = getBaseUpdate();
