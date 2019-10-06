@@ -1,8 +1,8 @@
-const ObjectClass = require('./object');
-const Bullet = require('./bullet');
-const Constants = require('../shared/constants');
-const Item = require('./Items/');
-const ItemEvent = require('./ItemEvents/');
+const ObjectClass = require('../object');
+const Bullet = require('../bullet');
+const Constants = require('../../shared/constants');
+const Item = require('../Items/');
+const ItemEvent = require('../ItemEvents/');
 
 // ============================================
 
