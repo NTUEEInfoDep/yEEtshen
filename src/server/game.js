@@ -266,6 +266,7 @@ class Game {
     // Check if any computerplayers are dead
     Object.values(this.computerplayers).forEach(computerplayer => {
       if (computerplayer.hp <= 0) {
+        this.itemEvents.push( new ItemEvent.Death( computerplayer ) );
         // If the killer player still alive, increase his or her score
         const killerID = computerplayer.beKilledByID;
         const killer = this.players[killerID];
@@ -307,8 +308,9 @@ class Game {
     // update item events and check collision
     this.itemEvents.forEach( itemEvent => {
       itemEvent.update( dt, this.itemEvents );
-      itemEvent.collide( this.players );
-      itemEvent.collide( this.computerplayers );
+      // itemEvent.collide( this.players );
+      // itemEvent.collide( this.computerplayers );
+      itemEvent.collide(Object.assign({}, this.players, this.computerplayers));
     })
     this.itemEvents = this.itemEvents.filter( itemEvent => !itemEvent.destroy )
 
