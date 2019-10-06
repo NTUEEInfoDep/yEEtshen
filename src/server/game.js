@@ -58,7 +58,7 @@ class Game {
     const computerplayer = new ComputerPlayer[id](x, y);
     this.computerplayers[computerplayer.id] = computerplayer;
     // handle fire
-    setInterval(() => {
+    computerplayer.fireInterval = setInterval(() => {
       const newBulletsAndItemEvents = computerplayer.handleFire();
       if ( newBulletsAndItemEvents.bullets ) {
         newBulletsAndItemEvents.bullets.forEach( bullet => this.bullets.push( bullet )  );
@@ -298,6 +298,7 @@ class Game {
           computerplayer.item = null;
         }
         setTimeout(() => this.generateComputerPlayer(computerplayer.id), Constants.COMPUTER_PLAYER_REVIVAL_TIME * 1000);
+        clearInterval(computerplayer.fireInterval);
         delete this.computerplayers[computerplayer.id];
       }
     });
