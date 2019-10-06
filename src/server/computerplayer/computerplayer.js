@@ -11,7 +11,7 @@ class ComputerPlayer extends ObjectClass {
     super(id, x, y, Math.random() * 2 * Math.PI, Constants.COMPUTER_PLAYER_SPEED);
     this.username = username;
     this.hp = Constants.COMPUTER_PLAYER_MAX_HP;
-    this.fireCooldown = 0;
+    this.fireCooldown = 0.35; // seconds
     this.dt = 0;
     this.item = null; // the item that the player owns
     this.state = {}; // freeze, shield, lightSword, weed, damaged
