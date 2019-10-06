@@ -27,9 +27,10 @@ class Game {
     }
 
     // add computerplayers
-    this.generateComputerPlayer('ChiSheng1');
-    this.generateComputerPlayer('ChiSheng2');
     this.allComputerID = Object.keys(ComputerPlayer);
+    this.allComputerID.forEach(computerID => {
+      this.generateComputerPlayer(computerID);
+    });
 
     // this.virtualPlayers = {}; 
     this.virtualPlayer = new Player('virtual', '', Constants.MAP_SIZE * 0.5, Constants.MAP_SIZE * 0.5, 0);
