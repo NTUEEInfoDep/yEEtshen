@@ -41,9 +41,6 @@ class Game {
     this.getTopTenData();
     setInterval(this.update.bind(this), 1000 / 60);
     setInterval(() => itemGenerator(this.items), 5000);
-
-    setInterval(() => this.handleComputerPlayerFire(),
-      Constants.COMPUTER_PLAYER_FIRE_COOLDOWN * 1000);
   }
   
   // add a virtual player for menu background
@@ -60,6 +57,16 @@ class Game {
     const {x, y} = this.generateValidPosition(0.15);
     const computerplayer = new ComputerPlayer[id](x, y);
     this.computerplayers[computerplayer.id] = computerplayer;
+    // handle fire
+    setInterval(() => {
+      const newBulletsAndItemEvents = computerplayer.handleFire();
+      if ( newBulletsAndItemEvents.bullets ) {
+        newBulletsAndItemEvents.bullets.forEach( bullet => this.bullets.push( bullet )  );
+      }
+      if ( newBulletsAndItemEvents.itemEvents ) {
+        newBulletsAndItemEvents.itemEvents.forEach( itemEvent => this.itemEvents.push( itemEvent ) );
+      }
+    }, computerplayer.fireCooldown * 1000);
   }
 
   positionIsValid(x, y) {
@@ -128,15 +135,7 @@ class Game {
   }
 
   handleComputerPlayerFire() {
-    Object.values(this.computerplayers).forEach(computerplayer => {
-    const newBulletsAndItemEvents = computerplayer.handleFire();
-    if ( newBulletsAndItemEvents.bullets ) {
-      newBulletsAndItemEvents.bullets.forEach( bullet => this.bullets.push( bullet )  );
-    }
-    if ( newBulletsAndItemEvents.itemEvents ) {
-      newBulletsAndItemEvents.itemEvents.forEach( itemEvent => this.itemEvents.push( itemEvent ) );
-    }
-    });
+    Object.values(this.computerplayers).forEach();
   }
 
   /*
