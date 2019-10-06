@@ -6,7 +6,7 @@ class KuangCom extends ComputerPlayer {
   constructor(x, y) {
     super('KuangCom', '廣哥號（電腦）', x, y);
     this.direction = Math.PI / 2;
-    this.speed = 100;
+    this.speed = 120;
     this.rotateSpeed = 0;
     this.shootAngle = this.direction;
     this.coolDown = 30;
@@ -15,12 +15,12 @@ class KuangCom extends ComputerPlayer {
 
   move() {
     const size = Constants.MAP_SIZE;
-    if (this.x <= 0 || this.x >= size) {
+    if (this.x < 500 || this.x > size - 500) {
       const mi = -this.direction - Math.PI / 4;
       const ma = -this.direction + Math.PI / 2;
       this.direction = Math.random() * (ma - mi) + mi;
     }
-    else if (this.y <= 0 || this.y >= size) {
+    else if (this.y < 500 || this.y > size - 500) {
       const mi = Math.PI / 2 - this.direction - Math.PI / 4;
       const ma = mi + Math.PI / 2;
       this.direction = Math.random() * (ma - mi) + mi;

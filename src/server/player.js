@@ -3,6 +3,8 @@ const Bullet = require('./bullet');
 const Constants = require('../shared/constants');
 const Item = require('./Items/');
 const ItemEvent = require('./ItemEvents/');
+const ComputerPlayer = require('./computerplayer');
+const allComputerID = Object.keys(ComputerPlayer);
 
 // ============================================
 
@@ -157,14 +159,26 @@ class Player extends ObjectClass {
     if ( this.state.lightSword ) {
       other.takeDamage( Constants.PLAYER_STATE_PARAMETERS.LIGHTSWORD_DAMAGE, this.id, this.username);
       delete this.state.lightSword;
-      this.radius = Constants.PLAYER_RADIUS;
-      this.speed = Constants.PLAYER_SPEED;
+      if (allComputerID.includes(this.id)) {
+        this.radius = Constants.COMPUTER_PLAYER_RADIUS;
+        this.speed = Constants.COMPUTER_PLAYER_SPEED;
+      }
+      else {
+        this.radius = Constants.PLAYER_RADIUS;
+        this.speed = Constants.PLAYER_SPEED;
+      }
     }
     if ( other.state.lightSword ) {
       this.takeDamage( Constants.PLAYER_STATE_PARAMETERS.LIGHTSWORD_DAMAGE, other.id, other.username);
       delete other.state.lightSword;
-      other.radius = Constants.PLAYER_RADIUS;
-      other.speed = Constants.PLAYER_SPEED;
+      if (allComputerID.includes(other.id)) {
+        other.radius = Constants.COMPUTER_PLAYER_RADIUS;
+        other.speed = Constants.COMPUTER_PLAYER_SPEED;
+      }
+      else {
+        other.radius = Constants.PLAYER_RADIUS;
+        other.speed = Constants.PLAYER_SPEED;
+      }
     }
   }
 

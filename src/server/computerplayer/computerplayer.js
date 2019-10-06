@@ -124,8 +124,8 @@ class ComputerPlayer extends ObjectClass {
     if ( this.state.lightSword ) {
       other.takeDamage( Constants.PLAYER_STATE_PARAMETERS.LIGHTSWORD_DAMAGE, this.id, this.username);
       delete this.state.lightSword;
-      this.radius = Constants.PLAYER_RADIUS;
-      this.speed = Constants.PLAYER_SPEED;
+      this.radius = Constants.COMPUTER_PLAYER_RADIUS;
+      this.speed = Constants.COMPUTER_PLAYER_SPEED;
     }
     if ( other.state.lightSword ) {
       this.takeDamage( Constants.PLAYER_STATE_PARAMETERS.LIGHTSWORD_DAMAGE, other.id, other.username);
