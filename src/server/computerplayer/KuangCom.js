@@ -4,7 +4,7 @@ const Constants = require('../../shared/constants');
 
 class KuangCom extends ComputerPlayer {
   constructor(x, y) {
-    super('KuangCom', '廣哥號', x, y);
+    super('KuangCom', '廣哥號（電腦）', x, y);
     this.direction = Math.PI / 2;
     this.speed = 100;
     this.rotateSpeed = 0;
