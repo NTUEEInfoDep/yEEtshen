@@ -15,12 +15,16 @@ class KuangCom extends ComputerPlayer {
 
   move() {
     const size = Constants.MAP_SIZE;
-    if (this.x < 500 || this.x > size - 500) {
+
+    this.x = Math.max(500, Math.min(size - 500, this.x));
+    this.y = Math.max(500, Math.min(size - 500, this.y));
+
+    if (this.x <= 500 || this.x >= size - 500) {
       const mi = -this.direction - Math.PI / 4;
       const ma = -this.direction + Math.PI / 2;
       this.direction = Math.random() * (ma - mi) + mi;
     }
-    else if (this.y < 500 || this.y > size - 500) {
+    else if (this.y <= 500 || this.y >= size - 500) {
       const mi = Math.PI / 2 - this.direction - Math.PI / 4;
       const ma = mi + Math.PI / 2;
       this.direction = Math.random() * (ma - mi) + mi;

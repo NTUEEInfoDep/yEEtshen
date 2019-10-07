@@ -56,7 +56,7 @@ let lastUpdateTime = Date.now();
 
 
 // render button if mobile
-const isBtn = device.mobile() || device.tablet();
+const isBtn = device.mobile() || device.tablet() || window.screen.widtn <= 768;
 if (isBtn) {
   app.stage.addChild(rightBtn.btnSprite);
   app.stage.addChild(leftBtn.btnSprite);
