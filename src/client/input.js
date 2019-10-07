@@ -8,7 +8,7 @@ import { leftBtn, rightBtn, fireBtn } from './button';
 const Constants = require('../shared/constants');
 
 // check if mobile
-const isBtn = device.mobile() || device.tablet();
+const isBtn = device.mobile() || device.tablet() || window.screen.widtn <= 768;
 const left = isBtn ? leftBtn : new Keyboard('ArrowLeft');
 const right = isBtn ? rightBtn : new Keyboard('ArrowRight');
 const space = isBtn ? fireBtn : new Keyboard(' ');
